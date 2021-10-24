@@ -42,7 +42,7 @@
                   <?= form_error('titulo', '<small class="form-text text-danger">', '</small>') ?>
               </div>
             </div> 
-            
+
             <div class="text-center mt-4">
               <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
             </div>

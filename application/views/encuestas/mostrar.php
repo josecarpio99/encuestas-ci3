@@ -17,32 +17,37 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-				      <div class="card-body d-flex justify-content-between align-items-center">
-					      <h6 class="m-0 font-weight-bold text-primary"><?= $encuesta->nombre ?></h6>                
-              
+              <div class="card-body d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary"><?= $encuesta->nombre ?></h6>                
+                <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/agregar") ?>" class="btn btn-primary">Agregar pregunta</a>
               </div>
 			      </div>
             <div class="card-body">
             <?php foreach ($preguntas as $pregunta) :  ?>
-                <div class="card">
-                  <div class="card-header d-flex justify-content-between">
-                    <h6><?= $pregunta->detalle ?></h6>
-                    <div class="actions">
-                      <a class="btn btn-sm btn-danger"
-                      href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/$pregunta->idEncuestaPregunta/eliminar") ?>" 
-                      title="Delete"
-                      onclick="return confirm('Seguro que quieres eliminar  este registro?');">
+              <div class="card mt-4">
+                <div class="card-header d-flex justify-content-between">
+                  <h6><?= $pregunta->detalle ?></h6>
+                  <div class="actions">
+                    <a class="btn btn-sm btn-warning"
+                    href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/$pregunta->idEncuestaPregunta/eliminar") ?>" 
+                    >
+                      <i class="fa fa-edit mr-1"></i>
+                    </a>
+                    <a class="btn btn-sm btn-danger"
+                    href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/$pregunta->idEncuestaPregunta/eliminar") ?>" 
+                    title="Delete"
+                    onclick="return confirm('Seguro que quieres eliminar  este registro?');">
                       <i class="fa fa-trash mr-1"></i>
                     </a>
-                    </div>
                   </div>
-                  <!-- <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
-                  </ul> -->
-                </div
-              <?php endforeach  ?>
+                </div>
+                <!-- <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Cras justo odio</li>
+                  <li class="list-group-item">Dapibus ac facilisis in</li>
+                  <li class="list-group-item">Vestibulum at eros</li>
+                </ul> -->
+              </div>
+            <?php endforeach  ?>
             </div>
           </div>
 

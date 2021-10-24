@@ -16,8 +16,18 @@ class Encuesta_model  extends CI_Model  {
 
   public function getById($id)
   {
-    return $this->db->get_where($this->table, ['idEncuesta' => $id])->row();
+    return $this->db->select('e.*,ec.*')
+    ->from('encuestas e')
+    ->where('e.idEncuesta', $id)
+    ->join('encuestas_responsable ec', 'ec.idEncuesta = e.idEncuesta')
+    ->get()
+    ->row();
   }
+
+  public function userIsAuthorized($idUsuario)
+  {
+    return $this->session->userdata('logged_user_admin')->idUsuario === $idUsuario;
+  }  
 
   public function save($data)
   {
