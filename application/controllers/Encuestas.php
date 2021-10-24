@@ -25,6 +25,7 @@ class Encuestas extends CI_Controller {
     $this->load->helper(array('form'));
     $this->load->model('my_model', 'my', true);
     $this->load->model('encuesta_model', 'encuesta', true);
+    $this->load->model('pregunta_model', 'pregunta', true);
   }
 
   public function index()
@@ -36,6 +37,25 @@ class Encuestas extends CI_Controller {
     $data['perfilUsuario'] = $this->session->userdata('logged_user_admin')->perfil;
     $this->load->view('_header',$data);
     $this->load->view('encuestas/index',$data);
+    $this->load->view('_footerTablasEncuestas',$data);
+
+  }
+
+  public function mostrar($id)
+  {
+    $data = [];
+    $encuesta = $this->encuesta->getById($id);
+
+    if(!$encuesta){
+			$this->session->set_flashdata('warning','Encuesta no encontrada!');
+      redirect(base_url('index.php/encuestas/index'));
+		}
+
+    $data['encuesta'] = $encuesta;
+    $data['preguntas'] = $this->pregunta->getPreguntasOfEncuesta($id);
+
+    $this->load->view('_header',$data);
+    $this->load->view('encuestas/mostrar',$data);
     $this->load->view('_footerTablasEncuestas',$data);
 
   }
