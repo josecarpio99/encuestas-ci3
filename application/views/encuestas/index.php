@@ -20,7 +20,7 @@
 				    <div class="card-body d-flex justify-content-between align-items-center">
 					    <h6 class="m-0 font-weight-bold text-primary">Listado de Encuestas</h6>
                  
-
+              <a href="<?= base_url('index.php/encuestas/agregar') ?>" class="btn btn-primary">Agregar encuesta</a>
               </div>
 			    </div>
             <div class="card-body">

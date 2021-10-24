@@ -9,6 +9,12 @@ function setSessionData()
   }
 }
 
+function isAdmin()
+{
+  $CI =& get_instance();
+  if(!$CI->session->userdata('logged_user_admin')->email) redirect ('Form/login');
+}
+
 function dd($input) {
   echo '<pre>';
 	var_dump($input);

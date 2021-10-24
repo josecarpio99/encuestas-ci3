@@ -1,5 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin: *");
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Encuestas extends CI_Controller {
@@ -22,19 +21,16 @@ class Encuestas extends CI_Controller {
   {
     parent::__construct();
     setSessionData();
+    isAdmin();
     $this->load->helper(array('form'));
     $this->load->model('my_model', 'my', true);
+    $this->load->model('encuesta_model', 'encuesta', true);
   }
 
   public function index()
-  {    
-    if(!@$this->session->userdata('logged_user_admin')->email) {
-      echo 'No session'; 
-      die;
-    }
+  {        
     $data = [];
-
-    $data = [];
+    
     $data['userM'] = $this->session->userdata('logged_user_admin')->razonSocial;
     $idEmpresa = $this->session->userdata('logged_user_admin')->idEmpresa;
     $data['perfilUsuario'] = $this->session->userdata('logged_user_admin')->perfil;
@@ -59,8 +55,10 @@ class Encuestas extends CI_Controller {
           title="Edit">
       <i class="fa fa-pencil-alt mr-1"></i></a>
 
-			<a class="btn btn-sm btn-danger" href="#" 
-			title="Delete" onclick="borrar_encuesta('."'".$li->idEncuesta."'".')">
+			<a class="btn btn-sm btn-danger"
+       href="'.base_url("index.php/encuestas/eliminar/$li->idEncuesta").'" 
+			title="Delete"
+       onclick="return confirm('."'Seguro que quieres eliminar  este registro?');".'">
 			<i class="fa fa-trash mr-1"></i></a>';
       $data[] = $row;
     }
@@ -78,16 +76,87 @@ class Encuestas extends CI_Controller {
 
   public function agregar()
   {
+    if(!$_POST){
+			$input = (object) $this->encuesta->getDefaultValues();
+		}else{
+			$input = (object) $this->input->post(null, true);
+		}
 
+		$this->form_validation->set_rules('nombre','Nombre','required', [
+      'required' => 'El campo nombre es requerido'
+    ]);
+		$this->form_validation->set_rules('titulo','Título','required', [
+      'required' => 'El campo título es requerido'
+    ]);
+		
+
+		if($this->form_validation->run() == false){
+			$data['form_action'] = base_url("index.php/encuestas/agregar");			
+			$data['input'] = $input;
+			$this->load->view('_header',$data);
+      $this->load->view('encuestas/encuesta_form',$data);
+      $this->load->view('_footerTablasEncuestas',$data);
+		}else{
+			
+			$data = [
+				'nombre' => $this->input->post('nombre', true),	
+				'titulo' => $this->input->post('titulo', true),	
+			];	
+			
+			$this->encuesta->save($data);
+			$this->session->set_flashdata('success', 'Encuesta creada con éxito.');
+
+			redirect(base_url('index.php/encuestas/index'));
+		}
   }
 
   public function editar($id)
   {
-    dd($id);
+		$encuesta = $this->encuesta->getById($id);
+
+    if(!$encuesta){
+			$this->session->set_flashdata('warning','Encuesta no encontrada!');
+      redirect(base_url('index.php/encuestas/index'));
+		}
+
+    if(!$_POST){
+			$input = $encuesta;
+		}else{
+			$input = (object) $this->input->post(null, true);
+		}
+
+		$this->form_validation->set_rules('nombre','Nombre','required', [
+      'required' => 'El campo nombre es requerido'
+    ]);
+		$this->form_validation->set_rules('titulo','Título','required', [
+      'required' => 'El campo título es requerido'
+    ]);
+		
+
+		if($this->form_validation->run() == false){
+			$data['form_action'] = base_url("index.php/encuestas/editar/$id");			
+			$data['input'] = $input;
+			$this->load->view('_header',$data);
+      $this->load->view('encuestas/encuesta_form',$data);
+      $this->load->view('_footerTablasEncuestas',$data);
+		}else{
+			
+			$data = [
+				'nombre' => $this->input->post('nombre', true),	
+				'titulo' => $this->input->post('titulo', true),	
+			];	
+			
+			$this->encuesta->update(['idEncuesta' => $id], $data);
+			$this->session->set_flashdata('success', 'Encuesta actualizada con éxito.');
+
+			redirect(base_url('index.php/encuestas/index'));
+		}
   }
 
   public function eliminar($id)
   {
-
+    $this->encuesta->delete($id);
+    $this->session->set_flashdata('success', 'Registro eliminado con éxito.');
+		redirect(base_url('index.php/encuestas/index'));
   }
 }
