@@ -12,7 +12,8 @@ class Pregunta_model extends CI_Model {
 
   public function __construct()
 	{
-		parent::__construct();		
+		parent::__construct();	
+    $this->load->model('opcion_model', 'opcion', true);
 	}
 
   public function getDefaultValues()
@@ -21,6 +22,15 @@ class Pregunta_model extends CI_Model {
         'detalle'     => '',        
         'tipo'        => 0,        
     ];
+  }
+
+  public function getById($id)
+  {
+    $pregunta = $this->db->get_where($this->table, [$this->id => $id])->row();
+    if($pregunta->tipo == 2) {
+      $pregunta->opciones = $this->opcion->getOpcionesOfPregunta($pregunta->idEncuestaPregunta);
+    }
+    return $pregunta;
   }
 
   public function getPreguntasOfEncuesta($idEncuesta)
@@ -45,8 +55,17 @@ class Pregunta_model extends CI_Model {
   public function save($data)
   {
     $this->db->insert($this->table, $data);
-    return $this->db->insert_id(); 
-    
+    return $this->db->insert_id();     
+  }
+
+  public function update($where, $data){
+    $this->db->update($this->table, $data, $where);
+    return $this->db->affected_rows();
+  } 
+
+  public function delete($id)
+  {
+    $this->db->delete($this->table, [$this->id => $id]);  
   }
 
 }

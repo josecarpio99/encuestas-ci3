@@ -29,7 +29,7 @@
                   <h6><?= $pregunta->detalle ?></h6>
                   <div class="actions">
                     <a class="btn btn-sm btn-warning"
-                    href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/$pregunta->idEncuestaPregunta/eliminar") ?>" 
+                    href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/$pregunta->idEncuestaPregunta/editar") ?>" 
                     >
                       <i class="fa fa-edit mr-1"></i>
                     </a>

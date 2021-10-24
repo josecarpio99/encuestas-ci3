@@ -43,7 +43,7 @@ class Preguntas extends CI_Controller {
 			$data['input'] = $input;
 			$data['tipos'] = $this->pregunta->getTipos();
 			$this->load->view('_header',$data);
-      $this->load->view('preguntas/pregunta_form',$data);
+      $this->load->view('preguntas/crear',$data);
       $this->load->view('_footerTablasPreguntas',$data);
 		}else{
 			
@@ -67,12 +67,79 @@ class Preguntas extends CI_Controller {
   }
 
   public function editar($idEncuesta, $idPregunta){
-    dd($idPregunta);
+    $encuesta = $this->encuesta->getById($idEncuesta);
+    if(!$encuesta){
+			$this->session->set_flashdata('warning','Encuesta no encontrada!');
+      redirect(base_url('index.php/encuestas/index'));
+		}
+    if(!$this->encuesta->userIsAuthorized($encuesta->idUsuario)) {
+      $this->session->set_flashdata('warning','Usuario no autorizado!');
+      redirect(base_url('index.php/encuestas/index'));
+    }
+
+    $pregunta = $this->pregunta->getById($idPregunta);
+
+    if(!$_POST){
+			$input = $pregunta;
+		}else{
+			$input = (object) $this->input->post(null, true);
+		}
+
+		$this->form_validation->set_rules('detalle','Detalle','required', [
+      'required' => 'El campo detalle es requerido'
+    ]);
+		$this->form_validation->set_rules('tipo','Tipo','required|integer', [
+      'required' => 'El campo tipo es requerido',
+      'integer' => 'El campo tipo no es válido'
+    ]);		
+
+		if($this->form_validation->run() == false){
+			$data['form_action'] = base_url("index.php/encuestas/$idEncuesta/preguntas/$idPregunta/editar");			
+			$data['input'] = $input;
+			$data['tipos'] = $this->pregunta->getTipos();
+			$this->load->view('_header',$data);
+      $this->load->view('preguntas/editar',$data);
+      $this->load->view('_footerTablasPreguntas',$data);
+		}else{		
+
+			$data = [
+        'idEncuesta' => $idEncuesta,
+				'detalle' => $this->input->post('detalle', true),	
+				'tipo' => $this->input->post('tipo', true),	
+        'orden' => $this->pregunta->getPreguntaOrden($idEncuesta)
+			];	
+			
+			$this->pregunta->update(['idEncuestaPregunta' => $idPregunta], $data);
+
+      // Es de tipo lista, entonces agregar sus opciones
+      if($data['tipo'] == 2) {
+        $this->opcion->update($idPregunta, $this->input->post('opciones', true));
+      }
+
+      // Pregunta ya no es de tipo lista, entonces borrar opciones de la tabla
+      if($data['tipo'] != 2 && $pregunta->tipo == 2) {
+        $this->opcion->deleteOpciones($idPregunta);
+      }
+			$this->session->set_flashdata('success', 'Pregunta actualizada con éxito.');
+
+			redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
+		}
 
   }
 
   public function eliminar($idEncuesta, $idPregunta)
   {
-    dd($idPregunta);
+    $encuesta = $this->encuesta->getById($idEncuesta);
+    if(!$encuesta){
+			$this->session->set_flashdata('warning','Encuesta no encontrada!');
+      redirect(base_url('index.php/encuestas/index'));
+		}
+    if(!$this->encuesta->userIsAuthorized($encuesta->idUsuario)) {
+      $this->session->set_flashdata('warning','Usuario no autorizado!');
+      redirect(base_url('index.php/encuestas/index'));
+    }
+    $this->pregunta->delete($idPregunta);
+    $this->session->set_flashdata('success', 'Registro eliminado con éxito.');
+    redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
   }
 }  

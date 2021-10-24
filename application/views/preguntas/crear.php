@@ -57,20 +57,13 @@
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label"><span class="text-danger">*</span>Opción 1</label>
                   <div class="col-10">
-                      <?= form_input('opciones[]', '', ['class' => 'form-control pregunta-opcion', 'id' => 'opcion', 'required' => true, 'autofocus' => true, 'autocomplete' => 'off']) ?>                      
+                      <?= form_input('opciones[]', '', ['class' => 'form-control pregunta-opcion', 'id' => 'opcion', 'autofocus' => true, 'autocomplete' => 'off']) ?>                      
                   </div>
                 </div> 
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label"><span class="text-danger">*</span>Opción 2</label>
                   <div class="col-sm-10">
-                      <?= form_input('opciones[]', '', ['class' => 'form-control pregunta-opcion', 'id' => 'opcion', 'required' => true, 'autofocus' => true, 'autocomplete' => 'off']) ?>
-                      <!-- <button class="btn btn-sm btn-danger"
-                      style="position: absolute;
-                            right: 16px;
-                            z-index: 100;
-                            top: 0;
-                            height: 100%;"
-                      ><i class="fa fa-trash mr-1"></i></button> -->
+                      <?= form_input('opciones[]', '', ['class' => 'form-control pregunta-opcion', 'id' => 'opcion', 'autofocus' => true, 'autocomplete' => 'off']) ?>                     
                   </div>
                 </div> 
               </div>
