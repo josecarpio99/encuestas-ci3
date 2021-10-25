@@ -35,11 +35,17 @@ class Pregunta_model extends CI_Model {
 
   public function getPreguntasOfEncuesta($idEncuesta)
   {
-    return  $this->db->from($this->table)
+    $preguntas = $this->db->from($this->table)
     ->where('idEncuesta', $idEncuesta)
     ->order_by('orden', 'ASC')
     ->get()
     ->result();
+    foreach ($preguntas as $key => $pregunta) {
+      if($pregunta->tipo == 2) {
+        $preguntas[$key]->opciones = $this->opcion->getOpcionesOfPregunta($pregunta->idEncuestaPregunta);
+      }
+    }
+    return $preguntas;
   }
 
   public function getPreguntaOrden($idEncuesta)

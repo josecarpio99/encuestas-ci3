@@ -22,9 +22,10 @@
                 <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/agregar") ?>" class="btn btn-primary">Agregar pregunta</a>
               </div>
 			      </div>
-            <div class="card-body">
+            <div class="card-body" id="listaPreguntas" >
             <?php foreach ($preguntas as $pregunta) :  ?>
-              <div class="card mt-4">
+              <div class="card mt-4" style="cursor: all-scroll;"
+              data-index="<?= $pregunta->idEncuestaPregunta ?>" data-position="<?= $pregunta->orden ?>" >
                 <div class="card-header d-flex justify-content-between">
                   <h6><?= $pregunta->detalle ?></h6>
                   <div class="actions">
@@ -41,11 +42,17 @@
                     </a>
                   </div>
                 </div>
-                <!-- <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
-                </ul> -->
+                <?php if($pregunta->tipo == 2) { ?>
+                  <ul class="list-group list-group-flush">
+
+                  <?php foreach($pregunta->opciones as $opcion) : ?>
+                    <li class="list-group-item"><?= $opcion->valor ?></li>                  
+                  <?php endforeach ?>
+                  
+                  </ul> 
+
+                <?php } ?>
+               
               </div>
             <?php endforeach  ?>
             </div>

@@ -53,7 +53,7 @@ class Encuestas extends CI_Controller {
 
     $data['encuesta'] = $encuesta;
     $data['preguntas'] = $this->pregunta->getPreguntasOfEncuesta($id);
-
+    
     $this->load->view('_header',$data);
     $this->load->view('encuestas/mostrar',$data);
     $this->load->view('_footerTablasEncuestas',$data);
@@ -71,14 +71,19 @@ class Encuestas extends CI_Controller {
 			$row[] = $li->razonSocial;
 			$row[] = $li->estado;	
       $row[] = 
-          '<a class="btn btn-sm btn-warning text-white" href="'.base_url("index.php/encuestas/editar/$li->idEncuesta").'" 
-          title="Edit">
-      <i class="fa fa-pencil-alt mr-1"></i></a>
+          '<a class="btn btn-sm btn-primary"
+          href="'.base_url("index.php/encuestas/mostrar/$li->idEncuesta").'">
+			      <i class="fa fa-eye mr-1"></i></a>
 
-			<a class="btn btn-sm btn-danger"
-       href="'.base_url("index.php/encuestas/eliminar/$li->idEncuesta").'" 
-			title="Delete"
-       onclick="return confirm('."'Seguro que quieres eliminar  este registro?');".'">
+          <a class="btn btn-sm btn-warning text-white" href="'.base_url("index.php/encuestas/editar/$li->idEncuesta").'" 
+              title="Edit">
+          <i class="fa fa-pencil-alt mr-1"></i></a>
+
+			
+        <a class="btn btn-sm btn-danger"
+        href="'.base_url("index.php/encuestas/eliminar/$li->idEncuesta").'" 
+        title="Delete"
+        onclick="return confirm('."'Seguro que quieres eliminar  este registro?');".'">
 			<i class="fa fa-trash mr-1"></i></a>';
       $data[] = $row;
     }

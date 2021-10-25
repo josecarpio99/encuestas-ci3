@@ -21,6 +21,8 @@
 
   <!-- Bootstrap core JavaScript-->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js" integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -43,7 +45,7 @@
    // Show Table
    $(document).ready(function(){
 
-    tablePosting = $('#dataTable').DataTable({
+    $('#dataTable').DataTable({
       processing: true,
       serverSide: true,
       order: [ 0, 'desc' ],
@@ -63,7 +65,39 @@
           // { 'width': '5px', 'targets': 6 },
       ],
       lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "All"]]
-    });    
+    });  
+    
+    $('#listaPreguntas').sortable({
+      update: function (event, ui) {
+          $(this).children().each(function (index) {
+              if ($(this).attr('data-position') != (index+1)) {
+                  $(this).attr('data-position', (index+1)).addClass('updated');
+              }
+          });
+
+          saveNewPositions();
+      }
+    });
+
+    function saveNewPositions() {
+      var positions = [];
+      $('.updated').each(function () {
+          positions.push([$(this).attr('data-index'), $(this).attr('data-position')]);
+          $(this).removeClass('updated');
+      });
+
+      $.ajax({
+          url: '<?= base_url('index.php/preguntas/ordenar') ?>',
+          method: 'POST',
+          dataType: 'text',
+          data: {
+              update: 1,
+              positions: positions
+          }, success: function (response) {
+              console.log(response);
+          }
+      });
+    }
 
 });
    

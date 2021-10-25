@@ -127,6 +127,18 @@ class Preguntas extends CI_Controller {
 
   }
 
+  public function ordenar()
+  {
+    $positions = $this->input->post('positions', true);
+    foreach ($positions as $position) {      
+      $data = [        
+        'orden' => $position[1],
+      ];
+      $this->db->update('encuestas_preguntas', $data, ['idEncuestaPregunta' => $position[0]]);
+    }
+    echo 'success';
+  }
+
   public function eliminar($idEncuesta, $idPregunta)
   {
     $encuesta = $this->encuesta->getById($idEncuesta);
