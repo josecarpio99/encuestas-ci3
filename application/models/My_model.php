@@ -5,9 +5,12 @@ class My_Model extends CI_Model {
 
    public function get_datatables_query()
    {
+      $this->db->select($this->select);
+      $this->db->from($this->table);         
+      foreach ($this->where as $key => $where) {        
+         $this->db->where($where[0], $where[1]);        
+      }
       if(count($this->tableJoin) > 0){
-         $this->db->select($this->select);
-         $this->db->from($this->table);         
          foreach($this->tableJoin as $table => $data) {
             $this->db->join($table, $table .'.'.$data['id'].' = ' . $this->table . ".$this->id");
             if(isset($data['tableJoin'])) {
@@ -20,6 +23,8 @@ class My_Model extends CI_Model {
       }else{
          $this->db->from($this->table);
       }
+
+      
 
       $i = 0;
 

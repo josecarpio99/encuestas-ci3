@@ -5,7 +5,7 @@ class Pregunta_model extends CI_Model {
 	var $id = 'idEncuestaPregunta';
   var $tipos = [
     0 => 'texto',
-    1 => 'bool',
+    1 => 'si/no',
     2 => 'lista',
     3 => 'numero',
   ]; 

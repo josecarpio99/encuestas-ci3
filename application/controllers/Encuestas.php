@@ -14,7 +14,8 @@ class Encuestas extends CI_Controller {
     ]
   ];
 	var $id = 'idEncuesta';
-	var $select = ['encuestas.*', 'adm_usuarios.razonSocial AS razonSocial'];
+	var $select = ['encuestas.*', 'adm_usuarios.razonSocial AS responsable'];
+  var $where = [];
 	var $column_order = ['encuestas.nombre', 'encuestas.titulo', 'encuestas.estado', 'adm_usuarios.razonSocial'];
 	var $column_search = ['encuestas.nombre', 'encuestas.titulo', 'encuestas.estado', 'adm_usuarios.razonSocial'];
   function __construct()
@@ -26,6 +27,10 @@ class Encuestas extends CI_Controller {
     $this->load->model('my_model', 'my', true);
     $this->load->model('encuesta_model', 'encuesta', true);
     $this->load->model('pregunta_model', 'pregunta', true);
+    $this->where[] = [
+      'encuestas_responsable.idUsuario',
+      $this->session->userdata('logged_user_admin')->idUsuario
+    ];
   }
 
   public function index()
@@ -68,7 +73,7 @@ class Encuestas extends CI_Controller {
 			$row = [];
 			$row[] = $li->nombre;
 			$row[] = $li->titulo;
-			$row[] = $li->razonSocial;
+			$row[] = $li->responsable;
 			$row[] = $li->estado;	
       $row[] = 
           '<a class="btn btn-sm btn-primary"

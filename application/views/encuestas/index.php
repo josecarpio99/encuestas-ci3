@@ -30,7 +30,7 @@
                     <tr>
                       <th>Nombre</th>
                       <th>Título</th>
-                      <th>Razon Social</th>
+                      <th>Responsable</th>
                       <th>Estado</th>
                       <th>Acciones</th>
                     </tr>
