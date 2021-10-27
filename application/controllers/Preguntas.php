@@ -38,6 +38,7 @@ class Preguntas extends CI_Controller {
 			$data['form_action'] = base_url("index.php/encuestas/$idEncuesta/preguntas/agregar");			
 			$data['input'] = $input;
 			$data['tipos'] = $this->pregunta->getTipos();
+      $data['idEncuesta'] = $idEncuesta;
 			$this->load->view('_header',$data);
       $this->load->view('preguntas/crear',$data);
       $this->load->view('_footerTablasPreguntas',$data);
@@ -97,6 +98,7 @@ class Preguntas extends CI_Controller {
 			$data['form_action'] = base_url("index.php/encuestas/$idEncuesta/preguntas/$idPregunta/editar");			
 			$data['input'] = $input;
 			$data['tipos'] = $this->pregunta->getTipos();
+      $data['idEncuesta'] = $idEncuesta;
 			$this->load->view('_header',$data);
       $this->load->view('preguntas/editar',$data);
       $this->load->view('_footerTablasPreguntas',$data);

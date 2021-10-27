@@ -19,7 +19,9 @@
             <div class="card-header py-3">
 				    <div class="card-body d-flex justify-content-between align-items-center">
 					    <h6 class="m-0 font-weight-bold text-primary">Editar pregunta</h6>                
-              
+              <div>
+                <a href="<?= base_url("index.php/encuestas/$idEncuesta/preguntas") ?>" class="btn btn-secondary">Volver</a> 
+              </div>
               </div>
 			    </div>
             <div class="card-body">

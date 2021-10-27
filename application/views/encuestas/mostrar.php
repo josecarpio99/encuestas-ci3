@@ -20,45 +20,30 @@
               <div class="card-body d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-primary"><?= $encuesta->nombre ?></h6>                
                 <div>
-                  <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/agregar") ?>" class="btn btn-primary">Agregar pregunta</a>
+                  <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/") ?>" class="btn btn-primary">Preguntas</a>
                   <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/responsables") ?>" class="btn btn-secondary">Responsables</a>
                   <a href="<?= base_url('index.php/encuestas') ?>" class="btn btn-secondary">Volver</a>   
                 </div>
               </div>
 			      </div>
-            <div class="card-body" id="listaPreguntas" >
-            <?php foreach ($preguntas as $pregunta) :  ?>
-              <div class="card mt-4" style="cursor: all-scroll;"
-              data-index="<?= $pregunta->idEncuestaPregunta ?>" data-position="<?= $pregunta->orden ?>" >
-                <div class="card-header d-flex justify-content-between">
-                  <h6><?= $pregunta->detalle ?></h6>
-                  <div class="actions">
-                    <a class="btn btn-sm btn-warning"
-                    href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/$pregunta->idEncuestaPregunta/editar") ?>" 
-                    >
-                      <i class="fa fa-edit mr-1"></i>
-                    </a>
-                    <a class="btn btn-sm btn-danger"
-                    href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/$pregunta->idEncuestaPregunta/eliminar") ?>" 
-                    title="Delete"
-                    onclick="return confirm('Seguro que quieres eliminar  este registro?');">
-                      <i class="fa fa-trash mr-1"></i>
-                    </a>
-                  </div>
-                </div>
-                <?php if($pregunta->tipo == 2) { ?>
-                  <ul class="list-group list-group-flush">
+            <div class="card-body" >
+              <h6 class="my-4 font-weight-bold text-center">Tabla de encuesta clientes</h6>
+              <div class="table-responsive">
+                <table class="table table-bordered display compact" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Título</th>                                            
+                      <th>Razón social</th>                                            
+                      <th>Cuit</th>                                            
+                      <th>Fecha respuesta</th>                                            
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
 
-                  <?php foreach($pregunta->opciones as $opcion) : ?>
-                    <li class="list-group-item"><?= $opcion->valor ?></li>                  
-                  <?php endforeach ?>
+                  <tbody></tbody>
                   
-                  </ul> 
-
-                <?php } ?>
-               
+                </table>
               </div>
-            <?php endforeach  ?>
             </div>
           </div>
 

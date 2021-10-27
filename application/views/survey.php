@@ -54,7 +54,7 @@
                   ?>
                   <?php for ($j=$max; $j >= $min ; $j--) : ?>
                     <?php $id = 'start'.$i.'-'.$j ?>
-                    <input type="radio" name="respuestas[<?= $i ?>][valor]" id="<?= $id ?>" value="<?= $j ?>" />
+                    <input type="radio" name="respuestas[<?= $i ?>][valor]" id="<?= $id ?>" value="<?= $j ?>" required/>
                     <label for="<?= $id ?>"><?= $j ?> stars</label>                   
                   <?php endfor ?>
                 </div>            

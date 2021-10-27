@@ -20,8 +20,11 @@
 				    <div class="card-body d-flex justify-content-between align-items-center">
 					    <h6 class="m-0 font-weight-bold text-primary">Encuestas Responsables</h6>
                  
-              <a href="<?= base_url("index.php/encuestas/$idEncuesta/responsables/agregar") ?>" class="btn btn-primary">Agregar</a>
+              <div>
+                <a href="<?= base_url("index.php/encuestas/$idEncuesta/responsables/agregar") ?>" class="btn btn-primary">Agregar</a>
+                <a href="<?= base_url("index.php/encuestas/mostrar/$idEncuesta") ?>" class="btn btn-secondary">Volver</a>
               </div>
+            </div>
 			    </div>
             <div class="card-body">
               <div class="table-responsive">
