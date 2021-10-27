@@ -9,8 +9,10 @@ class Encuesta_model  extends CI_Model  {
   public function getDefaultValues()
   {
     return [
-        'nombre'        => '',        
-        'titulo'        => '',        
+        'nombre'          => '',        
+        'titulo'          => '',        
+        'idTipoEncuesta'  => 1,        
+        'idEstadoEncuesta'=> 1,        
     ];
   }
 

@@ -19,7 +19,10 @@
             <div class="card-header py-3">
               <div class="card-body d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-primary"><?= $encuesta->nombre ?></h6>                
-                <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/agregar") ?>" class="btn btn-primary">Agregar pregunta</a>
+                <div>
+                  <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/agregar") ?>" class="btn btn-primary">Agregar pregunta</a>
+                  <a href="<?= base_url('index.php/encuestas') ?>" class="btn btn-secondary">Volver</a>   
+                </div>
               </div>
 			      </div>
             <div class="card-body" id="listaPreguntas" >

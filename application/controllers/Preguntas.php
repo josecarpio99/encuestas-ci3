@@ -53,12 +53,20 @@ class Preguntas extends CI_Controller {
 				'tipo' => $this->input->post('tipo', true),	
         'orden' => $this->pregunta->getPreguntaOrden($idEncuesta)
 			];	
+      // Es de tipo numero, entonces agregar campos minimo y maximo 
+      if($data['tipo'] == 3) {
+        $data['minimo'] = $this->input->post('minimo', true);
+        $data['maximo'] = $this->input->post('maximo', true);
+      }
 			
 			$idPregunta = $this->pregunta->save($data);
+
       // Es de tipo lista, entonces agregar sus opciones
       if($data['tipo'] == 2) {
         $this->opcion->save($idPregunta, $this->input->post('opciones', true));
       }
+
+      
 			$this->session->set_flashdata('success', 'Pregunta creada con éxito.');
 
 			redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
@@ -108,6 +116,12 @@ class Preguntas extends CI_Controller {
 				'tipo' => $this->input->post('tipo', true),	
         'orden' => $this->pregunta->getPreguntaOrden($idEncuesta)
 			];	
+
+      // Es de tipo numero, entonces agregar campos minimo y maximo 
+      if($data['tipo'] == 3) {
+        $data['minimo'] = $this->input->post('minimo', true);
+        $data['maximo'] = $this->input->post('maximo', true);
+      }
 			
 			$this->pregunta->update(['idEncuestaPregunta' => $idPregunta], $data);
 

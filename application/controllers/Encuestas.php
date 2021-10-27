@@ -4,8 +4,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Encuestas extends CI_Controller {
   var $table = 'encuestas';
 	var $tableJoin = [
+    'encuestas_tipos' => [
+      'id' => 'idTipoEncuesta',
+      'selfId' => 'idTipoEncuesta',
+    ],
+    'encuestas_estados' => [
+      'id' => 'idEstadoEncuesta',
+      'selfId' => 'idEstadoEncuesta',
+    ],
     'encuestas_responsable' => [
       'id' => 'idEncuesta',
+      'selfId' => 'idEncuesta', 
       'tableJoin' => [
         'adm_usuarios' => [
           'id' => 'idUsuario'
@@ -14,7 +23,8 @@ class Encuestas extends CI_Controller {
     ]
   ];
 	var $id = 'idEncuesta';
-	var $select = ['encuestas.*', 'adm_usuarios.razonSocial AS responsable'];
+	var $select = ['encuestas.*', 'adm_usuarios.razonSocial AS responsable', 
+                'encuestas_tipos.nombreTipoEncuesta as tipo', 'encuestas_estados.valor as estado'];
   var $where = [];
 	var $column_order = ['encuestas.nombre', 'encuestas.titulo', 'encuestas.estado', 'adm_usuarios.razonSocial'];
 	var $column_search = ['encuestas.nombre', 'encuestas.titulo', 'encuestas.estado', 'adm_usuarios.razonSocial'];
@@ -26,11 +36,7 @@ class Encuestas extends CI_Controller {
     $this->load->helper(array('form'));
     $this->load->model('my_model', 'my', true);
     $this->load->model('encuesta_model', 'encuesta', true);
-    $this->load->model('pregunta_model', 'pregunta', true);
-    $this->where[] = [
-      'encuestas_responsable.idUsuario',
-      $this->session->userdata('logged_user_admin')->idUsuario
-    ];
+    $this->load->model('pregunta_model', 'pregunta', true);   
   }
 
   public function index()
@@ -74,6 +80,7 @@ class Encuestas extends CI_Controller {
 			$row[] = $li->nombre;
 			$row[] = $li->titulo;
 			$row[] = $li->responsable;
+			$row[] = $li->tipo;
 			$row[] = $li->estado;	
       $row[] = 
           '<a class="btn btn-sm btn-primary"
@@ -123,14 +130,19 @@ class Encuestas extends CI_Controller {
 		if($this->form_validation->run() == false){
 			$data['form_action'] = base_url("index.php/encuestas/agregar");			
 			$data['input'] = $input;
+      $data['encuestaTipos'] = $this->db->get('encuestas_tipos')->result();
+      $data['encuestaEstados'] = $this->db->get('encuestas_estados')->result();
+
 			$this->load->view('_header',$data);
       $this->load->view('encuestas/encuesta_form',$data);
       $this->load->view('_footerTablasEncuestas',$data);
 		}else{
 			
 			$data = [
-				'nombre' => $this->input->post('nombre', true),	
-				'titulo' => $this->input->post('titulo', true),	
+				'nombre'         => $this->input->post('nombre', true),	
+				'titulo'         => $this->input->post('titulo', true),	
+				'idTipoEncuesta' => $this->input->post('idTipoEncuesta', true),	
+				'idEstadoEncuesta' => $this->input->post('idEstadoEncuesta', true),	
 			];	
 			
 			$this->encuesta->save($data);
@@ -166,6 +178,8 @@ class Encuestas extends CI_Controller {
 		if($this->form_validation->run() == false){
 			$data['form_action'] = base_url("index.php/encuestas/editar/$id");			
 			$data['input'] = $input;
+      $data['encuestaTipos'] = $this->db->get('encuestas_tipos')->result();
+      $data['encuestaEstados'] = $this->db->get('encuestas_estados')->result();
 			$this->load->view('_header',$data);
       $this->load->view('encuestas/encuesta_form',$data);
       $this->load->view('_footerTablasEncuestas',$data);
@@ -174,6 +188,8 @@ class Encuestas extends CI_Controller {
 			$data = [
 				'nombre' => $this->input->post('nombre', true),	
 				'titulo' => $this->input->post('titulo', true),	
+				'idTipoEncuesta' => $this->input->post('idTipoEncuesta', true),	
+				'idEstadoEncuesta' => $this->input->post('idEstadoEncuesta', true),	
 			];	
 			
 			$this->encuesta->update(['idEncuesta' => $id], $data);

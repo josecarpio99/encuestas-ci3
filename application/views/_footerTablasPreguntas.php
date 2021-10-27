@@ -43,6 +43,7 @@
     const tipoPregunta = document.querySelector('#tipo')
     const agregarOpcionBtn = document.querySelector('#agregarOpcionBtn')
     const opcionesContainer = document.querySelector('#opcionesContainer')
+    const minMaxContainer = document.querySelector('#minMaxContainer')
     tipoPregunta.addEventListener('change', handleTipoPregunta);
     agregarOpcionBtn.addEventListener('click', addOpcion);
     document.addEventListener('click', (e) => {
@@ -55,13 +56,16 @@
     function handleTipoPregunta(e)
     {
       // Pregunta es de tipo lista
+      opcionesContainer.classList.add('d-none');
+      minMaxContainer.classList.add('d-none');
       if(e.target.value == 2) {
         opcionesContainer.classList.remove('d-none');
       }
 
-      if(e.target.value != 2) {
-        opcionesContainer.classList.add('d-none');
+      if(e.target.value == 3) {
+        minMaxContainer.classList.remove('d-none');
       }
+     
     }
 
     function addOpcion(e)

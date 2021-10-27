@@ -82,6 +82,29 @@
 
             </div>
 
+            <div class="mt-3 <?= $input->tipo == 3 ? '' : 'd-none' ?>" id="minMaxContainer">              
+              <div class="col-sm-10 offset-sm-2">
+                <div class="form-group row">
+
+                  <div class="col-6">
+                    <label class="col-sm-2 col-form-label"><span class="text-danger">*</span>Mínimo</label>
+                    <div class="col-10">                       
+                        <input type="number" name="minimo" value="<?= $input->minimo ?>" class="form-control" id="minimo">                    
+                    </div>
+                  </div>
+
+                  <div class="col-6">
+                    <label class="col-sm-2 col-form-label"><span class="text-danger">*</span>Máximo</label>
+                    <div class="col-sm-10">
+                        <input type="number" name="maximo" value="<?= $input->maximo ?>" class="form-control" id="maximo"> 
+                    </div>
+
+                  </div>
+                </div>                 
+              </div>
+
+            </div>
+
             <div class="text-center mt-4">
               <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
             </div>

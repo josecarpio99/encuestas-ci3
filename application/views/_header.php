@@ -22,16 +22,12 @@
   <link href="https://cdn.datatables.net/fixedheader/3.2.0/css/fixedHeader.dataTables.min.css" rel="stylesheet" type="text/css">
 
   <link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
-  
-  
+
+  <link href="<?= base_url('assets/css/start-rating.css') ?>" rel="stylesheet" type="text/css">  
 	
 </head>
 
-	  <?php
-
-		include '_menu.php';
-
-		?>
+	  
       
 
 

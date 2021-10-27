@@ -35,7 +35,6 @@ class Survey extends CI_Controller {
 
   public function guardar($idEncuesta, $idCliente)
   {
-    // dd($this->input->post('respuestas', true));
     $cliente = $this->db->get_where('clientes', ['idCliente' => $idCliente])->row();
     if(!$cliente) show_404();
 

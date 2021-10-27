@@ -18,9 +18,9 @@
           <div class="card shadow mb-4">
             <div class="card-header py-3">
 				    <div class="card-body d-flex justify-content-between align-items-center">
-					    <h6 class="m-0 font-weight-bold text-primary">Agregar encuesta</h6>                
-              
-              </div>
+					    <h6 class="m-0 font-weight-bold text-primary">Encuesta</h6>   
+              <a href="<?= base_url('index.php/encuestas') ?>" class="btn btn-secondary">Volver</a>            
+            </div>
 			    </div>
             <div class="card-body">
             <?= form_open_multipart($form_action) ?>
@@ -43,8 +43,40 @@
               </div>
             </div> 
 
+            <div class="form-group row">
+              <label for="idTipoEncuesta" class="col-sm-2 col-form-label"><span class="text-danger">*</span>Tipo</label>
+              <div class="col-sm-10">           
+                  <select name="idTipoEncuesta" id="idTipoEncuesta" class="form-control">
+                    <?php foreach ($encuestaTipos as $tipo) : ?>
+                      <option value="<?= $tipo->idTipoEncuesta ?>"
+                      <?= ($tipo->idTipoEncuesta == $input->idTipoEncuesta) ? 'selected' : '' ?>
+                      >
+                        <?= $tipo->nombreTipoEncuesta ?>
+                      </option>
+                    <?php endforeach ?>
+                  </select>                 
+                  <?= form_error('idTipoEncuesta', '<small class="form-text text-danger">', '</small>') ?>
+              </div>
+            </div> 
+
+            <div class="form-group row">
+              <label for="idEstadoEncuesta" class="col-sm-2 col-form-label"><span class="text-danger">*</span>Estado</label>
+              <div class="col-sm-10">           
+                  <select name="idEstadoEncuesta" id="idEstadoEncuesta" class="form-control">
+                    <?php foreach ($encuestaEstados as $estado) : ?>
+                      <option value="<?= $estado->idEstadoEncuesta ?>"
+                      <?= ($estado->idEstadoEncuesta == $input->idEstadoEncuesta) ? 'selected' : '' ?>
+                      >
+                        <?= $estado->valor ?>
+                      </option>
+                    <?php endforeach ?>
+                  </select>                 
+                  <?= form_error('idEstadoEncuesta', '<small class="form-text text-danger">', '</small>') ?>
+              </div>
+            </div> 
+
             <div class="text-center mt-4">
-              <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+              <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
 
             <?= form_close() ?>

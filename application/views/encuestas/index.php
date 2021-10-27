@@ -31,6 +31,7 @@
                       <th>Nombre</th>
                       <th>Título</th>
                       <th>Responsable</th>
+                      <th>Tipo</th>
                       <th>Estado</th>
                       <th>Acciones</th>
                     </tr>

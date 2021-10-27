@@ -45,6 +45,22 @@
               <?php endforeach ?>
             <?php endif ?>
 
+            <?php if($pregunta->tipo == 3) : ?>
+              <div class="form-group d-flex justify-content-center">     
+                <div class="rate">
+                  <?php 
+                    $min = $pregunta->minimo;
+                    $max = $pregunta->maximo;
+                  ?>
+                  <?php for ($j=$max; $j >= $min ; $j--) : ?>
+                    <?php $id = 'start'.$i.'-'.$j ?>
+                    <input type="radio" name="respuestas[<?= $i ?>][valor]" id="<?= $id ?>" value="<?= $j ?>" />
+                    <label for="<?= $id ?>"><?= $j ?> stars</label>                   
+                  <?php endfor ?>
+                </div>            
+              </div>
+            <?php endif ?>
+
           </div>
         </div>
         <?php $i++ ?>

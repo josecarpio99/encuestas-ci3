@@ -55,7 +55,7 @@
       },
       columnDefs: [
           { 
-            'targets': [ -1 ], 
+            'targets': [ -1, 2, 3, 4 ], 
             'orderable': false, 
           },
           // { 'width': '5px', 'targets': 0 },
