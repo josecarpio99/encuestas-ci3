@@ -26,7 +26,8 @@ class Encuestas extends CI_Controller {
     $this->load->helper(array('form'));
     $this->load->model('my_model', 'my', true);
     $this->load->model('encuesta_model', 'encuesta', true);
-    $this->load->model('pregunta_model', 'pregunta', true);   
+    $this->load->model('pregunta_model', 'pregunta', true); 
+    $this->load->library('encryption');  
   }
 
   public function index()
@@ -43,7 +44,7 @@ class Encuestas extends CI_Controller {
   }
 
   public function mostrar($id)
-  {
+  {   
     $data = [];
     $encuesta = $this->encuesta->getById($id);
 

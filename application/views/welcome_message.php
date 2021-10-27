@@ -83,6 +83,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
+
+	<a 
+	style="font-size: 24px; margin-left: 48px; margin-bottom: 24px"
+	href="http://localhost/encuestas/index.php/encuestas">Encuestas</a>
 </div>
 
 </body>

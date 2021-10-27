@@ -48,7 +48,7 @@
     $('#dataTable').DataTable({
       processing: true,
       serverSide: true,
-      order: [ 3, 'desc' ],
+      order: [ 2, 'desc' ],
       ajax: {
           url: '<?php echo base_url(); ?>index.php/encuestas/<?= $encuesta->idEncuesta ?>/clientes',
           'type': "POST"
@@ -60,6 +60,23 @@
           },          
       ],
       lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "All"]]
+    }); 
+
+    $('#dataTable2').DataTable({
+      processing: true,
+      serverSide: true,
+      order: [ 1, 'asc' ],
+      ajax: {
+          url: '<?php echo base_url(); ?>index.php/ListaClienteEncuesta/getListaClientesParaEnviarEncuesta/<?= $encuesta->idEncuesta ?>',
+          'type': "POST"
+      },
+      columnDefs: [
+          { 
+            'targets': [ -1], 
+            'orderable': false, 
+          },          
+      ],
+      lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
     });      
     
 

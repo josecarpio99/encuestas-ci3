@@ -8,11 +8,17 @@ class Survey extends CI_Controller {
     $this->load->helper(array('form'));
     $this->load->model('my_model', 'my', true);
     $this->load->model('encuesta_model', 'encuesta', true);
-    $this->load->model('pregunta_model', 'pregunta', true);    
+    $this->load->model('pregunta_model', 'pregunta', true); 
+    $this->load->library('encryption');
   }
 
-  public function index($idEncuesta, $idCliente)
-  {
+  public function index()
+  {  
+    $params = $this->encryption->decrypt(rawurldecode($_GET['q']));
+    $params = explode('/', $params);
+    $idEncuesta = $params[0];
+    $idCliente = $params[1];
+
     $cliente = $this->db->get_where('clientes', ['idCliente' => $idCliente])->row();
     if(!$cliente) show_404();
 
@@ -45,7 +51,7 @@ class Survey extends CI_Controller {
     $encuestaCliente = [
       'idEncuesta' => $idEncuesta,
       'idCliente'  => $idCliente,
-      'idUsuario'  => $encuesta->idUsuario,     
+      // 'idUsuario'  => $encuesta->idUsuario,     
     ];
 
     $this->db->insert('encuestas_clientes', $encuestaCliente);

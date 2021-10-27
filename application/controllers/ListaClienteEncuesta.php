@@ -1,23 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class EncuestaCliente extends CI_Controller {
-  var $table = 'encuestas_clientes';
-	var $tableJoin = [
-    'encuestas' => [
-      'id' => 'idEncuesta',
-      'selfId' => 'idEncuesta',
-    ],
-    'clientes' => [
-      'id' => 'idCliente',
-      'selfId' => 'idCliente',
-    ]
-  ];
-	var $id = 'idEncuestaCliente';
-	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit'];
+class ListaClienteEncuesta extends CI_Controller {
+  var $table = 'clientes c';
+	var $tableJoin = [];
+  var $id = 'idCliente';
+  var $select = ['c.idCliente','c.razonSocial', 'c.cuit'];
   var $where = [];
-	var $column_order = ['encuestas.titulo', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaRespuesta'];
-	var $column_search = ['encuestas_clientes.fechaRespuesta','encuestas.titulo', 'clientes.razonSocial', 'clientes.cuit'];
+  var $column_order = ['razonSocial', 'cuit', 'respondido']; 
+  var $column_search = ['razonSocial', 'cuit']; 
+
 
   function __construct()
   {
@@ -27,31 +19,34 @@ class EncuestaCliente extends CI_Controller {
     $this->load->model('encuesta_model', 'encuesta', true);
     $this->load->model('pregunta_model', 'pregunta', true);
     $this->load->model('encuestaCliente_model', 'encuestaCliente', true);
-    
+    $this->load->library('encryption');     
   }
 
-  public function getClientesDeEncuesta($idEncuesta)
+  public function getListaClientesParaEnviarEncuesta($idEncuesta)
   {
-
     $encuesta = $this->encuesta->getById($idEncuesta);
 
     if(!$encuesta){
-			echo 'Encuesta mo encontrada';
+			echo 'Encuesta no encontrada';
       die;
 		}
 
-    $this->where[] =  ['encuestas_clientes.idEncuesta', $idEncuesta];    
+    $this->select[] = "(SELECT ec.fechaRespuesta FROM encuestas_clientes ec WHERE idEncuesta = $idEncuesta && idCliente = c.idCliente) as respondido";
 
     $data = [];
+    
     $list = $this->my->get_datatables($this->tableJoin, $this->select);
+    // dd($list);
     foreach($list as $li){
-			$row = [];
+      $encrypted = $this->encryption->encrypt($idEncuesta.'/'.$li->idCliente);
+      $encrypted = urlencode($encrypted);
+      $row = [];
 			$row[] = $li->razonSocial;
 			$row[] = $li->cuit;
-			$row[] =  date('m/d/Y H:i', strtotime($li->fechaRespuesta));	
+			$row[] = $li->respondido ? date('m/d/Y H:i', strtotime($li->respondido)) : 'No ha respondido' ;
       $row[] = 
-          '<a class="btn btn-sm btn-primary"
-          href="'.base_url("index.php/encuestas/$idEncuesta/cliente/$li->idEncuestaCliente").'">
+          '<a class="btn btn-sm btn-primary" target="_blank"
+          href="'.base_url("index.php/survey/?q=$encrypted").'">
 			      <i class="fa fa-eye mr-1"></i></a>';
       $data[] = $row;
     }
@@ -64,7 +59,7 @@ class EncuestaCliente extends CI_Controller {
    ];
 
    echo json_encode($output);
-  } 
+  }
 
   public function mostrarRespuestasDeCliente($idEncuesta, $idEncuestaCliente)
   {

@@ -66,7 +66,7 @@ class Preguntas extends CI_Controller {
       
 			$this->session->set_flashdata('success', 'Pregunta creada con éxito.');
 
-			redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
+			redirect(base_url("index.php/encuestas/$idEncuesta/preguntas"));
 		}
 
   }
@@ -130,7 +130,7 @@ class Preguntas extends CI_Controller {
       }
 			$this->session->set_flashdata('success', 'Pregunta actualizada con éxito.');
 
-			redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
+			redirect(base_url("index.php/encuestas/$idEncuesta/preguntas"));
 		}
 
   }

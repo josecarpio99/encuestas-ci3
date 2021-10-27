@@ -20,9 +20,9 @@ class My_Model extends CI_Model {
                
             }
          }
-      }else{
-         $this->db->from($this->table);
-      }      
+      }/*else{
+      //    $this->db->from($this->table);
+      // } */     
 
       $i = 0;
 
@@ -55,10 +55,10 @@ class My_Model extends CI_Model {
    {
       $this->get_datatables_query();
       
-      // if($_POST['length'] != -1){
-      //    $this->db->limit($_POST['length'], $_POST['start']);
-      // }
-
+      if($_POST['length'] != -1){
+         $this->db->limit($_POST['length'], $_POST['start']);
+      }
+       
       return $this->db->get()->result();
    }
 

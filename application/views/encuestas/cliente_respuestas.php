@@ -31,7 +31,7 @@
                   <h6><?= $respuesta->pregunta ?></h6>
                 </div>               
                 <div class="card-body">
-                  <small>Respuesta:</small>  <span class="text-primary font-weight-bold"><?= $respuesta->respuesta ?></span>
+                  <span class="text-primary font-weight-bold"><?= $respuesta->respuesta ?></span>
                 </div>
               </div>
             <?php endforeach  ?>
