@@ -21,6 +21,7 @@
                 <h6 class="m-0 font-weight-bold text-primary"><?= $encuesta->nombre ?></h6>                
                 <div>
                   <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/agregar") ?>" class="btn btn-primary">Agregar pregunta</a>
+                  <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/responsables") ?>" class="btn btn-secondary">Responsables</a>
                   <a href="<?= base_url('index.php/encuestas') ?>" class="btn btn-secondary">Volver</a>   
                 </div>
               </div>

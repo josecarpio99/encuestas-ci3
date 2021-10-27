@@ -73,7 +73,7 @@
                   </select>                 
                   <?= form_error('idEstadoEncuesta', '<small class="form-text text-danger">', '</small>') ?>
               </div>
-            </div> 
+            </div>             
 
             <div class="text-center mt-4">
               <button type="submit" class="btn btn-primary">Guardar</button>

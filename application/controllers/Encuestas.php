@@ -11,23 +11,13 @@ class Encuestas extends CI_Controller {
     'encuestas_estados' => [
       'id' => 'idEstadoEncuesta',
       'selfId' => 'idEstadoEncuesta',
-    ],
-    'encuestas_responsable' => [
-      'id' => 'idEncuesta',
-      'selfId' => 'idEncuesta', 
-      'tableJoin' => [
-        'adm_usuarios' => [
-          'id' => 'idUsuario'
-        ]
-      ]
     ]
   ];
 	var $id = 'idEncuesta';
-	var $select = ['encuestas.*', 'adm_usuarios.razonSocial AS responsable', 
-                'encuestas_tipos.nombreTipoEncuesta as tipo', 'encuestas_estados.valor as estado'];
+	var $select = ['encuestas.*', 'encuestas_tipos.nombreTipoEncuesta as tipo', 'encuestas_estados.valor as estado'];
   var $where = [];
 	var $column_order = ['encuestas.nombre', 'encuestas.titulo', 'encuestas.estado', 'adm_usuarios.razonSocial'];
-	var $column_search = ['encuestas.nombre', 'encuestas.titulo', 'encuestas.estado', 'adm_usuarios.razonSocial'];
+	var $column_search = ['encuestas.nombre', 'encuestas.titulo', 'encuestas.estado', 'adm_usuarios.razonSocial']; 
   function __construct()
   {
     parent::__construct();
@@ -79,7 +69,6 @@ class Encuestas extends CI_Controller {
 			$row = [];
 			$row[] = $li->nombre;
 			$row[] = $li->titulo;
-			$row[] = $li->responsable;
 			$row[] = $li->tipo;
 			$row[] = $li->estado;	
       $row[] = 
@@ -155,7 +144,7 @@ class Encuestas extends CI_Controller {
   public function editar($id)
   {
 		$encuesta = $this->encuesta->getById($id);
-
+    
     if(!$encuesta){
 			$this->session->set_flashdata('warning','Encuesta no encontrada!');
       redirect(base_url('index.php/encuestas/index'));

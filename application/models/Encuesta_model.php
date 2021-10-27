@@ -18,10 +18,11 @@ class Encuesta_model  extends CI_Model  {
 
   public function getById($id)
   {
-    return $this->db->select('e.*,ec.*')
+    return $this->db->select('e.*,u.*')
     ->from('encuestas e')
     ->where('e.idEncuesta', $id)
-    ->join('encuestas_responsable ec', 'ec.idEncuesta = e.idEncuesta')
+    ->join('encuestas_responsable ec', 'ec.idEncuesta = e.idEncuesta', 'left')
+    ->join('adm_usuarios u', 'ec.idUsuario = u.idUsuario', 'left')
     ->get()
     ->row();
   }
@@ -33,13 +34,7 @@ class Encuesta_model  extends CI_Model  {
 
   public function save($data)
   {
-    $this->db->insert($this->table, $data);
-    $encuesta_id = $this->db->insert_id();
-    $this->db->insert('encuestas_responsable', [
-      'idEncuesta' => $encuesta_id,
-      'idUsuario' => $this->session->userdata('logged_user_admin')->idUsuario,
-      'idSucursal' => $this->session->userdata('logged_user_admin')->idSucursal,
-    ]);
+    $this->db->insert($this->table, $data);  
   }
 
   public function update($where, $data){

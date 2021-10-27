@@ -12,10 +12,10 @@ class My_Model extends CI_Model {
       }
       if(count($this->tableJoin) > 0){
          foreach($this->tableJoin as $table => $data) {
-            $this->db->join($table, $table .'.'.$data['id'].' = ' . $this->table . ".".$data['selfId']);
+            $this->db->join($table, $table .'.'.$data['id'].' = ' . $this->table . ".".$data['selfId'], 'left');
             if(isset($data['tableJoin'])) {
                foreach($data['tableJoin'] as $table2 => $data2) {
-                  $this->db->join($table2, $table2 .'.'.$data2['id'].' = ' . $table . '.' .$data2['id']);
+                  $this->db->join($table2, $table2 .'.'.$data2['id'].' = ' . $table . '.' .$data2['id'], 'left');
                }
                
             }

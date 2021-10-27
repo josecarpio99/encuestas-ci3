@@ -18,9 +18,9 @@
           <div class="card shadow mb-4">
             <div class="card-header py-3">
 				    <div class="card-body d-flex justify-content-between align-items-center">
-					    <h6 class="m-0 font-weight-bold text-primary">Listado de Encuestas</h6>
+					    <h6 class="m-0 font-weight-bold text-primary">Encuestas Responsables</h6>
                  
-              <a href="<?= base_url('index.php/encuestas/agregar') ?>" class="btn btn-primary">Agregar encuesta</a>
+              <a href="<?= base_url("index.php/encuestas/$idEncuesta/responsables/agregar") ?>" class="btn btn-primary">Agregar</a>
               </div>
 			    </div>
             <div class="card-body">
@@ -28,10 +28,7 @@
                 <table class="table table-bordered display compact" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Nombre</th>
-                      <th>Título</th>
-                      <th>Tipo</th>
-                      <th>Estado</th>
+                      <th>Razón social</th>                                            
                       <th>Acciones</th>
                     </tr>
                   </thead>

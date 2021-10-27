@@ -18,11 +18,7 @@ class Preguntas extends CI_Controller {
     if(!$encuesta){
 			$this->session->set_flashdata('warning','Encuesta no encontrada!');
       redirect(base_url('index.php/encuestas/index'));
-		}
-    if(!$this->encuesta->userIsAuthorized($encuesta->idUsuario)) {
-      $this->session->set_flashdata('warning','Usuario no autorizado!');
-      redirect(base_url('index.php/encuestas/index'));
-    }
+		}   
 
     if(!$_POST){
 			$input = (object) $this->pregunta->getDefaultValues();
@@ -79,11 +75,7 @@ class Preguntas extends CI_Controller {
     if(!$encuesta){
 			$this->session->set_flashdata('warning','Encuesta no encontrada!');
       redirect(base_url('index.php/encuestas/index'));
-		}
-    if(!$this->encuesta->userIsAuthorized($encuesta->idUsuario)) {
-      $this->session->set_flashdata('warning','Usuario no autorizado!');
-      redirect(base_url('index.php/encuestas/index'));
-    }
+		}   
 
     $pregunta = $this->pregunta->getById($idPregunta);
 
@@ -160,10 +152,7 @@ class Preguntas extends CI_Controller {
 			$this->session->set_flashdata('warning','Encuesta no encontrada!');
       redirect(base_url('index.php/encuestas/index'));
 		}
-    if(!$this->encuesta->userIsAuthorized($encuesta->idUsuario)) {
-      $this->session->set_flashdata('warning','Usuario no autorizado!');
-      redirect(base_url('index.php/encuestas/index'));
-    }
+   
     $this->pregunta->delete($idPregunta);
     $this->session->set_flashdata('success', 'Registro eliminado con éxito.');
     redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
