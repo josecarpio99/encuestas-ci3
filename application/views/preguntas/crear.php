@@ -59,13 +59,13 @@
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label"><span class="text-danger">*</span>Opción 1</label>
                   <div class="col-10">
-                      <?= form_input('opciones[]', '', ['class' => 'form-control pregunta-opcion', 'id' => 'opcion', 'autofocus' => true, 'autocomplete' => 'off']) ?>                      
+                      <?= form_input('opciones[]', '', ['class' => 'form-control pregunta-opcion', 'id' => 'opcion', 'autocomplete' => 'off']) ?>                      
                   </div>
                 </div> 
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label"><span class="text-danger">*</span>Opción 2</label>
                   <div class="col-sm-10">
-                      <?= form_input('opciones[]', '', ['class' => 'form-control pregunta-opcion', 'id' => 'opcion', 'autofocus' => true, 'autocomplete' => 'off']) ?>                     
+                      <?= form_input('opciones[]', '', ['class' => 'form-control pregunta-opcion', 'id' => 'opcion', 'autocomplete' => 'off']) ?>                     
                   </div>
                 </div> 
               </div>
