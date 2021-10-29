@@ -45,6 +45,8 @@
    // Show Table
    $(document).ready(function(){
 
+    const usuariosSelect = document.querySelector('#idUsuario')
+
     $('#dataTable').DataTable({
       processing: true,
       serverSide: true,
@@ -60,7 +62,26 @@
           },          
       ],
       lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "All"]]
-    });      
+    }); 
+
+    document.querySelector('#idSucursal').addEventListener('change', function(e) {
+      const id = e.target.value;
+      $.ajax({
+          url: '<?= base_url('index.php/usuarios/obtenerUsuariosDeSucursal/') ?>' + id,
+          method: 'POST',
+          dataType: 'json',
+          success: function (response) {
+              console.log(response);
+              // console.log(typeof response);
+              // return;
+              let html = '';
+              response.usuarios.forEach(usuario => {
+                html += `<option value="${usuario.idUsuario}">${usuario.razonSocial}</option>`
+              });
+              usuariosSelect.innerHTML = html;
+          }
+      });
+    })     
     
 
 });

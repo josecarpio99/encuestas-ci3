@@ -31,6 +31,7 @@
                 <table class="table table-bordered display compact" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th>Sucursal</th>                                            
                       <th>Razón social</th>                                            
                       <th>Acciones</th>
                     </tr>

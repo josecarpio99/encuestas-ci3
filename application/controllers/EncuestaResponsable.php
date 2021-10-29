@@ -7,10 +7,16 @@ class EncuestaResponsable extends CI_Controller {
     'adm_usuarios' => [
       'id' => 'idUsuario',
       'selfId' => 'idUsuario',
+      'tableJoin' => [
+        'sucursales' => [
+          'id' => 'idSucursal',
+          'selfId' => 'idSucursal',
+        ],
+      ]
     ],  
   ];
   var $id = 'idEncuestaResponsable';
-	var $select = ['encuestas_responsable.*','adm_usuarios.razonSocial AS razonSocial'];
+	var $select = ['encuestas_responsable.*','adm_usuarios.razonSocial AS razonSocial', 'sucursales.*'];
   var $where = [];
 	var $column_order = ['adm_usuarios.razonSocial'];
 	var $column_search = ['adm_usuarios.razonSocial'];
@@ -30,7 +36,7 @@ class EncuestaResponsable extends CI_Controller {
     if(!$encuesta){
 			$this->session->set_flashdata('warning','Encuesta no encontrada!');
       redirect(base_url('index.php/encuestas/index'));
-		} 
+		}     
     $data['idEncuesta'] = $idEncuesta;
     $this->load->view('_header',$data);
     $this->load->view('encuestas/responsables',$data);
@@ -44,6 +50,7 @@ class EncuestaResponsable extends CI_Controller {
     foreach($list as $li){
       if($li->idEncuesta != $idEncuesta) continue;
 			$row = [];
+			$row[] = $li->nombre;	
 			$row[] = $li->razonSocial;	
       $row[] = 
           '			
@@ -81,20 +88,28 @@ class EncuestaResponsable extends CI_Controller {
 		$this->form_validation->set_rules('idUsuario','Responsable','required|integer', [
       'required' => 'El campo responsable es requerido',
       'integer' => 'El campo responsable no es válido'
+    ]);		
+
+		$this->form_validation->set_rules('idSucursal','Responsable','required|integer', [
+      'required' => 'El campo sucursal es requerido',
+      'integer' => 'El campo sucursal no es válido'
     ]);			
 
 		if($this->form_validation->run() == false){
-      $usuarios = $this->db->query("
-        SELECT * FROM `adm_usuarios`
-        WHERE idUsuario NOT IN(
-          SELECT idUsuario FROM encuestas_responsable WHERE idEncuesta = $idEncuesta
-        );
-      ")->result(); 
+      // $usuarios = $this->db->query("
+      //   SELECT * FROM `adm_usuarios`
+      //   WHERE idUsuario NOT IN(
+      //     SELECT idUsuario FROM encuestas_responsable WHERE idEncuesta = $idEncuesta
+      //   );
+      // ")->result(); 
 
 			$data['form_action'] = base_url("index.php/encuestas/$idEncuesta/responsables/agregar");			
 			$data['input'] = $input;
 			$data['encuesta'] = $encuesta;
-			$data['usuarios'] = $usuarios;      
+			$data['idEncuesta'] = $encuesta->idEncuesta;
+			$data['usuarios'] = [];   
+      $data['sucursales'] = $this->db->get('sucursales')->result();
+
 
 			$this->load->view('_header',$data);
       $this->load->view('encuestas/responsable_form',$data);

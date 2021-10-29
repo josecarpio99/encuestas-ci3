@@ -28,6 +28,21 @@
             <?= isset($input->id) ? form_hidden('id', $input->id) : '' ?>           
 
             <div class="form-group row">
+              <label for="idSucursal" class="col-sm-2 col-form-label"><span class="text-danger">*</span>Sucursal</label>
+              <div class="col-sm-10">           
+                  <select name="idSucursal" id="idSucursal" class="form-control">
+                    <option value="">Selecciona la sucursal</option>
+                    <?php foreach ($sucursales as $sucursal) : ?>
+                      <option value="<?= $sucursal->idSucursal ?>">
+                        <?= $sucursal->nombre ?>
+                      </option>
+                    <?php endforeach ?>
+                  </select>                 
+                  <?= form_error('idSucursal', '<small class="form-text text-danger">', '</small>') ?>
+              </div>
+            </div> 
+
+            <div class="form-group row">
               <label for="idUsuario" class="col-sm-2 col-form-label"><span class="text-danger">*</span>Usuario</label>
               <div class="col-sm-10">           
                   <select name="idUsuario" id="idUsuario" class="form-control">
