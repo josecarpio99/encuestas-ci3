@@ -57,13 +57,13 @@
               </div>
               <div class="opciones-div col-sm-10 offset-sm-2">
                 <div class="form-group row">
-                  <label class="col-sm-2 col-form-label"><span class="text-danger">*</span>Opción 1</label>
+                  <label class="col-6 col-form-label"><span class="text-danger">*</span>Opción 1</label>
                   <div class="col-10">
                       <?= form_input('opciones[]', '', ['class' => 'form-control pregunta-opcion', 'id' => 'opcion', 'autocomplete' => 'off']) ?>                      
                   </div>
                 </div> 
                 <div class="form-group row">
-                  <label class="col-sm-2 col-form-label"><span class="text-danger">*</span>Opción 2</label>
+                  <label class="col-6 col-form-label"><span class="text-danger">*</span>Opción 2</label>
                   <div class="col-sm-10">
                       <?= form_input('opciones[]', '', ['class' => 'form-control pregunta-opcion', 'id' => 'opcion', 'autocomplete' => 'off']) ?>                     
                   </div>
@@ -77,14 +77,14 @@
                 <div class="form-group row">
 
                   <div class="col-6">
-                    <label class="col-sm-2 col-form-label"><span class="text-danger">*</span>Mínimo</label>
+                    <label class="col-6 col-form-label"><span class="text-danger">*</span>Mínimo</label>
                     <div class="col-10">                       
                         <input type="number" name="minimo" class="form-control" id="minimo">                    
                     </div>
                   </div>
 
                   <div class="col-6">
-                    <label class="col-sm-2 col-form-label"><span class="text-danger">*</span>Máximo</label>
+                    <label class="col-6 col-form-label"><span class="text-danger">*</span>Máximo</label>
                     <div class="col-sm-10">
                         <input type="number" name="maximo" class="form-control" id="maximo"> 
                     </div>

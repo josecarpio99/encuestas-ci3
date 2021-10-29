@@ -81,9 +81,9 @@
       div.classList.add(['form-group', 'row'])
       const htmlString = `
       <div class="form-group row">
-        <label class="col-sm-2 col-form-label"><span class="text-danger">*</span>Opción ${opcionNumber}</label>
+        <label class="col-6 col-form-label"><span class="text-danger">*</span>Opción ${opcionNumber}</label>
         <div class="col-10">
-            <input type="text" name="opciones[]" value="" class="form-control pregunta-opcion" id="opcion" required="1" autofocus="1" autocomplete="off">
+            <input type="text" name="opciones[]" value="" class="form-control pregunta-opcion" id="opcion" autocomplete="off">
             <button class="btn btn-sm btn-danger btn-eliminar-opcion"
             style="position: absolute;
                   right: 16px;
