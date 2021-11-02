@@ -34,7 +34,7 @@
                     <option value="">Selecciona la sucursal</option>
                     <?php foreach ($sucursales as $sucursal) : ?>
                       <option value="<?= $sucursal->idSucursal ?>">
-                        <?= $sucursal->nombre ?>
+                        <?= $sucursal->nombreSucursal ?>
                       </option>
                     <?php endforeach ?>
                   </select>                 

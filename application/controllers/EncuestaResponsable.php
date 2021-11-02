@@ -50,7 +50,7 @@ class EncuestaResponsable extends CI_Controller {
     foreach($list as $li){
       if($li->idEncuesta != $idEncuesta) continue;
 			$row = [];
-			$row[] = $li->nombre;	
+			$row[] = $li->nombreSucursal;	
 			$row[] = $li->razonSocial;	
       $row[] = 
           '			
