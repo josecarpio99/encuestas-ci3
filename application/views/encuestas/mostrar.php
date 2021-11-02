@@ -54,6 +54,7 @@
                       <th>Razón social</th>                                            
                       <th>Cuit</th>                                            
                       <th>Respondido</th>                                            
+                      <th>Estado</th>                                            
                       <th>Acciones</th>
                     </tr>
                   </thead>

@@ -2,12 +2,23 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ListaClienteEncuesta extends CI_Controller {
-  var $table = 'clientes c';
-	var $tableJoin = [];
+  var $table = 'clientes';
+	var $tableJoin = [
+    'encuestas_clientes' => [
+      'id' => 'idCliente',
+      'selfId' => 'idCliente',
+      'tableJoin' => [
+        'encuesta_cliente_estado' => [
+          'id' => 'idEncuestaClienteEstado',
+          'selfId' => 'idEstado',
+        ],
+      ]
+    ]
+  ];
   var $id = 'idCliente';
-  var $select = ['c.idCliente','c.razonSocial', 'c.cuit'];
+  var $select = ['clientes.idCliente','clientes.razonSocial', 'clientes.cuit', 'encuesta_cliente_estado.nombre as estado'];
   var $where = [];
-  var $column_order = ['razonSocial', 'cuit', 'respondido']; 
+  var $column_order = ['razonSocial', 'cuit', 'respondido', 'estado']; 
   var $column_search = ['razonSocial', 'cuit']; 
 
 
@@ -25,13 +36,12 @@ class ListaClienteEncuesta extends CI_Controller {
   public function getListaClientesParaEnviarEncuesta($idEncuesta)
   {
     $encuesta = $this->encuesta->getById($idEncuesta);
-
     if(!$encuesta){
 			echo 'Encuesta no encontrada';
       die;
 		}
 
-    $this->select[] = "(SELECT ec.fechaRespuesta FROM encuestas_clientes ec WHERE idEncuesta = $idEncuesta && idCliente = c.idCliente) as respondido";
+    $this->select[] = "(SELECT ec.fechaRespuesta FROM encuestas_clientes ec WHERE idEncuesta = $idEncuesta && idCliente = clientes.idCliente) as respondido";
 
     $data = [];
     
@@ -44,10 +54,14 @@ class ListaClienteEncuesta extends CI_Controller {
 			$row[] = $li->razonSocial;
 			$row[] = $li->cuit;
 			$row[] = $li->respondido ? date('m/d/Y H:i', strtotime($li->respondido)) : 'No ha respondido' ;
+      $row[] = $li->estado ?? 'pendiente';
       $row[] = 
           '<a class="btn btn-sm btn-primary" target="_blank"
           href="'.base_url("index.php/survey/?q=$encrypted").'">
-			      <i class="fa fa-eye mr-1"></i></a>';
+			      <i class="fa fa-eye mr-1"></i></a>
+            <a class="btn btn-sm btn-warning text-white" href="'.base_url("index.php/encuestas/$idEncuesta/cliente/$li->idCliente/editar/").'" 
+              title="Edit">
+          <i class="fa fa-pencil-alt mr-1"></i></a>';
       $data[] = $row;
     }
 
