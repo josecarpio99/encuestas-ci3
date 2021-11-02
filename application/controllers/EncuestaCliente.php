@@ -30,6 +30,72 @@ class EncuestaCliente extends CI_Controller {
     
   }
 
+  public function saveEncuestaCliente($idEncuesta, $idCliente)
+  {
+    
+    $encuesta = $this->encuesta->getById($idEncuesta);
+    
+    if(!$encuesta){
+			$this->session->set_flashdata('warning','Encuesta no encontrada!');
+      redirect(base_url('index.php/encuestas/index'));
+		} 
+
+    $cliente = $this->db->get_where('clientes', ['idCliente' => $idCliente])->row();
+
+    if(!$cliente){
+			$this->session->set_flashdata('warning','Cliente no encontrado!');
+      redirect(base_url('index.php/encuestas/index'));
+		} 
+
+    $encuestaCliente = $this->encuestaCliente->getByClientId($idCliente);
+    $isCreating = $encuestaCliente ? false : true;
+    
+    if(!$_POST){
+			$input = $encuestaCliente ?
+      (object) [
+        'mensaje' => $encuestaCliente->mensaje,
+        'idEncuestaClienteEstado' => $encuestaCliente->idEncuestaClienteEstado,
+      ]
+      : (object) $this->encuestaCliente->getDefaultValues();
+		}else{
+			$input = (object) $this->input->post(null, true);
+		} 
+    
+		$this->form_validation->set_rules('idEncuestaClienteEstado','Estado','required|integer', [      
+      'estado' => 'El campo estado no es válido'
+    ]);			
+
+		if($this->form_validation->run() == false){     
+
+			$data['form_action'] = base_url("index.php/encuestas/$idEncuesta/cliente/$idCliente/guardar/");			
+			$data['input'] = $input;
+			$data['encuesta'] = $encuesta;
+			$data['cliente'] = $cliente;
+			$data['idEncuesta'] = $idEncuesta;
+      $data['estados'] = $this->db->get('encuesta_cliente_estado')->result();
+
+			$this->load->view('_header',$data);
+      $this->load->view('encuestas/encuesta_cliente_form',$data);
+		}else{ 
+			$data = [
+				'idEstado' => $this->input->post('idEncuestaClienteEstado', true),					
+				'mensaje'  => $this->input->post('mensaje', true),					
+			];
+      
+      if($isCreating) {
+        $data['idCliente'] = $idCliente;
+        $data['idEncuesta'] = $idEncuesta;
+        $this->db->insert($this->table, $data);
+      }else {
+        $this->db->update($this->table, $data, ['idEncuestaCliente' => $encuestaCliente->idEncuestaCliente]);
+      }
+			
+			$this->session->set_flashdata('success', 'Registro guardado con éxito.');
+
+			redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
+		}
+  }
+
   public function getClientesDeEncuesta($idEncuesta)
   {
 

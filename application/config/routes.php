@@ -58,6 +58,8 @@ $route['encuestas/(:num)/responsables/agregar'] = 'encuestaResponsable/agregar/$
 $route['encuestas/(:num)/getResponsables'] = 'encuestaResponsable/getResponsables/$1';
 $route['encuestas/(:num)/clientes'] = 'encuestaCliente/getClientesDeEncuesta/$1';
 $route['encuestas/(:num)/cliente/(:num)'] = 'encuestaCliente/mostrarRespuestasDeCliente/$1/$2';
+$route['encuestas/(:num)/cliente/(:num)/editar'] = 'encuestaCliente/saveEncuestaCliente/$1/$2';
+$route['encuestas/(:num)/cliente/(:num)/guardar'] = 'encuestaCliente/saveEncuestaCliente/$1/$2';
 $route['encuestas/(:num)/responsables'] = 'encuestaResponsable/index/$1';
 $route['encuestas/(:num)/responsables/(:num)/eliminar'] = 'encuestaResponsable/eliminar/$1/$2';
 

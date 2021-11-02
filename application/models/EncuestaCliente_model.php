@@ -6,14 +6,34 @@ class EncuestaCliente_model  extends CI_Model  {
 		parent::__construct();		
 	}
 
+  public function getDefaultValues()
+  {
+    return [
+        'mensaje'          => '',                 
+        'idEncuestaClienteEstado'=> 1,        
+    ];
+  }
+
   public function getByID($id)
   {
     // return $this->db->get_where('encuestas_clientes', ['idEncuestaCliente' => $id])->row();
     return $this->db
-    ->select('ec.*, c.*')
+    ->select('ec.*, c.razonSocial, c.cuit')
     ->from('encuestas_clientes ec')
     ->join('clientes c', 'c.idCliente = ec.idCliente')
     ->where('ec.idEncuestaCliente', $id)
+    ->get()
+    ->row();
+  }
+
+  public function getByClientId($idCliente)
+  {
+    return $this->db
+    ->select('ec.*, c.razonSocial, c.cuit, ece.idEncuestaClienteEstado')
+    ->from('encuestas_clientes ec')
+    ->join('clientes c', 'c.idCliente = ec.idCliente')
+    ->join('encuesta_cliente_estado ece', 'ec.idEstado = ece.idEncuestaClienteEstado')
+    ->where('ec.idCliente', $idCliente)
     ->get()
     ->row();
   }

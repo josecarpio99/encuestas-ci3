@@ -16,7 +16,8 @@ class ListaClienteEncuesta extends CI_Controller {
     ]
   ];
   var $id = 'idCliente';
-  var $select = ['clientes.idCliente','clientes.razonSocial', 'clientes.cuit', 'encuesta_cliente_estado.nombre as estado'];
+  var $select = ['clientes.idCliente','clientes.razonSocial', 'clientes.cuit', 'encuesta_cliente_estado.nombre as estado', 
+                 'encuestas_clientes.fechaRespuesta as respondido' ];
   var $where = [];
   var $column_order = ['razonSocial', 'cuit', 'respondido', 'estado']; 
   var $column_search = ['razonSocial', 'cuit']; 
@@ -41,7 +42,7 @@ class ListaClienteEncuesta extends CI_Controller {
       die;
 		}
 
-    $this->select[] = "(SELECT ec.fechaRespuesta FROM encuestas_clientes ec WHERE idEncuesta = $idEncuesta && idCliente = clientes.idCliente) as respondido";
+    // $this->select[] = "(SELECT ec.fechaRespuesta FROM encuestas_clientes ec WHERE idEncuesta = $idEncuesta && idCliente = clientes.idCliente) as respondido";
 
     $data = [];
     
@@ -53,7 +54,7 @@ class ListaClienteEncuesta extends CI_Controller {
       $row = [];
 			$row[] = $li->razonSocial;
 			$row[] = $li->cuit;
-			$row[] = $li->respondido ? date('m/d/Y H:i', strtotime($li->respondido)) : 'No ha respondido' ;
+			// $row[] = $li->respondido ? date('m/d/Y H:i', strtotime($li->respondido)) : 'No ha respondido' ;
       $row[] = $li->estado ?? 'pendiente';
       $row[] = 
           '<a class="btn btn-sm btn-primary" target="_blank"
