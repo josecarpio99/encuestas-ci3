@@ -11,12 +11,17 @@ class EncuestaCliente extends CI_Controller {
     'clientes' => [
       'id' => 'idCliente',
       'selfId' => 'idCliente',
-    ]
+    ],
+    'encuesta_cliente_estado' => [
+      'id' => 'idEncuestaClienteEstado',
+      'selfId' => 'idEstado',
+    ],
   ];
 	var $id = 'idEncuestaCliente';
-	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit'];
+	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit',
+                  'encuesta_cliente_estado.nombre as estado'];
   var $where = [];
-	var $column_order = ['encuestas.titulo', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaRespuesta'];
+	var $column_order = ['clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaRespuesta', 'estado'];
 	var $column_search = ['encuestas_clientes.fechaRespuesta','encuestas.titulo', 'clientes.razonSocial', 'clientes.cuit'];
 
   function __construct()
@@ -28,6 +33,13 @@ class EncuestaCliente extends CI_Controller {
     $this->load->model('pregunta_model', 'pregunta', true);
     $this->load->model('encuestaCliente_model', 'encuestaCliente', true);
     
+  }
+
+  public function mostrarEncuestasClientes()
+  {
+    $this->load->view('_header');
+    $this->load->view('encuestas/mostrar_encuestas_clientes',);
+    $this->load->view('_footerTablasEncuestasClientes');
   }
 
   public function saveEncuestaCliente($idEncuesta, $idCliente)
@@ -96,29 +108,43 @@ class EncuestaCliente extends CI_Controller {
 		}
   }
 
-  public function getClientesDeEncuesta($idEncuesta)
+  public function getClientesDeEncuesta($idEncuesta = null)
   {
 
     $encuesta = $this->encuesta->getById($idEncuesta);
 
-    if(!$encuesta){
-			echo 'Encuesta mo encontrada';
-      die;
-		}
+    // if(!$encuesta){
+		// 	echo 'Encuesta mo encontrada';
+    //   die;
+		// }
 
-    $this->where[] =  ['encuestas_clientes.idEncuesta', $idEncuesta];    
+    if($idEncuesta) {
+      $this->where[] =  ['encuestas_clientes.idEncuesta', $idEncuesta];    
+    }
 
     $data = [];
     $list = $this->my->get_datatables($this->tableJoin, $this->select);
     foreach($list as $li){
 			$row = [];
+      if(!$idEncuesta) {
+        $row[] = $li->titulo;
+      }
 			$row[] = $li->razonSocial;
 			$row[] = $li->cuit;
-			$row[] =  date('m/d/Y H:i', strtotime($li->fechaRespuesta));	
+			$row[] =  $li->fechaRespuesta ? date('m/d/Y H:i', strtotime($li->fechaRespuesta)) : 'No ha respondido';	
+			$row[] = $li->estado;
       $row[] = 
-          '<a class="btn btn-sm btn-primary"
-          href="'.base_url("index.php/encuestas/$idEncuesta/cliente/$li->idEncuestaCliente").'">
-			      <i class="fa fa-eye mr-1"></i></a>';
+          '<a class="btn btn-sm btn-primary mr-1"
+          href="'.base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idEncuestaCliente").'">
+			      <i class="fa fa-eye"></i></a>'.
+             (isAdmin() 
+             ? '<a class="btn btn-sm btn-danger"
+              href="'.base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idEncuestaCliente/eliminar").'" 
+              title="Delete"
+              onclick="return confirm('."'Seguro que quieres eliminar  este registro?');".'">
+            <i class="fa fa-trash"></i></a>'
+           : '')
+           ;
       $data[] = $row;
     }
 
@@ -150,6 +176,14 @@ class EncuestaCliente extends CI_Controller {
     $this->load->view('_header',$data);
     $this->load->view('encuestas/cliente_respuestas',$data);
     $this->load->view('_footerTablasEncuestaCliente',$data);
+  }
+
+  public function eliminar($idEncuesta, $idEncuestaCliente)
+  {
+    if(!isAdmin()) return redirect(base_url('index.php/encuestas/index'));;
+    $this->db->delete($this->table, ['idEncuestaCliente' => $idEncuestaCliente]);
+    $this->session->set_flashdata('success', 'Registro eliminado con éxito.');
+		redirect(base_url('index.php/encuestas/mostrar/'.$idEncuesta));  
   }
   
 }

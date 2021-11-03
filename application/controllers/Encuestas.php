@@ -22,7 +22,7 @@ class Encuestas extends CI_Controller {
   {
     parent::__construct();
     setSessionData();
-    isAdmin();
+    // redirectIsNoLoggedIn();
     $this->load->helper(array('form'));
     $this->load->model('my_model', 'my', true);
     $this->load->model('encuesta_model', 'encuesta', true);
@@ -41,7 +41,7 @@ class Encuestas extends CI_Controller {
     $this->load->view('encuestas/index',$data);
     $this->load->view('_footerTablasEncuestas',$data);
 
-  }
+  } 
 
   public function mostrar($id)
   {   

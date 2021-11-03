@@ -4,22 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class ListaClienteEncuesta extends CI_Controller {
   var $table = 'clientes';
 	var $tableJoin = [
-    'encuestas_clientes' => [
-      'id' => 'idCliente',
-      'selfId' => 'idCliente',
-      'tableJoin' => [
-        'encuesta_cliente_estado' => [
-          'id' => 'idEncuestaClienteEstado',
-          'selfId' => 'idEstado',
-        ],
-      ]
-    ]
+    // 'encuestas_clientes' => [
+    //   'id' => 'idCliente',
+    //   'selfId' => 'idCliente',
+    //   'tableJoin' => [
+    //     'encuesta_cliente_estado' => [
+    //       'id' => 'idEncuestaClienteEstado',
+    //       'selfId' => 'idEstado',
+    //     ],
+    //   ]
+    // ]
   ];
   var $id = 'idCliente';
-  var $select = ['clientes.idCliente','clientes.razonSocial', 'clientes.cuit', 'encuesta_cliente_estado.nombre as estado', 
-                 'encuestas_clientes.fechaRespuesta as respondido' ];
+  var $select = ['clientes.idCliente', 'clientes.razonSocial', 'clientes.cuit'];
   var $where = [];
-  var $column_order = ['razonSocial', 'cuit', 'respondido', 'estado']; 
+  var $column_order = ['razonSocial', 'cuit', 'estado']; 
   var $column_search = ['razonSocial', 'cuit']; 
 
 
@@ -42,7 +41,10 @@ class ListaClienteEncuesta extends CI_Controller {
       die;
 		}
 
-    // $this->select[] = "(SELECT ec.fechaRespuesta FROM encuestas_clientes ec WHERE idEncuesta = $idEncuesta && idCliente = clientes.idCliente) as respondido";
+    $this->select[] = "(SELECT ec.idEstado FROM encuestas_clientes ec WHERE idEncuesta = $idEncuesta && idCliente = clientes.idCliente) as idEstado";
+
+    $this->select[] = "(SELECT ece.nombre FROM encuesta_cliente_estado ece WHERE idEncuestaClienteEstado = idEstado) as estado";
+
 
     $data = [];
     
