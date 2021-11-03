@@ -11,6 +11,7 @@ class Encuesta_model  extends CI_Model  {
     return [
         'nombre'          => '',        
         'titulo'          => '',        
+        'mensaje'         => '',        
         'idTipoEncuesta'  => 1,        
         'idEstadoEncuesta'=> 1,        
     ];

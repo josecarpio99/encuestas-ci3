@@ -11,7 +11,11 @@ class Encuestas extends CI_Controller {
     'encuestas_estados' => [
       'id' => 'idEstadoEncuesta',
       'selfId' => 'idEstadoEncuesta',
-    ]
+    ],
+    'encuestas_responsable' => [
+      'id' => 'idEncuesta',
+      'selfId' => 'idEncuesta',
+    ],
   ];
 	var $id = 'idEncuesta';
 	var $select = ['encuestas.*', 'encuestas_tipos.nombreTipoEncuesta as tipo', 'encuestas_estados.valor as estado'];
@@ -79,8 +83,11 @@ class Encuestas extends CI_Controller {
     $this->load->view('_footerTablasEncuestas',$data);
   }
 
-  public function getEncuestas($perfil = 0)
+  public function getEncuestas()
   {
+    if(!isAdmin()) {
+      $this->where[] = ['idUsuario', $this->session->userdata('logged_user_admin')->idUsuario];
+    }
     $data = [];
     $list = $this->my->get_datatables($this->tableJoin, $this->select);
     foreach($list as $li){
@@ -148,6 +155,7 @@ class Encuestas extends CI_Controller {
 			$data = [
 				'nombre'         => $this->input->post('nombre', true),	
 				'titulo'         => $this->input->post('titulo', true),	
+				'mensaje' => $this->input->post('mensaje', true),	
 				'idTipoEncuesta' => $this->input->post('idTipoEncuesta', true),	
 				'idEstadoEncuesta' => $this->input->post('idEstadoEncuesta', true),	
 			];	
@@ -195,6 +203,7 @@ class Encuestas extends CI_Controller {
 			$data = [
 				'nombre' => $this->input->post('nombre', true),	
 				'titulo' => $this->input->post('titulo', true),	
+				'mensaje' => $this->input->post('mensaje', true),	
 				'idTipoEncuesta' => $this->input->post('idTipoEncuesta', true),	
 				'idEstadoEncuesta' => $this->input->post('idEstadoEncuesta', true),	
 			];	

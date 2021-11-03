@@ -26,7 +26,7 @@ class EncuestaCliente_model  extends CI_Model  {
     ->row();
   }
 
-  public function getByClientId($idCliente)
+  public function getByClientAndEncuestaId($idEncuesta, $idCliente)
   {
     return $this->db
     ->select('ec.*, c.razonSocial, c.cuit, ece.idEncuestaClienteEstado')
@@ -34,6 +34,7 @@ class EncuestaCliente_model  extends CI_Model  {
     ->join('clientes c', 'c.idCliente = ec.idCliente')
     ->join('encuesta_cliente_estado ece', 'ec.idEstado = ece.idEncuestaClienteEstado')
     ->where('ec.idCliente', $idCliente)
+    ->where('ec.idEncuesta', $idEncuesta)
     ->get()
     ->row();
   }

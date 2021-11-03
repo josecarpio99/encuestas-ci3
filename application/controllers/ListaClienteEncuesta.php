@@ -8,15 +8,15 @@ class ListaClienteEncuesta extends CI_Controller {
     //   'id' => 'idCliente',
     //   'selfId' => 'idCliente',
     //   'tableJoin' => [
-    //     'encuesta_cliente_estado' => [
-    //       'id' => 'idEncuestaClienteEstado',
-    //       'selfId' => 'idEstado',
+    //     'encuestas' => [
+    //       'id' => 'idEncuesta',
+    //       'selfId' => 'idEncuesta',
     //     ],
     //   ]
     // ]
   ];
   var $id = 'idCliente';
-  var $select = ['clientes.idCliente', 'clientes.razonSocial', 'clientes.cuit'];
+  var $select = ['clientes.idCliente', 'clientes.razonSocial', 'clientes.cuit','clientes.celular'];
   var $where = [];
   var $column_order = ['razonSocial', 'cuit', 'estado']; 
   var $column_search = ['razonSocial', 'cuit']; 
@@ -57,9 +57,21 @@ class ListaClienteEncuesta extends CI_Controller {
 			$row[] = $li->razonSocial;
 			$row[] = $li->cuit;
 			// $row[] = $li->respondido ? date('m/d/Y H:i', strtotime($li->respondido)) : 'No ha respondido' ;
-      $row[] = $li->estado ?? 'pendiente';
+      $row[] = $li->estado ?? 'pendiente';      
+
+      $encuestaCliente = $this->encuestaCliente->getByClientAndEncuestaId($idEncuesta, $li->idCliente);
+
+      $whatsappText = $encuesta->mensaje.'%0a%0a'.$encuestaCliente?->mensaje.'%0a%0a'.base_url("index.php/survey/?q=$encrypted");
       $row[] = 
-          '<a class="btn btn-sm btn-primary" target="_blank"
+          '<a target="_blank" href="https://wa.me/'.$li->celular.'/?text='.$whatsappText.'" >
+              <button type="button" style="border-radius: 50% 50% 50% 0%;display: inline-block;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
+              </button>
+          </a>
+          <a  target="_blank" href="whatsapp://send?text='.$whatsappText.'&phone='.$li->celular.'&abid='.$li->celular.'"> 
+                <button type="button" style="display: inline-block;border-color:#661cc8;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
+                </button>
+          </a>
+          <a class="btn btn-sm btn-primary" target="_blank"
           href="'.base_url("index.php/survey/?q=$encrypted").'">
 			      <i class="fa fa-eye mr-1"></i></a>
             <a class="btn btn-sm btn-warning text-white" href="'.base_url("index.php/encuestas/$idEncuesta/cliente/$li->idCliente/editar/").'" 

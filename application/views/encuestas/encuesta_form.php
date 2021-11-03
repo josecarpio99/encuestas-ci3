@@ -73,7 +73,15 @@
                   </select>                 
                   <?= form_error('idEstadoEncuesta', '<small class="form-text text-danger">', '</small>') ?>
               </div>
-            </div>             
+            </div>     
+            
+            <div class="form-group row">
+              <label for="mensaje" class="col-sm-2 col-form-label"><span class="text-danger">*</span>Mensaje</label>
+              <div class="col-sm-10">           
+                  <textarea class="form-control" name="mensaje" id="mensaje" cols="30" rows="5"><?= $input->mensaje ?></textarea>              
+                  <?= form_error('mensaje', '<small class="form-text text-danger">', '</small>') ?>
+              </div>
+            </div> 
 
             <div class="text-center mt-4">
               <button type="submit" class="btn btn-primary">Guardar</button>

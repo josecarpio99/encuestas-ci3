@@ -7,6 +7,12 @@ class EncuestaCliente extends CI_Controller {
     'encuestas' => [
       'id' => 'idEncuesta',
       'selfId' => 'idEncuesta',
+      'tableJoin' => [
+        'encuestas_responsable' => [
+          'id' => 'idEncuesta',
+          'selfId' => 'idEncuesta',
+        ],
+      ]
     ],
     'clientes' => [
       'id' => 'idCliente',
@@ -18,8 +24,7 @@ class EncuestaCliente extends CI_Controller {
     ],
   ];
 	var $id = 'idEncuestaCliente';
-	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit',
-                  'encuesta_cliente_estado.nombre as estado'];
+	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit','encuesta_cliente_estado.nombre as estado'];
   var $where = [];
 	var $column_order = ['clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaRespuesta', 'estado'];
 	var $column_search = ['encuestas_clientes.fechaRespuesta','encuestas.titulo', 'clientes.razonSocial', 'clientes.cuit'];
@@ -59,7 +64,7 @@ class EncuestaCliente extends CI_Controller {
       redirect(base_url('index.php/encuestas/index'));
 		} 
 
-    $encuestaCliente = $this->encuestaCliente->getByClientId($idCliente);
+    $encuestaCliente = $this->encuestaCliente->getByClientAndEncuestaId($idEncuesta, $idCliente);
     $isCreating = $encuestaCliente ? false : true;
     
     if(!$_POST){
@@ -120,6 +125,10 @@ class EncuestaCliente extends CI_Controller {
 
     if($idEncuesta) {
       $this->where[] =  ['encuestas_clientes.idEncuesta', $idEncuesta];    
+    }
+
+    if(!isAdmin()) {
+      $this->where[] = ['encuestas_responsable.idUsuario', $this->session->userdata('logged_user_admin')->idUsuario];
     }
 
     $data = [];
