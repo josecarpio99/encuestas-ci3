@@ -9,6 +9,7 @@ class Survey extends CI_Controller {
     $this->load->model('my_model', 'my', true);
     $this->load->model('encuesta_model', 'encuesta', true);
     $this->load->model('pregunta_model', 'pregunta', true); 
+    $this->load->model('encuestaCliente_model', 'encuestaCliente', true); 
     $this->load->library('encryption');
   }
 
@@ -18,6 +19,11 @@ class Survey extends CI_Controller {
     $params = explode('/', $params);
     $idEncuesta = $params[0];
     $idCliente = $params[1];
+
+    $encuestaCliente = $this->encuestaCliente->getByClientAndEncuestaId($idEncuesta, $idCliente);
+    if($encuestaCliente && $encuestaCliente->estado == 'respondido') {
+      return $this->load->view('survey_respondida');
+    }
 
     $cliente = $this->db->get_where('clientes', ['idCliente' => $idCliente])->row();
     if(!$cliente) show_404();
@@ -47,15 +53,27 @@ class Survey extends CI_Controller {
     $encuesta = $this->encuesta->getById($idEncuesta);
     if(!$encuesta) show_404();
 
-    //guardar encuesta_cliente
-    $encuestaCliente = [
-      'idEncuesta' => $idEncuesta,
-      'idCliente'  => $idCliente,
-      // 'idUsuario'  => $encuesta->idUsuario,     
-    ];
+    $encuestaCliente = $this->encuestaCliente->getByClientAndEncuestaId($idEncuesta, $idCliente);   
 
-    $this->db->insert('encuestas_clientes', $encuestaCliente);
-    $encuestaClienteId = $this->db->insert_id();
+    if(!$encuestaCliente) {
+      $data = [
+        'idEncuesta' => $idEncuesta,
+        'idCliente'  => $idCliente,
+        'fechaRespuesta' => date('Y-m-d H:i'),
+        'idEstado' => 3
+      ];
+      $this->db->insert('encuestas_clientes', $data);
+    }else{
+      $data = [
+        'idEstado' => 3,
+        'fechaRespuesta' => date('Y-m-d H:i')
+      ];
+      $this->db->update('encuestas_clientes', $data,
+        ['idEncuestaCliente' => $encuestaCliente->idEncuestaCliente] 
+      );     
+    }
+
+    $encuestaClienteId = $encuestaCliente ? $encuestaCliente->idEncuestaCliente : $this->db->insert_id();
 
     //guardar encesuta_cliente_respuestas
     $respuestas = $this->input->post('respuestas', true);
