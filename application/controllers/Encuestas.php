@@ -105,7 +105,6 @@ class Encuestas extends CI_Controller {
       GROUP BY c.razonSocial
       ORDER BY c.razonSocial, ep.orden;"
     )->result();
-    // dd($clientesRespuestas);
 
     $data['clientesRespuestas'] = $clientesRespuestas;
     $data['encuesta'] = $encuesta;
@@ -114,6 +113,69 @@ class Encuestas extends CI_Controller {
     $this->load->view('_header',$data);
     $this->load->view('encuestas/reporte_detallado',$data);
     $this->load->view('_footerTablasReporteDetallado',$data);
+  }
+
+  public function reportePromedios($id)
+  {
+    $data = [];
+    $encuesta = $this->encuesta->getById($id);
+
+    if(!$encuesta){
+			$this->session->set_flashdata('warning','Encuesta no encontrada!');
+      redirect(base_url('index.php/encuestas/index'));
+		}
+
+    $preguntas = $this->pregunta->getPreguntasOfEncuesta($id);
+
+    foreach($preguntas as $pregunta) {
+      // Pregunta tipo => Si/No
+      if($pregunta->tipo == 1) {
+        $query = $this->db->query("
+          SELECT  
+          FORMAT(AVG(valor = 'si') * 100, 2) as porcentaje_si,
+          FORMAT(AVG(valor = 'no') * 100, 2) as porcentaje_no
+          FROM `encuestas_clientes_respuestas` 
+          WHERE idEncuestaPregunta = $pregunta->idEncuestaPregunta;"
+        )->row();
+        $pregunta->porcentaje_si = $query->porcentaje_si;
+        $pregunta->porcentaje_no = $query->porcentaje_no;
+      }
+
+      // Pregunta tipo => Lista
+      if($pregunta->tipo == 2) { 
+        foreach($pregunta->opciones as $key => $opcion) {
+          $query = $this->db->query("
+            SELECT  
+            FORMAT(AVG(valor = '$opcion->valor') * 100, 2) as porcentaje
+            FROM `encuestas_clientes_respuestas` 
+            WHERE idEncuestaPregunta = $pregunta->idEncuestaPregunta;"
+          )->row(); 
+
+          $pregunta->opciones[$key]->porcentaje = $query->porcentaje;
+        }
+      }
+
+      // Pregunta tipo => Número
+      if($pregunta->tipo == 3) { 
+        $query = $this->db->query("
+          SELECT 
+          FORMAT(AVG(valor), 2) as promedio
+          FROM `encuestas_clientes_respuestas` 
+          WHERE idEncuestaPregunta = $pregunta->idEncuestaPregunta;"
+        )->row();
+
+        $pregunta->promedio = $query->promedio;
+      }      
+    }
+
+    // dd($preguntas);
+
+    $data['encuesta'] = $encuesta;
+    $data['preguntas'] = $preguntas;
+
+    $this->load->view('_header',$data);
+    $this->load->view('encuestas/reporte_promedios',$data);
+
   }
 
   public function getEncuestas()

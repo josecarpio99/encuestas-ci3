@@ -56,18 +56,18 @@
       order: [ 0, 'asc' ],     
       lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
       initComplete: function () {
-            // Apply the search
-            this.api().columns().every( function () {
-                var that = this;
- 
-                $( 'input', this.footer() ).on( 'keyup change clear', function () {
-                    if ( that.search() !== this.value ) {
-                        that
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
+        // Apply the search
+        this.api().columns().every( function () {
+            var that = this;
+
+            $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
             } );
+          });
         }
     });      
 });

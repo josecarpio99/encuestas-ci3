@@ -20,7 +20,8 @@
               <div class="card-body d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-primary"><?= $encuesta->nombre ?></h6>                
                 <div>
-                  <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/reporte-detalle/") ?>" class="btn btn-primary" title="Reporte detallado"><i class="fa fa-th-list"></i></a>
+                  <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/reporte-detalle/") ?>" class="btn btn-info" title="Reporte detallado"><i class="fa fa-th-list"></i></a>
+                  <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/reporte-promedios/") ?>" class="btn btn-success" title="Reporte promedios"><i class="fa fa-chart-bar"></i></a>
                   <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/") ?>" class="btn btn-primary">Preguntas</a>
                   <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/responsables") ?>" class="btn btn-secondary">Responsables</a>
                   <a href="<?= base_url('index.php/encuestas') ?>" class="btn btn-secondary">Volver</a>   
