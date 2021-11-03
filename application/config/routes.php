@@ -54,6 +54,7 @@ $route['encuestas/(:num)/preguntas/agregar'] = 'preguntas/agregar/$1/';
 $route['encuestas/(:num)/preguntas/(:num)/editar'] = 'preguntas/editar/$1/$2';
 $route['encuestas/(:num)/preguntas/(:num)/eliminar'] = 'preguntas/eliminar/$1/$2';
 $route['encuestas/(:num)/preguntas'] = 'encuestas/preguntas/$1/';
+$route['encuestas/(:num)/reporte-detalle'] = 'encuestas/reporteDetalle/$1/';
 $route['encuestas/(:num)/responsables/agregar'] = 'encuestaResponsable/agregar/$1';
 
 $route['encuestas/(:num)/getResponsables'] = 'encuestaResponsable/getResponsables/$1';

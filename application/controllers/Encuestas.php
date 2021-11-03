@@ -83,6 +83,39 @@ class Encuestas extends CI_Controller {
     $this->load->view('_footerTablasEncuestas',$data);
   }
 
+  public function reporteDetalle($id)
+  {
+    $data = [];
+    $encuesta = $this->encuesta->getById($id);
+
+    if(!$encuesta){
+			$this->session->set_flashdata('warning','Encuesta no encontrada!');
+      redirect(base_url('index.php/encuestas/index'));
+		}
+    $clientesRespuestas = $this->db->query("
+      SELECT c.razonSocial, GROUP_CONCAT(valor ORDER BY orden SEPARATOR '|') as respuestas
+      FROM `encuestas_clientes_respuestas` ecr
+      JOIN encuestas_clientes ec
+      ON ec.idEncuestaCliente = ecr.idEncuestaCliente
+      JOIN clientes c
+      ON c.idcliente = ec.idCliente
+      JOIN encuestas_preguntas ep
+      ON ep.idEncuestaPregunta = ecr.idEncuestaPregunta
+      WHERE ec.idEncuesta = $id
+      GROUP BY c.razonSocial
+      ORDER BY c.razonSocial, ep.orden;"
+    )->result();
+    // dd($clientesRespuestas);
+
+    $data['clientesRespuestas'] = $clientesRespuestas;
+    $data['encuesta'] = $encuesta;
+    $data['preguntas'] = $this->pregunta->getPreguntasOfEncuesta($id);
+
+    $this->load->view('_header',$data);
+    $this->load->view('encuestas/reporte_detallado',$data);
+    $this->load->view('_footerTablasReporteDetallado',$data);
+  }
+
   public function getEncuestas()
   {
     if(!isAdmin()) {
