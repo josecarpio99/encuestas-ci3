@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2021 at 10:03 PM
+-- Generation Time: Nov 03, 2021 at 10:11 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -196,7 +196,8 @@ CREATE TABLE `encuestas` (
 --
 
 INSERT INTO `encuestas` (`idEncuesta`, `nombre`, `titulo`, `mensaje`, `idTipoEncuesta`, `idEstadoEncuesta`, `idUnidad`) VALUES
-(19, 'Encuesta de prueba', 'Encuesta de prueba', 'Mensaje de encuesta de prueba', 1, 2, 1);
+(19, 'Encuesta de prueba', 'Encuesta de prueba', 'Mensaje de encuesta de prueba', 1, 2, 1),
+(20, 'Otra encuesta de prueba', 'Otra encuesta de prueba', 'Otra encuesta de prueba mensaje', 3, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -229,7 +230,12 @@ INSERT INTO `encuestas_clientes` (`idEncuestaCliente`, `idEncuesta`, `idCliente`
 (23, 19, 5003, NULL, NULL, NULL, 1, NULL, NULL, '2021-11-03 22:01:00', 3, NULL),
 (24, 19, 5005, NULL, NULL, NULL, 0, NULL, NULL, '2021-11-03 22:01:00', 3, NULL),
 (25, 19, 5004, NULL, NULL, NULL, 1, NULL, NULL, '2021-11-03 22:01:00', 3, NULL),
-(26, 19, 5008, NULL, NULL, NULL, 0, NULL, NULL, '2021-11-03 22:01:00', 3, NULL);
+(26, 19, 5008, NULL, NULL, NULL, 0, NULL, NULL, '2021-11-03 22:01:00', 3, NULL),
+(27, 20, 5001, NULL, NULL, NULL, 0, NULL, NULL, '2021-11-03 22:09:00', 3, NULL),
+(28, 20, 5002, NULL, NULL, NULL, 1, NULL, NULL, '2021-11-03 22:09:00', 3, NULL),
+(29, 20, 5003, NULL, NULL, NULL, 0, NULL, NULL, '2021-11-03 22:09:00', 3, NULL),
+(30, 20, 5004, NULL, NULL, NULL, 1, NULL, NULL, '2021-11-03 22:09:00', 3, NULL),
+(31, 20, 5005, NULL, NULL, NULL, 1, NULL, NULL, '2021-11-03 22:09:00', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -278,7 +284,32 @@ INSERT INTO `encuestas_clientes_respuestas` (`idEncuestaClienteRespuesta`, `idEn
 (94, 26, 28, 'no'),
 (95, 26, 29, 'opcion lista 2'),
 (96, 26, 30, '4'),
-(97, 26, 31, '3');
+(97, 26, 31, '3'),
+(98, 27, 32, 'the reader will not be distracted from making a neutral judgement on the visual impact and readability of the typefaces'),
+(99, 27, 33, 'si'),
+(100, 27, 34, 'opcion 1'),
+(101, 27, 35, '5'),
+(102, 27, 36, '7'),
+(103, 28, 32, 'the reader will not be distracted from making a neutral judgement on the visual impact and readability of the typefaces'),
+(104, 28, 33, 'no'),
+(105, 28, 34, 'opcion 2'),
+(106, 28, 35, '7'),
+(107, 28, 36, '10'),
+(108, 29, 32, 'the reader will not be distracted from making a neutral judgement on the visual impact and readability of the typefaces'),
+(109, 29, 33, 'si'),
+(110, 29, 34, 'opcion 2'),
+(111, 29, 35, '3'),
+(112, 29, 36, '3'),
+(113, 30, 32, 'the reader will not be distracted from making a neutral judgement on the visual impact and readability of the typefaces'),
+(114, 30, 33, 'no'),
+(115, 30, 34, 'opcion 3'),
+(116, 30, 35, '8'),
+(117, 30, 36, '9'),
+(118, 31, 32, 'the reader will not be distracted from making a neutral judgement on the visual impact and readability of the typefaces'),
+(119, 31, 33, 'si'),
+(120, 31, 34, 'opcion 3'),
+(121, 31, 35, '10'),
+(122, 31, 36, '10');
 
 -- --------------------------------------------------------
 
@@ -327,7 +358,12 @@ INSERT INTO `encuestas_preguntas` (`idEncuestaPregunta`, `idEncuesta`, `detalle`
 (28, 19, 'pregunta si no', '1', NULL, NULL, NULL, 0, 2),
 (29, 19, 'pregunta lista', '2', NULL, NULL, NULL, 0, 3),
 (30, 19, 'pregunta numero', '3', 1, 10, 8, 0, 4),
-(31, 19, 'pregunta de resumen', '3', 1, 10, 7, 1, 5);
+(31, 19, 'pregunta de resumen', '3', 1, 10, 7, 1, 5),
+(32, 20, 'pregunta 1', '0', NULL, NULL, NULL, 0, 1),
+(33, 20, 'pregunta 2', '1', NULL, NULL, NULL, 0, 2),
+(34, 20, 'pregunta 3', '2', NULL, NULL, NULL, 0, 3),
+(35, 20, 'pregunta 4', '3', 1, 10, 8, 0, 4),
+(36, 20, 'pregunta de resumen', '3', 1, 10, 8, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -348,7 +384,10 @@ CREATE TABLE `encuestas_preguntas_listas` (
 INSERT INTO `encuestas_preguntas_listas` (`idEncuestaPreguntaLista`, `idEncuestaPregunta`, `valor`) VALUES
 (47, 29, 'opcion lista 1'),
 (48, 29, 'opcion lista 2'),
-(49, 29, 'opcion lista 3');
+(49, 29, 'opcion lista 3'),
+(50, 34, 'opcion 1'),
+(51, 34, 'opcion 2'),
+(52, 34, 'opcion 3');
 
 -- --------------------------------------------------------
 
@@ -368,7 +407,8 @@ CREATE TABLE `encuestas_responsable` (
 --
 
 INSERT INTO `encuestas_responsable` (`idEncuestaResponsable`, `idEncuesta`, `idUsuario`, `idSucursal`) VALUES
-(25, 19, 80, 9);
+(25, 19, 80, 9),
+(26, 20, 82, 9);
 
 -- --------------------------------------------------------
 
@@ -569,19 +609,19 @@ ALTER TABLE `empresas`
 -- AUTO_INCREMENT for table `encuestas`
 --
 ALTER TABLE `encuestas`
-  MODIFY `idEncuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `idEncuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `encuestas_clientes`
 --
 ALTER TABLE `encuestas_clientes`
-  MODIFY `idEncuestaCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `idEncuestaCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `encuestas_clientes_respuestas`
 --
 ALTER TABLE `encuestas_clientes_respuestas`
-  MODIFY `idEncuestaClienteRespuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `idEncuestaClienteRespuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `encuestas_estados`
@@ -593,19 +633,19 @@ ALTER TABLE `encuestas_estados`
 -- AUTO_INCREMENT for table `encuestas_preguntas`
 --
 ALTER TABLE `encuestas_preguntas`
-  MODIFY `idEncuestaPregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `idEncuestaPregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `encuestas_preguntas_listas`
 --
 ALTER TABLE `encuestas_preguntas_listas`
-  MODIFY `idEncuestaPreguntaLista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `idEncuestaPreguntaLista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `encuestas_responsable`
 --
 ALTER TABLE `encuestas_responsable`
-  MODIFY `idEncuestaResponsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `idEncuestaResponsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `encuestas_tipos`

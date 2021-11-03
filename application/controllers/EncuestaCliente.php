@@ -118,13 +118,11 @@ class EncuestaCliente extends CI_Controller {
 
     $encuesta = $this->encuesta->getById($idEncuesta);
 
-    // if(!$encuesta){
-		// 	echo 'Encuesta mo encontrada';
-    //   die;
-		// }
+    
 
     if($idEncuesta) {
-      $this->where[] =  ['encuestas_clientes.idEncuesta', $idEncuesta];    
+      $this->where[] =  ['encuestas_clientes.idEncuesta', $idEncuesta];   
+      $this->column_order = array_slice($this->column_order, 1); 
     }
 
     if(!isAdmin()) {
@@ -136,7 +134,7 @@ class EncuestaCliente extends CI_Controller {
     foreach($list as $li){
 			$row = [];
       if(!$idEncuesta) {
-        $row[] = $li->titulo;
+        $row[] = $li->titulo;          
       }
 			$row[] = $li->razonSocial;
 			$row[] = $li->cuit;
