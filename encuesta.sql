@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 27, 2021 at 08:24 PM
+-- Generation Time: Nov 03, 2021 at 10:03 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -51,7 +51,7 @@ INSERT INTO `adm_usuarios` (`idUsuario`, `idEmpresa`, `idSucursal`, `razonSocial
 (80, 3, 9, 'admin demo', 'admin@demo.com', '236', 2, 1, 1, 1, 1, 1, 0),
 (81, 3, 9, 'vendedor 1', 'vendedor1@demoag.com', '54236', 1, 0, 1, 1, 0, 0, 0),
 (82, 3, 9, 'vendedor 2', 'vendedor 2@demoag.com', '12536', 1, 0, 1, 1, 0, 0, 0),
-(83, 3, 9, 'vendedor 3', 'vendedor 3@demoag.com', '55482', 1, 1, 0, 1, 0, 0, 0),
+(83, 3, 10, 'vendedor 3', 'vendedor 3@demoag.com', '55482', 1, 1, 0, 1, 0, 0, 0),
 (84, 3, 10, 'vendedor 4', 'vendedor 4@demoag.com', '95021', 1, 1, 1, 1, 0, 0, 0);
 
 -- --------------------------------------------------------
@@ -185,6 +185,7 @@ CREATE TABLE `encuestas` (
   `idEncuesta` int(11) NOT NULL,
   `nombre` varchar(200) NOT NULL,
   `titulo` varchar(200) NOT NULL,
+  `mensaje` varchar(255) DEFAULT NULL,
   `idTipoEncuesta` int(11) NOT NULL DEFAULT 1,
   `idEstadoEncuesta` int(11) NOT NULL DEFAULT 1,
   `idUnidad` int(11) NOT NULL DEFAULT 1
@@ -194,8 +195,8 @@ CREATE TABLE `encuestas` (
 -- Dumping data for table `encuestas`
 --
 
-INSERT INTO `encuestas` (`idEncuesta`, `nombre`, `titulo`, `idTipoEncuesta`, `idEstadoEncuesta`, `idUnidad`) VALUES
-(16, 'Satisfacción cliente', 'Satisfacción cliente', 1, 1, 1);
+INSERT INTO `encuestas` (`idEncuesta`, `nombre`, `titulo`, `mensaje`, `idTipoEncuesta`, `idEstadoEncuesta`, `idUnidad`) VALUES
+(19, 'Encuesta de prueba', 'Encuesta de prueba', 'Mensaje de encuesta de prueba', 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -209,9 +210,11 @@ CREATE TABLE `encuestas_clientes` (
   `idCliente` int(11) NOT NULL,
   `idUsuario` int(11) DEFAULT NULL,
   `idRelacion` int(11) DEFAULT NULL,
-  `fechaEnvio` datetime NOT NULL DEFAULT current_timestamp(),
-  `fechaEnviada` datetime NOT NULL DEFAULT current_timestamp(),
-  `fechaRespuesta` datetime NOT NULL DEFAULT current_timestamp(),
+  `mensaje` varchar(255) DEFAULT NULL,
+  `satisfecho` tinyint(4) DEFAULT NULL,
+  `fechaEnvio` datetime DEFAULT NULL,
+  `fechaEnviada` datetime DEFAULT NULL,
+  `fechaRespuesta` datetime DEFAULT NULL,
   `idEstado` int(11) DEFAULT NULL,
   `calificacionGeneral` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -220,10 +223,13 @@ CREATE TABLE `encuestas_clientes` (
 -- Dumping data for table `encuestas_clientes`
 --
 
-INSERT INTO `encuestas_clientes` (`idEncuestaCliente`, `idEncuesta`, `idCliente`, `idUsuario`, `idRelacion`, `fechaEnvio`, `fechaEnviada`, `fechaRespuesta`, `idEstado`, `calificacionGeneral`) VALUES
-(1, 16, 5001, NULL, NULL, '2021-10-27 14:18:47', '2021-10-27 14:18:47', '2021-10-27 14:18:47', NULL, NULL),
-(2, 16, 9499, NULL, NULL, '2021-10-27 14:20:17', '2021-10-27 14:20:17', '2021-10-27 14:20:17', NULL, NULL),
-(3, 16, 9496, NULL, NULL, '2021-10-27 14:23:18', '2021-10-27 14:23:18', '2021-10-27 14:23:18', NULL, NULL);
+INSERT INTO `encuestas_clientes` (`idEncuestaCliente`, `idEncuesta`, `idCliente`, `idUsuario`, `idRelacion`, `mensaje`, `satisfecho`, `fechaEnvio`, `fechaEnviada`, `fechaRespuesta`, `idEstado`, `calificacionGeneral`) VALUES
+(21, 19, 5001, NULL, NULL, NULL, 1, NULL, NULL, '2021-11-03 22:00:00', 3, NULL),
+(22, 19, 5002, NULL, NULL, NULL, 1, NULL, NULL, '2021-11-03 22:00:00', 3, NULL),
+(23, 19, 5003, NULL, NULL, NULL, 1, NULL, NULL, '2021-11-03 22:01:00', 3, NULL),
+(24, 19, 5005, NULL, NULL, NULL, 0, NULL, NULL, '2021-11-03 22:01:00', 3, NULL),
+(25, 19, 5004, NULL, NULL, NULL, 1, NULL, NULL, '2021-11-03 22:01:00', 3, NULL),
+(26, 19, 5008, NULL, NULL, NULL, 0, NULL, NULL, '2021-11-03 22:01:00', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -243,21 +249,36 @@ CREATE TABLE `encuestas_clientes_respuestas` (
 --
 
 INSERT INTO `encuestas_clientes_respuestas` (`idEncuestaClienteRespuesta`, `idEncuestaCliente`, `idEncuestaPregunta`, `valor`) VALUES
-(1, 1, 15, 's simply dummy text of the printing and typesetting industry. Lorem Ipsum has been '),
-(2, 1, 16, 'si'),
-(3, 1, 17, '8'),
-(4, 1, 18, 'Excelente'),
-(5, 1, 19, 'es and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sit'),
-(6, 2, 15, 'unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions'),
-(7, 2, 16, 'no'),
-(8, 2, 17, '4'),
-(9, 2, 18, 'bien'),
-(10, 2, 19, 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable.'),
-(11, 3, 15, 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.'),
-(12, 3, 16, 'si'),
-(13, 3, 17, '10'),
-(14, 3, 18, 'Excelente'),
-(15, 3, 19, 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\"');
+(68, 21, 27, 'Dummy text is text that is used in the publishing industry or by web designers to occupy the space'),
+(69, 21, 28, 'si'),
+(70, 21, 29, 'opcion lista 2'),
+(71, 21, 30, '6'),
+(72, 21, 31, '7'),
+(73, 22, 27, 'Dummy text is text that is used in the publishing industry or by web designers to occupy the space'),
+(74, 22, 28, 'si'),
+(75, 22, 29, 'opcion lista 2'),
+(76, 22, 30, '5'),
+(77, 22, 31, '9'),
+(78, 23, 27, 'Dummy text is text that is used in the publishing industry or by web designers to occupy the space'),
+(79, 23, 28, 'si'),
+(80, 23, 29, 'opcion lista 1'),
+(81, 23, 30, '9'),
+(82, 23, 31, '10'),
+(83, 24, 27, 'Dummy text is text that is used in the publishing industry or by web designers to occupy the space'),
+(84, 24, 28, 'no'),
+(85, 24, 29, 'opcion lista 3'),
+(86, 24, 30, '6'),
+(87, 24, 31, '5'),
+(88, 25, 27, 'Dummy text is text that is used in the publishing industry or by web designers to occupy the space'),
+(89, 25, 28, 'si'),
+(90, 25, 29, 'opcion lista 3'),
+(91, 25, 30, '7'),
+(92, 25, 31, '7'),
+(93, 26, 27, 'Dummy text is text that is used in the publishing industry or by web designers to occupy the space'),
+(94, 26, 28, 'no'),
+(95, 26, 29, 'opcion lista 2'),
+(96, 26, 30, '4'),
+(97, 26, 31, '3');
 
 -- --------------------------------------------------------
 
@@ -292,6 +313,8 @@ CREATE TABLE `encuestas_preguntas` (
   `tipo` enum('0','1','2','3') NOT NULL,
   `minimo` int(11) DEFAULT NULL,
   `maximo` int(11) DEFAULT NULL,
+  `aprobacion` tinyint(4) DEFAULT NULL,
+  `es_pregunta_resumen` tinyint(4) DEFAULT 0,
   `orden` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -299,12 +322,12 @@ CREATE TABLE `encuestas_preguntas` (
 -- Dumping data for table `encuestas_preguntas`
 --
 
-INSERT INTO `encuestas_preguntas` (`idEncuestaPregunta`, `idEncuesta`, `detalle`, `tipo`, `minimo`, `maximo`, `orden`) VALUES
-(15, 16, 'Describe los usos que le darás al producto', '0', NULL, NULL, 1),
-(16, 16, 'Piensa volver a comprar con nosotros', '1', NULL, NULL, 2),
-(17, 16, 'Del 1 al 10 como calificas la calidad del producto', '3', 1, 10, 3),
-(18, 16, 'Como calificarias la atención al cliente', '2', NULL, NULL, 4),
-(19, 16, 'Algunas sugerencias', '0', NULL, NULL, 5);
+INSERT INTO `encuestas_preguntas` (`idEncuestaPregunta`, `idEncuesta`, `detalle`, `tipo`, `minimo`, `maximo`, `aprobacion`, `es_pregunta_resumen`, `orden`) VALUES
+(27, 19, 'pregunta texto', '0', NULL, NULL, NULL, 0, 1),
+(28, 19, 'pregunta si no', '1', NULL, NULL, NULL, 0, 2),
+(29, 19, 'pregunta lista', '2', NULL, NULL, NULL, 0, 3),
+(30, 19, 'pregunta numero', '3', 1, 10, 8, 0, 4),
+(31, 19, 'pregunta de resumen', '3', 1, 10, 7, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -323,9 +346,9 @@ CREATE TABLE `encuestas_preguntas_listas` (
 --
 
 INSERT INTO `encuestas_preguntas_listas` (`idEncuestaPreguntaLista`, `idEncuestaPregunta`, `valor`) VALUES
-(40, 18, 'Excelente'),
-(41, 18, 'bien'),
-(42, 18, 'deficiente');
+(47, 29, 'opcion lista 1'),
+(48, 29, 'opcion lista 2'),
+(49, 29, 'opcion lista 3');
 
 -- --------------------------------------------------------
 
@@ -345,8 +368,7 @@ CREATE TABLE `encuestas_responsable` (
 --
 
 INSERT INTO `encuestas_responsable` (`idEncuestaResponsable`, `idEncuesta`, `idUsuario`, `idSucursal`) VALUES
-(19, 16, 80, 9),
-(20, 16, 82, 9);
+(25, 19, 80, 9);
 
 -- --------------------------------------------------------
 
@@ -367,6 +389,59 @@ INSERT INTO `encuestas_tipos` (`idTipoEncuesta`, `nombreTipoEncuesta`) VALUES
 (1, 'tipo 1'),
 (2, 'tipo 2'),
 (3, 'tipo 3');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `encuesta_cliente_estado`
+--
+
+CREATE TABLE `encuesta_cliente_estado` (
+  `idEncuestaClienteEstado` int(11) NOT NULL,
+  `nombre` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `encuesta_cliente_estado`
+--
+
+INSERT INTO `encuesta_cliente_estado` (`idEncuestaClienteEstado`, `nombre`) VALUES
+(1, 'pendiente'),
+(2, 'enviado'),
+(3, 'respondido');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sucursales`
+--
+
+CREATE TABLE `sucursales` (
+  `idSucursal` int(11) NOT NULL,
+  `idEmpresa` int(11) NOT NULL,
+  `nombreSucursal` varchar(45) NOT NULL,
+  `idLocalidad` int(11) NOT NULL,
+  `telefono` varchar(45) NOT NULL,
+  `direccion` varchar(45) NOT NULL,
+  `idTipoSucursal` int(11) NOT NULL DEFAULT 0,
+  `latitud` varchar(80) DEFAULT NULL,
+  `longitud` varchar(80) DEFAULT NULL,
+  `color01` varchar(30) DEFAULT NULL,
+  `color02` varchar(30) DEFAULT NULL,
+  `color03` varchar(30) DEFAULT NULL,
+  `claveRelevamiento` varchar(25) NOT NULL,
+  `vencimientoClave` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sucursales`
+--
+
+INSERT INTO `sucursales` (`idSucursal`, `idEmpresa`, `nombreSucursal`, `idLocalidad`, `telefono`, `direccion`, `idTipoSucursal`, `latitud`, `longitud`, `color01`, `color02`, `color03`, `claveRelevamiento`, `vencimientoClave`) VALUES
+(9, 3, 'Sucursal Demo 1', 56, '1', 'direc5', 0, '-32.8835931', '-62.6871667', '#03135D', '#052EEE', '#7E93F7', '', '0000-00-00'),
+(10, 3, 'Sucursal Demo 2', 57, '2', 'direc6', 0, '-32.6935681', '-62.1200961', '#E20A1B', '#DF7F87', '#E3C6C8', '', '0000-00-00'),
+(11, 3, 'Sucursal Demo 3', 58, '3', 'direc7', 0, '-32.6284584', '-62.7389599', '#2C5408', '#5A9920', '#94DE50', '', '0000-00-00'),
+(12, 3, 'Sucursal Demo 4', 59, '4', 'direc8', 0, '-31.8691751', '-62.7533019', '#6B1868', '#B927B4', '#DC6ED8', '', '0000-00-00');
 
 --
 -- Indexes for dumped tables
@@ -406,13 +481,16 @@ ALTER TABLE `encuestas`
 -- Indexes for table `encuestas_clientes`
 --
 ALTER TABLE `encuestas_clientes`
-  ADD PRIMARY KEY (`idEncuestaCliente`);
+  ADD PRIMARY KEY (`idEncuestaCliente`),
+  ADD KEY `fk_id_enuesta_id` (`idEncuesta`);
 
 --
 -- Indexes for table `encuestas_clientes_respuestas`
 --
 ALTER TABLE `encuestas_clientes_respuestas`
-  ADD PRIMARY KEY (`idEncuestaClienteRespuesta`);
+  ADD PRIMARY KEY (`idEncuestaClienteRespuesta`),
+  ADD KEY `fk_encuesta_cliente_id` (`idEncuestaCliente`),
+  ADD KEY `fk_encuesta_cliente_pregunta_id` (`idEncuestaPregunta`);
 
 --
 -- Indexes for table `encuestas_estados`
@@ -448,6 +526,18 @@ ALTER TABLE `encuestas_tipos`
   ADD PRIMARY KEY (`idTipoEncuesta`);
 
 --
+-- Indexes for table `encuesta_cliente_estado`
+--
+ALTER TABLE `encuesta_cliente_estado`
+  ADD PRIMARY KEY (`idEncuestaClienteEstado`);
+
+--
+-- Indexes for table `sucursales`
+--
+ALTER TABLE `sucursales`
+  ADD PRIMARY KEY (`idSucursal`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -479,19 +569,19 @@ ALTER TABLE `empresas`
 -- AUTO_INCREMENT for table `encuestas`
 --
 ALTER TABLE `encuestas`
-  MODIFY `idEncuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idEncuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `encuestas_clientes`
 --
 ALTER TABLE `encuestas_clientes`
-  MODIFY `idEncuestaCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idEncuestaCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `encuestas_clientes_respuestas`
 --
 ALTER TABLE `encuestas_clientes_respuestas`
-  MODIFY `idEncuestaClienteRespuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idEncuestaClienteRespuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `encuestas_estados`
@@ -503,19 +593,19 @@ ALTER TABLE `encuestas_estados`
 -- AUTO_INCREMENT for table `encuestas_preguntas`
 --
 ALTER TABLE `encuestas_preguntas`
-  MODIFY `idEncuestaPregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `idEncuestaPregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `encuestas_preguntas_listas`
 --
 ALTER TABLE `encuestas_preguntas_listas`
-  MODIFY `idEncuestaPreguntaLista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `idEncuestaPreguntaLista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `encuestas_responsable`
 --
 ALTER TABLE `encuestas_responsable`
-  MODIFY `idEncuestaResponsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idEncuestaResponsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `encuestas_tipos`
@@ -524,8 +614,33 @@ ALTER TABLE `encuestas_tipos`
   MODIFY `idTipoEncuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `encuesta_cliente_estado`
+--
+ALTER TABLE `encuesta_cliente_estado`
+  MODIFY `idEncuestaClienteEstado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `sucursales`
+--
+ALTER TABLE `sucursales`
+  MODIFY `idSucursal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `encuestas_clientes`
+--
+ALTER TABLE `encuestas_clientes`
+  ADD CONSTRAINT `fk_id_enuesta_id` FOREIGN KEY (`idEncuesta`) REFERENCES `encuestas` (`idEncuesta`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `encuestas_clientes_respuestas`
+--
+ALTER TABLE `encuestas_clientes_respuestas`
+  ADD CONSTRAINT `fk_encuesta_cliente_id` FOREIGN KEY (`idEncuestaCliente`) REFERENCES `encuestas_clientes` (`idEncuestaCliente`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_encuesta_cliente_pregunta_id` FOREIGN KEY (`idEncuestaPregunta`) REFERENCES `encuestas_preguntas` (`idEncuestaPregunta`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `encuestas_preguntas`

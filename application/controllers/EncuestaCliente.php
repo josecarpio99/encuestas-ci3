@@ -26,7 +26,7 @@ class EncuestaCliente extends CI_Controller {
 	var $id = 'idEncuestaCliente';
 	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit','encuesta_cliente_estado.nombre as estado'];
   var $where = [];
-	var $column_order = ['clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaRespuesta', 'estado'];
+	var $column_order = ['encuestas.titulo', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaRespuesta', 'estado','encuestas_clientes.satisfecho'];
 	var $column_search = ['encuestas_clientes.fechaRespuesta','encuestas.titulo', 'clientes.razonSocial', 'clientes.cuit'];
 
   function __construct()
@@ -140,8 +140,15 @@ class EncuestaCliente extends CI_Controller {
       }
 			$row[] = $li->razonSocial;
 			$row[] = $li->cuit;
-			$row[] =  $li->fechaRespuesta ? date('m/d/Y H:i', strtotime($li->fechaRespuesta)) : 'No ha respondido';	
+			$row[] = $li->fechaRespuesta ? date('d-m-Y H:i', strtotime($li->fechaRespuesta)) : 'No ha respondido';	
 			$row[] = $li->estado;
+      if(is_null($li->satisfecho)) {
+        $row[] = 'Pendiente';
+      }else {
+        $row[] = $li->satisfecho == 1 
+        ? '<span class="text-success"><i class="fa fa-check"></i></span>'
+        : '<span class="text-danger">X</span>';
+      }
       $row[] = 
           '<a class="btn btn-sm btn-primary mr-1"
           href="'.base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idEncuestaCliente").'">

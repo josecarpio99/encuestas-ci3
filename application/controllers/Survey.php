@@ -47,6 +47,7 @@ class Survey extends CI_Controller {
 
   public function guardar($idEncuesta, $idCliente)
   {
+    // dd(isset($this->input->post('respuestas')[4]['aprobacion']));
     $cliente = $this->db->get_where('clientes', ['idCliente' => $idCliente])->row();
     if(!$cliente) show_404();
 
@@ -75,7 +76,6 @@ class Survey extends CI_Controller {
 
     $encuestaClienteId = $encuestaCliente ? $encuestaCliente->idEncuestaCliente : $this->db->insert_id();
 
-    //guardar encesuta_cliente_respuestas
     $respuestas = $this->input->post('respuestas', true);
 
     foreach ($respuestas as $key => $respuesta) {
@@ -84,7 +84,14 @@ class Survey extends CI_Controller {
         'idEncuestaPregunta' => $respuesta['idPregunta'],
         'valor'              => $respuesta['valor'],
       ];
-      $this->db->insert('encuestas_clientes_respuestas', $data);
+      $this->db->insert('encuestas_clientes_respuestas', $data);     
+      
+      if(isset($respuesta['aprobacion'])) {
+        $this->db->update('encuestas_clientes', 
+          ['satisfecho' => $respuesta['valor'] >= $respuesta['aprobacion'] ? 1 : 0],
+          ['idEncuestaCliente' => $encuestaClienteId]
+        );
+      }
     }
 
     $this->session->set_flashdata('success', 'Datos enviados. Gracias por responder.');

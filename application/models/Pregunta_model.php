@@ -58,6 +58,15 @@ class Pregunta_model extends CI_Model {
     return $this->tipos;
   }
 
+  public function getPreguntaResumenOfEncuesta($idEncuesta)
+  {
+    return $this->db->get_where($this->table, 
+    [
+      'idEncuesta' => $idEncuesta,
+      'es_pregunta_resumen' => 1
+    ])->row();
+  }
+
   public function save($data)
   {
     $this->db->insert($this->table, $data);

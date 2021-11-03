@@ -35,6 +35,7 @@
                       <th>Cuit</th>
                       <th>Fecha respuesta</th>
                       <th>Estado</th>
+                      <th>Satisfecho</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>

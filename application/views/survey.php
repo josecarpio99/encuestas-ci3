@@ -5,7 +5,10 @@
       <form action="<?= $form_action ?>" method="post">
       <?php $i = 0 ?>
       <?php foreach ($preguntas as $pregunta) : ?>
-        <input type="hidden" name="respuestas[<?= $i ?>][idPregunta]" value="<?= $pregunta->idEncuestaPregunta ?>">           
+        <input type="hidden" name="respuestas[<?= $i ?>][idPregunta]" value="<?= $pregunta->idEncuestaPregunta ?>"> 
+        <?php if($pregunta->es_pregunta_resumen == 1) : ?>
+          <input type="hidden" name="respuestas[<?= $i ?>][aprobacion]" value="<?= $pregunta->aprobacion ?>"> 
+        <?php endif ?>          
         <div class="card mt-5">
           <h5 class="card-header"><?= $pregunta->detalle ?></h5>
           <div class="card-body">
