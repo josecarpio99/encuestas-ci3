@@ -102,7 +102,32 @@
                     </div>
 
                   </div>
-                </div>                 
+                </div>   
+                
+                <div class="form-group row">
+
+                  <div class="col-6">
+                    <label class="col-6 col-form-label"><span class="text-danger">*</span>Aprobación</label>
+                    <div class="col-10">                       
+                        <input type="number" name="aprobacion" class="form-control" id="aprobacion" value="<?= $input->aprobacion ?>">                    
+                    </div>
+                  </div>
+                 
+                </div>    
+
+                <div class="form-group row">
+
+                  <div class="col-6">
+                    <label class="col-form-label">Es pregunta de resumén</label>
+                                          
+                    <input type="checkbox" name="es_pregunta_resumen" class="" id="es_pregunta_resumen"
+                    style="width: 16px; height: 16px; vertical-align: middle;"
+                    <?= $input->es_pregunta_resumen == 1 ? 'checked' : '' ?>
+                    >                    
+                    
+                  </div>
+                 
+                </div> 
               </div>
 
             </div>

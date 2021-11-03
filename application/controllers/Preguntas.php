@@ -54,6 +54,11 @@ class Preguntas extends CI_Controller {
       if($data['tipo'] == 3) {
         $data['minimo'] = $this->input->post('minimo', true);
         $data['maximo'] = $this->input->post('maximo', true);
+        $data['aprobacion'] = $this->input->post('aprobacion', true);
+        if($this->input->post('es_pregunta_resumen', true)) {
+          $this->pregunta->setPreguntasResumenToFalse($idEncuesta);
+          $data['es_pregunta_resumen'] = 1;
+        }
       }
 			
 			$idPregunta = $this->pregunta->save($data);
@@ -115,6 +120,11 @@ class Preguntas extends CI_Controller {
       if($data['tipo'] == 3) {
         $data['minimo'] = $this->input->post('minimo', true);
         $data['maximo'] = $this->input->post('maximo', true);
+        $data['aprobacion'] = $this->input->post('aprobacion', true);
+        if($this->input->post('es_pregunta_resumen', true)) {
+          $this->pregunta->setPreguntasResumenToFalse($idEncuesta);
+          $data['es_pregunta_resumen'] = 1;
+        }
       }
 			
 			$this->pregunta->update(['idEncuestaPregunta' => $idPregunta], $data);

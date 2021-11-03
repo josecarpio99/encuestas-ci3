@@ -69,6 +69,11 @@ class Pregunta_model extends CI_Model {
     return $this->db->affected_rows();
   } 
 
+  public function setPreguntasResumenToFalse($idEncuesta)
+  {
+    $this->db->update($this->table, ['es_pregunta_resumen' => 0], ['idEncuesta' => $idEncuesta]);
+  }
+
   public function delete($id)
   {
     $this->db->delete($this->table, [$this->id => $id]);  
