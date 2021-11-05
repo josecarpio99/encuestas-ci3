@@ -26,7 +26,7 @@ class My_Model extends CI_Model {
 
       $i = 0;
 
-      foreach($this->column_search as $item){
+      foreach($this->column_search as $key => $item){
          if($_POST['search']['value']){
             if($i === 0){
                $this->db->group_start();
