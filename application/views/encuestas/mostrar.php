@@ -63,7 +63,14 @@
                   </thead>
 
                   <tbody></tbody>
-                  
+                  <tfoot>
+                    <tr>
+                      <th>Razón social</th>                                            
+                      <th>Cuit</th>                                            
+                      <th></th>                                            
+                      <th></th>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
             </div>

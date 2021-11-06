@@ -62,6 +62,13 @@
       lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "All"]]
     }); 
 
+    var cont = 0;
+    $('#dataTable2 tfoot th').each( function () {
+      if(cont == 3 || cont == 2) return;
+       $(this).html( '<input id="buscar'+cont+'" type="text" placeholder="Buscar' + '" value=""/>' );      
+      cont++;
+    });
+
     $('#dataTable2').DataTable({
       processing: true,
       serverSide: true,
@@ -76,7 +83,20 @@
             'orderable': false, 
           },          
       ],
-      lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+      lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+      initComplete: function () {
+        this.api().columns().every( function () {
+          var that = this;
+
+          $( 'input', this.footer() ).on( 'keyup change clear', function () {
+              if ( that.search() !== this.value ) {
+                  that
+                      .search( this.value )
+                      .draw();
+              }
+          });
+        });
+      }
     });      
     
 

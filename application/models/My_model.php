@@ -43,6 +43,25 @@ class My_Model extends CI_Model {
          $i++;
       }
 
+      $existsColumnSearch = false;
+      // Sarch for specific column
+      foreach($this->column_search as $key => $item){
+         if($_POST['columns'][$key]['search']['value']){
+            $existsColumnSearch = true;
+            if($key === 0){
+               $this->db->group_start();
+            }
+            $this->db->like($item, 
+            $_POST['columns'][$key]['search']['value']);
+              
+                       
+         }        
+      }
+
+      if($existsColumnSearch) $this->db->group_end();
+
+
+
       if(isset($_POST['order'])){
          $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
       }else if(isset($this->order)){

@@ -42,7 +42,6 @@ class Survey extends CI_Controller {
 
     $this->load->view('_header',$data);
     $this->load->view('survey',$data);
-    $this->load->view('_footerSurvey',$data);
   }
 
   public function guardar($idEncuesta, $idCliente)
