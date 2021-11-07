@@ -45,24 +45,26 @@
    // Show Table
    $(document).ready(function(){
 
+    let estadoEncuesta = 0;
+
+    $('[name="encuestaEstado"]').click(function() {
+      estadoEncuesta = this.value;
+    });
+
+
     $('#dataTable').DataTable({
       processing: true,
       serverSide: true,
       order: [ 0, 'desc' ],
       ajax: {
-          url: '<?php echo base_url(); ?>index.php/Encuestas/getEncuestas/0/',
+          url: '<?php echo base_url(); ?>index.php/Encuestas/getEncuestas/0/'+ estadoEncuesta,
           'type': "POST"
       },
       columnDefs: [
           { 
             'targets': [ -1, 2, 3, 4 ], 
             'orderable': false, 
-          },
-          // { 'width': '5px', 'targets': 0 },
-          // { 'width': '5px', 'targets': 2 },
-          // { 'width': '5px', 'targets': 3 },
-          // { 'width': '5px', 'targets': 4 },
-          // { 'width': '5px', 'targets': 6 },
+          },        
       ],
       lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "All"]]
     });  

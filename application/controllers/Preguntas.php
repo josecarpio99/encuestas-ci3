@@ -55,6 +55,8 @@ class Preguntas extends CI_Controller {
         $data['minimo'] = $this->input->post('minimo', true);
         $data['maximo'] = $this->input->post('maximo', true);
         $data['aprobacion'] = $this->input->post('aprobacion', true);
+        $data['satisfaccion'] = $this->input->post('satisfaccion', true);
+
         if($this->input->post('es_pregunta_resumen', true)) {
           $this->pregunta->setPreguntasResumenToFalse($idEncuesta);
           $data['es_pregunta_resumen'] = 1;
@@ -121,6 +123,7 @@ class Preguntas extends CI_Controller {
         $data['minimo'] = $this->input->post('minimo', true);
         $data['maximo'] = $this->input->post('maximo', true);
         $data['aprobacion'] = $this->input->post('aprobacion', true);
+        $data['satisfaccion'] = $this->input->post('satisfaccion', true);
         if($this->input->post('es_pregunta_resumen', true)) {
           $this->pregunta->setPreguntasResumenToFalse($idEncuesta);
           $data['es_pregunta_resumen'] = 1;

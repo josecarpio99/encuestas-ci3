@@ -41,6 +41,15 @@
                   </thead>
 
                   <tbody></tbody>
+                  <tfoot>
+                      <th>Encuesta</th>
+                      <th>Razon social</th>
+                      <th>Cuit</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                  </tfoot>
                   
                 </table>
               </div>

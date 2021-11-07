@@ -28,6 +28,14 @@
 			    </div>
             <div class="card-body">
               <div class="table-responsive">
+                <div class="text-center">
+                  <label for="encuestaEstadoAbierta">Abiertas</label>
+                  <input type="radio" name="encuestaEstado" id="encuestaEstadoAbierta" value="0" checked="checked" />
+                  <label for="encuestaEstadoCerrada">Cerradas</label>
+                  <input type="radio" name="encuestaEstado" id="encuestaEstadoCerrada" value="1" />
+                  <label for="encuestaEstadoTodas">Todas</label>
+                  <input type="radio" name="encuestaEstado" id="encuestaEstadoTodas" value="2"  />
+                </div>
                 <table class="table table-bordered display compact" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>

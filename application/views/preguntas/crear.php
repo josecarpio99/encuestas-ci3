@@ -100,6 +100,13 @@
                         <input type="number" name="aprobacion" class="form-control" id="aprobacion">                    
                     </div>
                   </div>
+
+                  <div class="col-6">
+                    <label class="col-6 col-form-label"><span class="text-danger">*</span>Satisfacción</label>
+                    <div class="col-10">                       
+                        <input type="number" name="satisfaccion" class="form-control" id="satisfaccion">                    
+                    </div>
+                  </div>
                  
                 </div>    
 

@@ -8,6 +8,7 @@
         <input type="hidden" name="respuestas[<?= $i ?>][idPregunta]" value="<?= $pregunta->idEncuestaPregunta ?>"> 
         <?php if($pregunta->es_pregunta_resumen == 1) : ?>
           <input type="hidden" name="respuestas[<?= $i ?>][aprobacion]" value="<?= $pregunta->aprobacion ?>"> 
+          <input type="hidden" name="respuestas[<?= $i ?>][satisfaccion]" value="<?= $pregunta->satisfaccion ?>"> 
         <?php endif ?>          
         <div class="card mt-5">
           <h5 class="card-header"><?= $pregunta->detalle ?></h5>

@@ -86,8 +86,10 @@ class Survey extends CI_Controller {
       $this->db->insert('encuestas_clientes_respuestas', $data);     
       
       if(isset($respuesta['aprobacion'])) {
+        $response = $respuesta['valor'] < $respuesta['aprobacion'] ? 'insatisfecho' : 'indiferente';
+        $response = $respuesta['valor'] >= $respuesta['satisfaccion'] ? 'satisfecho' : $response;
         $this->db->update('encuestas_clientes', 
-          ['satisfecho' => $respuesta['valor'] >= $respuesta['aprobacion'] ? 1 : 0],
+          ['respuesta' => $response],
           ['idEncuestaCliente' => $encuestaClienteId]
         );
       }

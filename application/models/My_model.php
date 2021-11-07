@@ -43,22 +43,21 @@ class My_Model extends CI_Model {
          $i++;
       }
 
-      $existsColumnSearch = false;
+      $i = 0;
       // Sarch for specific column
       foreach($this->column_search as $key => $item){
          if($_POST['columns'][$key]['search']['value']){
-            $existsColumnSearch = true;
-            if($key === 0){
+            if($i === 0){
                $this->db->group_start();
             }
             $this->db->like($item, 
             $_POST['columns'][$key]['search']['value']);
               
-                       
-         }        
+            $i++;           
+         }           
       }
 
-      if($existsColumnSearch) $this->db->group_end();
+      if($i > 0) $this->db->group_end();
 
 
 

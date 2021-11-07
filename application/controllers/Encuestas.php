@@ -7,21 +7,17 @@ class Encuestas extends CI_Controller {
     'encuestas_tipos' => [
       'id' => 'idTipoEncuesta',
       'selfId' => 'idTipoEncuesta',
-    ],
-    'encuestas_estados' => [
-      'id' => 'idEstadoEncuesta',
-      'selfId' => 'idEstadoEncuesta',
-    ],
+    ],    
     'encuestas_responsable' => [
       'id' => 'idEncuesta',
       'selfId' => 'idEncuesta',
     ],
   ];
 	var $id = 'idEncuesta';
-	var $select = ['encuestas.*', 'encuestas_tipos.nombreTipoEncuesta as tipo', 'encuestas_estados.valor as estado'];
+	var $select = ['encuestas.*', 'encuestas_tipos.nombreTipoEncuesta as tipo'];
   var $where = [];
-	var $column_order = ['encuestas.nombre', 'encuestas.titulo', 'encuestas.estado', 'adm_usuarios.razonSocial'];
-	var $column_search = ['encuestas.nombre', 'encuestas.titulo', 'encuestas.estado', 'adm_usuarios.razonSocial']; 
+	var $column_order = ['encuestas.nombre', 'encuestas.titulo', 'estado', 'adm_usuarios.razonSocial'];
+	var $column_search = ['encuestas.nombre', 'encuestas.titulo', 'estado', 'adm_usuarios.razonSocial']; 
   function __construct()
   {
     parent::__construct();

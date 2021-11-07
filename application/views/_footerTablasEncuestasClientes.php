@@ -45,6 +45,13 @@
    // Show Table
    $(document).ready(function(){
 
+    var cont = 0;
+    $('#dataTable tfoot th').each( function () {
+      if(cont == 6 || cont == 5 || cont == 4 || cont == 3) return;
+       $(this).html( '<input id="buscar'+cont+'" type="text" placeholder="Buscar' + '" value=""/>' );      
+      cont++;
+    });
+
     $('#dataTable').DataTable({
       processing: true,
       serverSide: true,
@@ -59,7 +66,20 @@
             'orderable': false, 
           },          
       ],
-      lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+      lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+      initComplete: function () {
+        this.api().columns().every( function () {
+          var that = this;
+
+          $( 'input', this.footer() ).on( 'keyup change clear', function () {
+              if ( that.search() !== this.value ) {
+                  that
+                      .search( this.value )
+                      .draw();
+              }
+          });
+        });
+      }
     });      
 });
    
