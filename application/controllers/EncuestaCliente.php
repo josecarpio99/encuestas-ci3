@@ -113,7 +113,7 @@ class EncuestaCliente extends CI_Controller {
 		}
   }
 
-  public function getClientesDeEncuesta($idEncuesta = null)
+  public function getClientesDeEncuesta($estadoEncuesta = 2, $idEncuesta = null)
   {
 
     $encuesta = $this->encuesta->getById($idEncuesta);    
@@ -121,6 +121,13 @@ class EncuestaCliente extends CI_Controller {
     if($idEncuesta) {
       $this->where[] =  ['encuestas_clientes.idEncuesta', $idEncuesta];   
       $this->column_order = array_slice($this->column_order, 1); 
+    }
+
+    if($estadoEncuesta != 2) {
+      $this->where[] = [
+        'encuestas.estado', 
+        $estadoEncuesta == 0 ? 'abierto' : 'cerrado'
+      ];
     }
 
     if(!isAdmin()) {

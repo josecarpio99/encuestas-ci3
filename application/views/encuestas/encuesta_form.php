@@ -60,18 +60,21 @@
             </div> 
 
             <div class="form-group row">
-              <label for="idEstadoEncuesta" class="col-sm-2 col-form-label"><span class="text-danger">*</span>Estado</label>
+              <label for="estado" class="col-sm-2 col-form-label"><span class="text-danger">*</span>Estado</label>
               <div class="col-sm-10">           
-                  <select name="idEstadoEncuesta" id="idEstadoEncuesta" class="form-control">
-                    <?php foreach ($encuestaEstados as $estado) : ?>
-                      <option value="<?= $estado->idEstadoEncuesta ?>"
-                      <?= ($estado->idEstadoEncuesta == $input->idEstadoEncuesta) ? 'selected' : '' ?>
-                      >
-                        <?= $estado->valor ?>
-                      </option>
-                    <?php endforeach ?>
+                  <select name="estado" id="estado" class="form-control">                   
+                    <option value="abierto"
+                    <?= ('abierto' == $input->estado) ? 'selected' : '' ?>
+                    >
+                      Abierta
+                    </option>                   
+                    <option value="cerrado"
+                    <?= ('cerrado' == $input->estado) ? 'selected' : '' ?>
+                    >
+                      Cerrada
+                    </option>                   
                   </select>                 
-                  <?= form_error('idEstadoEncuesta', '<small class="form-text text-danger">', '</small>') ?>
+                  <?= form_error('estado', '<small class="form-text text-danger">', '</small>') ?>
               </div>
             </div>     
             

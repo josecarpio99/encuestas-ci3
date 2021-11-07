@@ -45,6 +45,9 @@
    // Show Table
    $(document).ready(function(){
 
+    let estadoEncuesta = 0;
+    let ajaxUrl = '<?php echo base_url(); ?>index.php/encuestas/clientes/';
+
     var cont = 0;
     $('#dataTable tfoot th').each( function () {
       if(cont == 6 || cont == 5 || cont == 4 || cont == 3) return;
@@ -52,12 +55,12 @@
       cont++;
     });
 
-    $('#dataTable').DataTable({
+    var datatable = $('#dataTable').DataTable({
       processing: true,
       serverSide: true,
       order: [ 0, 'desc' ],
       ajax: {
-          url: '<?php echo base_url(); ?>index.php/encuestas/clientes',
+          url: ajaxUrl + estadoEncuesta,
           'type': "POST"
       },
       columnDefs: [
@@ -80,15 +83,10 @@
           });
         });
       }
-    });      
-});
-   
-
-
-      
-
-
-
+    });    
+    
+  });
+  
  </script>
   
   

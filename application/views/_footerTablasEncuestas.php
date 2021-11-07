@@ -46,18 +46,14 @@
    $(document).ready(function(){
 
     let estadoEncuesta = 0;
+    let ajaxUrl = '<?php echo base_url(); ?>index.php/Encuestas/getEncuestas/';
 
-    $('[name="encuestaEstado"]').click(function() {
-      estadoEncuesta = this.value;
-    });
-
-
-    $('#dataTable').DataTable({
+    var datatable = $('#dataTable').DataTable({
       processing: true,
       serverSide: true,
       order: [ 0, 'desc' ],
       ajax: {
-          url: '<?php echo base_url(); ?>index.php/Encuestas/getEncuestas/0/'+ estadoEncuesta,
+          url: ajaxUrl + estadoEncuesta,
           'type': "POST"
       },
       columnDefs: [
@@ -68,6 +64,12 @@
       ],
       lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "All"]]
     });  
+
+    $('[name="encuestaEstado"]').click(function() {
+      estadoEncuesta = this.value;
+      console.log(estadoEncuesta);
+      datatable.ajax.url( ajaxUrl + estadoEncuesta ).load();;
+    });
     
     $('#listaPreguntas').sortable({
       update: function (event, ui) {

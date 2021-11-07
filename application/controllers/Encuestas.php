@@ -174,10 +174,17 @@ class Encuestas extends CI_Controller {
 
   }
 
-  public function getEncuestas()
+  public function getEncuestas($estadoEncuesta = 0)
   {
     if(!isAdmin()) {
       $this->where[] = ['idUsuario', $this->session->userdata('logged_user_admin')->idUsuario];
+    }
+
+    if($estadoEncuesta != 2) {
+      $this->where[] = [
+        'estado', 
+        $estadoEncuesta == 0 ? 'abierto' : 'cerrado'
+      ];
     }
     $data = [];
     $list = $this->my->get_datatables($this->tableJoin, $this->select);
@@ -248,7 +255,7 @@ class Encuestas extends CI_Controller {
 				'titulo'         => $this->input->post('titulo', true),	
 				'mensaje' => $this->input->post('mensaje', true),	
 				'idTipoEncuesta' => $this->input->post('idTipoEncuesta', true),	
-				'idEstadoEncuesta' => $this->input->post('idEstadoEncuesta', true),	
+				'estado' => $this->input->post('estado', true),	
 			];	
 			
 			$this->encuesta->save($data);
@@ -296,7 +303,7 @@ class Encuestas extends CI_Controller {
 				'titulo' => $this->input->post('titulo', true),	
 				'mensaje' => $this->input->post('mensaje', true),	
 				'idTipoEncuesta' => $this->input->post('idTipoEncuesta', true),	
-				'idEstadoEncuesta' => $this->input->post('idEstadoEncuesta', true),	
+				'estado' => $this->input->post('estado', true),	
 			];	
 			
 			$this->encuesta->update(['idEncuesta' => $id], $data);

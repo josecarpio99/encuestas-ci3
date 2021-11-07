@@ -50,7 +50,7 @@
       serverSide: true,
       order: [ 2, 'desc' ],
       ajax: {
-          url: '<?php echo base_url(); ?>index.php/encuestas/<?= $encuesta->idEncuesta ?>/clientes',
+          url: '<?php echo base_url(); ?>index.php/encuestas/clientes/2/<?= $encuesta->idEncuesta ?>',
           'type': "POST"
       },
       columnDefs: [

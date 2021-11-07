@@ -13,7 +13,7 @@ class Encuesta_model  extends CI_Model  {
         'titulo'          => '',        
         'mensaje'         => '',        
         'idTipoEncuesta'  => 1,        
-        'idEstadoEncuesta'=> 1,        
+        'estado'          => 'abierto',        
     ];
   }
 
