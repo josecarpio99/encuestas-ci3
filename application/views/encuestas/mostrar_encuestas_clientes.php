@@ -31,12 +31,15 @@
                   <thead>
                     <tr>
                       <th>Encuesta</th>
-                      <th>Razon social</th>
-                      <th>Cuit</th>
-                      <th>Fecha respuesta</th>
-                      <th>Estado</th>
-                      <th>Satisfecho</th>
-                      <th>Acciones</th>
+                      <th>Vendedor</th>                                            
+                      <th>Sucursal</th>                                            
+                      <th>Razón social</th>                                            
+                      <th>Cuit</th>                                            
+                      <th>Fecha envio</th>                                            
+                      <th>Fecha respuesta</th>                                            
+                      <th>Respondio</th>
+                      <th>Respuesta</th>
+                      <th style="width: 150px;">Acciones</th>
                     </tr>
                   </thead>
 
@@ -45,6 +48,9 @@
                       <th>Encuesta</th>
                       <th>Razon social</th>
                       <th>Cuit</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
                       <th></th>
                       <th></th>
                       <th></th>

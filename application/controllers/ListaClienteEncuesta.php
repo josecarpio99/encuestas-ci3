@@ -4,21 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class ListaClienteEncuesta extends CI_Controller {
   var $table = 'clientes';
 	var $tableJoin = [
-    // 'encuestas_clientes' => [
-    //   'id' => 'idCliente',
-    //   'selfId' => 'idCliente',
-    //   'tableJoin' => [
-    //     'encuestas' => [
-    //       'id' => 'idEncuesta',
-    //       'selfId' => 'idEncuesta',
-    //     ],
-    //   ]
-    // ]
+    'encuestas_clientes' => [
+      'id' => 'idCliente',
+      'selfId' => 'idCliente',
+      // 'tableJoin' => [
+      //   'encuestas' => [
+      //     'id' => 'idEncuesta',
+      //     'selfId' => 'idEncuesta',
+      //   ],
+      // ]
+    ]
   ];
   var $id = 'idCliente';
   var $select = ['clientes.idCliente', 'clientes.razonSocial', 'clientes.cuit','clientes.celular'];
   var $where = [];
-  var $column_order = ['razonSocial', 'cuit', 'estado']; 
+  var $column_order = ['razonSocial', 'cuit']; 
   var $column_search = ['razonSocial', 'cuit']; 
 
 
@@ -26,7 +26,7 @@ class ListaClienteEncuesta extends CI_Controller {
   {
     parent::__construct();    
     $this->load->helper(array('form'));
-    $this->load->model('my_model', 'my', true);
+    $this->load->model('EncuestaPendienteDatatable', 'my', true);
     $this->load->model('encuesta_model', 'encuesta', true);
     $this->load->model('pregunta_model', 'pregunta', true);
     $this->load->model('encuestaCliente_model', 'encuestaCliente', true);
@@ -41,23 +41,17 @@ class ListaClienteEncuesta extends CI_Controller {
       die;
 		}
 
-    $this->select[] = "(SELECT ec.idEstado FROM encuestas_clientes ec WHERE idEncuesta = $idEncuesta && idCliente = clientes.idCliente) as idEstado";
-
-    $this->select[] = "(SELECT ece.nombre FROM encuesta_cliente_estado ece WHERE idEncuestaClienteEstado = idEstado) as estado";
-
-
     $data = [];
     
     $list = $this->my->get_datatables($this->tableJoin, $this->select);
-    // dd($list);
+    $minus = 0;
     foreach($list as $li){
+     
       $encrypted = $this->encryption->encrypt($idEncuesta.'/'.$li->idCliente);
       $encrypted = urlencode($encrypted);
       $row = [];
 			$row[] = $li->razonSocial;
-			$row[] = $li->cuit;
-			// $row[] = $li->respondido ? date('m/d/Y H:i', strtotime($li->respondido)) : 'No ha respondido' ;
-      $row[] = $li->estado ?? 'pendiente';      
+			$row[] = $li->cuit;			    
 
       $encuestaCliente = $this->encuestaCliente->getByClientAndEncuestaId($idEncuesta, $li->idCliente);
 
@@ -74,6 +68,9 @@ class ListaClienteEncuesta extends CI_Controller {
           <a class="btn btn-sm btn-primary" target="_blank"
           href="'.base_url("index.php/survey/?q=$encrypted").'">
 			      <i class="fa fa-eye mr-1"></i></a>
+          <a class="btn btn-sm btn-secondary"
+          href="'.base_url("index.php/encuestas/$idEncuesta/cliente/$li->idCliente/enviado").'">
+			      <i class="fa fa-paper-plane mr-1"></i></a>
             <a class="btn btn-sm btn-warning text-white" href="'.base_url("index.php/encuestas/$idEncuesta/cliente/$li->idCliente/editar/").'" 
               title="Edit">
           <i class="fa fa-pencil-alt mr-1"></i></a>';

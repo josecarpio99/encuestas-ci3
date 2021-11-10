@@ -45,6 +45,13 @@
    // Show Table
    $(document).ready(function(){
 
+    var cont1 = 0;
+    $('#dataTable tfoot th').each( function () {
+      if(cont1 == 6 || cont1 == 5 ) return;
+       $(this).html( '<input style="width: 75%;" id="buscar'+cont1+'" type="text" placeholder="Buscar' + '" value=""/>' );      
+      cont1++;
+    });
+
     $('#dataTable').DataTable({
       processing: true,
       serverSide: true,
@@ -59,14 +66,27 @@
             'orderable': false, 
           },          
       ],
-      lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "All"]]
+      lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "All"]],
+      initComplete: function () {
+        this.api().columns().every( function () {
+          var that = this;
+
+          $( 'input', this.footer() ).on( 'keyup change clear', function () {
+              if ( that.search() !== this.value ) {
+                  that
+                      .search( this.value )
+                      .draw();
+              }
+          });
+        });
+      }
     }); 
 
-    var cont = 0;
+    var cont2 = 0;
     $('#dataTable2 tfoot th').each( function () {
-      if(cont == 3 || cont == 2) return;
-       $(this).html( '<input id="buscar'+cont+'" type="text" placeholder="Buscar' + '" value=""/>' );      
-      cont++;
+      if(cont2 == 3 || cont2 == 2) return;
+       $(this).html( '<input id="buscar'+cont2+'" type="text" placeholder="Buscar' + '" value=""/>' );      
+      cont2++;
     });
 
     $('#dataTable2').DataTable({

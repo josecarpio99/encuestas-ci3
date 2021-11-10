@@ -6,14 +6,18 @@ class EncuestaCliente extends CI_Controller {
 	var $tableJoin = [
     'encuestas' => [
       'id' => 'idEncuesta',
-      'selfId' => 'idEncuesta',
-      'tableJoin' => [
-        'encuestas_responsable' => [
-          'id' => 'idEncuesta',
-          'selfId' => 'idEncuesta',
-        ],
-      ]
+      'selfId' => 'idEncuesta',      
     ],
+    'adm_usuarios' => [
+      'id' => 'idUsuario',
+      'selfId' => 'idUsuario',
+      'tableJoin' => [            
+        'sucursales' => [
+          'id' => 'idSucursal',
+          'selfId' => 'idSucursal',
+        ],
+      ], 
+    ], 
     'clientes' => [
       'id' => 'idCliente',
       'selfId' => 'idCliente',
@@ -24,10 +28,10 @@ class EncuestaCliente extends CI_Controller {
     ],
   ];
 	var $id = 'idEncuestaCliente';
-	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit','encuesta_cliente_estado.nombre as estado'];
+	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo','encuestas.mensaje as encuestaMensaje', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit', 'clientes.idCliente as idCliente', 'clientes.celular as celular','encuesta_cliente_estado.nombre as estado','adm_usuarios.razonSocial as vendedor', 'sucursales.nombreSucursal as sucursal'];
   var $where = [];
-	var $column_order = ['encuestas.titulo', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaRespuesta', 'estado','encuestas_clientes.respuesta'];
-	var $column_search = ['encuestas.titulo', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaRespuesta','encuestas_clientes.respuesta'];
+	var $column_order = ['encuestas.titulo', 'adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaEnvio','encuestas_clientes.fechaRespuesta', 'estado','encuestas_clientes.respuesta'];
+	var $column_search = ['encuestas.titulo', 'adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaEnvio','encuestas_clientes.fechaRespuesta', 'estado','encuestas_clientes.respuesta'];
 
   function __construct()
   {
@@ -37,7 +41,7 @@ class EncuestaCliente extends CI_Controller {
     $this->load->model('encuesta_model', 'encuesta', true);
     $this->load->model('pregunta_model', 'pregunta', true);
     $this->load->model('encuestaCliente_model', 'encuestaCliente', true);
-    
+    $this->load->library('encryption');         
   }
 
   public function mostrarEncuestasClientes()
@@ -97,6 +101,8 @@ class EncuestaCliente extends CI_Controller {
 			$data = [
 				'idEstado' => $this->input->post('idEncuestaClienteEstado', true),					
 				'mensaje'  => $this->input->post('mensaje', true),					
+				'idUsuario'  => $this->session->userdata('logged_user_admin')->idUsuario,					
+				'fechaEnvio'  => date('Y-m-d'),					
 			];
       
       if($isCreating) {
@@ -116,11 +122,12 @@ class EncuestaCliente extends CI_Controller {
   public function getClientesDeEncuesta($estadoEncuesta = 2, $idEncuesta = null)
   {
 
-    $encuesta = $this->encuesta->getById($idEncuesta);    
+    // $encuesta = $this->encuesta->getById($idEncuesta);    
 
     if($idEncuesta) {
       $this->where[] =  ['encuestas_clientes.idEncuesta', $idEncuesta];   
       $this->column_order = array_slice($this->column_order, 1); 
+      $this->column_search = array_slice($this->column_search, 1); 
     }
 
     if($estadoEncuesta != 2) {
@@ -130,26 +137,46 @@ class EncuestaCliente extends CI_Controller {
       ];
     }
 
+    $this->where[] = ['encuestas_clientes.idEstado != 1', '', true];
+
     if(!isAdmin()) {
       $this->where[] = ['encuestas_responsable.idUsuario', $this->session->userdata('logged_user_admin')->idUsuario];
-    }
+    }    
 
     $data = [];
     $list = $this->my->get_datatables($this->tableJoin, $this->select);
     foreach($list as $li){
+      $encrypted = $this->encryption->encrypt($idEncuesta.'/'.$li->idCliente);
+      $encrypted = urlencode($encrypted);
+
+      $whatsappText = $li->encuestaMensaje.'%0a%0a'.$li->mensaje.'%0a%0a'.base_url("index.php/survey/?q=$encrypted");
+
+
 			$row = [];
       if(!$idEncuesta) {
         $row[] = $li->titulo;          
       }
+			$row[] = $li->vendedor;
+			$row[] = $li->sucursal;
 			$row[] = $li->razonSocial;
 			$row[] = $li->cuit;
+			$row[] = $li->fechaEnvio ? date('d-m-Y H:i', strtotime($li->fechaEnvio)) : 'No enviado';	
 			$row[] = $li->fechaRespuesta ? date('d-m-Y H:i', strtotime($li->fechaRespuesta)) : 'No ha respondido';	
-			$row[] = $li->estado;
+			$row[] = $li->estado == 'respondido' ? 'SI' : 'NO';
       if($li-> respuesta == 'insatisfecho' || is_null($li-> respuesta)) $row[] = '<span class="text-danger">'.$li->respuesta.'</span>';
       if($li-> respuesta == 'indiferente') $row[] = '<span class="text-warning">'.$li->respuesta.'</span>';
       if($li-> respuesta == 'satisfecho') $row[] = '<span class="text-success">'.$li->respuesta.'</span>';
       $row[] = 
-          '<a class="btn btn-sm btn-primary mr-1"
+          '
+          <a target="_blank" href="https://wa.me/'.$li->celular.'/?text='.$whatsappText.'" >
+              <button type="button" style="border-radius: 50% 50% 50% 0%;display: inline-block;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
+              </button>
+          </a>
+          <a  target="_blank" href="whatsapp://send?text='.$whatsappText.'&phone='.$li->celular.'&abid='.$li->celular.'"> 
+                <button type="button" style="display: inline-block;border-color:#661cc8;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
+                </button>
+          </a>
+          <a class="btn btn-sm btn-primary mr-1"
           href="'.base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idEncuestaCliente").'">
 			      <i class="fa fa-eye"></i></a>'.
              (isAdmin() 
@@ -191,6 +218,22 @@ class EncuestaCliente extends CI_Controller {
     $this->load->view('_header',$data);
     $this->load->view('encuestas/cliente_respuestas',$data);
     $this->load->view('_footerTablasEncuestaCliente',$data);
+  }
+
+  public function cambiarEstadoAEnviado($idEncuesta, $idCliente)
+  {
+    $encuestaCliente = $this->encuestaCliente->getByClientAndEncuestaId($idEncuesta, $idCliente);
+
+    if(!$encuestaCliente) {
+      $data['idCliente'] = $idCliente;
+      $data['idEncuesta'] = $idEncuesta;
+      $data['idEstado'] = 2;
+      $this->db->insert($this->table, $data);
+    }else {
+      $this->db->update($this->table, ['idEstado' => 2], ['idEncuestaCliente' => $encuestaCliente->idEncuestaCliente]);
+    }
+
+		redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
   }
 
   public function eliminar($idEncuesta, $idEncuestaCliente)

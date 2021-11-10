@@ -1,12 +1,14 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class My_Model extends CI_Model {
+class EncuestaPendienteDatatable extends CI_Model { 
 
    public function get_datatables_query()
    {
       $this->db->select($this->select);
-      $this->db->from($this->table);         
+      $this->db->from($this->table);   
+      $this->db->where('(SELECT ec.idEstado FROM encuestas_clientes ec WHERE idEncuesta = 21 && idCliente = clientes.idCliente) IS NULL', null, false);      
+      $this->db->or_where('(SELECT ec.idEstado FROM encuestas_clientes ec WHERE idEncuesta = 21 && idCliente = clientes.idCliente && idEstado = 1)', null, false);      
       foreach ($this->where as $key => $where) {
          if(isset($where[2])) {
             $this->db->where($where[0], null, false);    

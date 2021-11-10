@@ -28,36 +28,16 @@
                 </div>
               </div>
 			      </div>
+            
             <div class="card-body" >
-              <h6 class="my-4 font-weight-bold text-center">Tabla de encuestas clientes</h6>
-              <div class="table-responsive">
-                <table class="table table-bordered display compact" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>Razón social</th>                                            
-                      <th>Cuit</th>                                            
-                      <th>Fecha respuesta</th>                                            
-                      <th>Estado</th>
-                      <th>Satisfecho</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-
-                  <tbody></tbody>
-                  
-                </table>
-              </div>
-            </div>
-            <hr>
-            <div class="card-body mt-3" >
-              <h6 class="my-4 font-weight-bold text-center">Tabla de clientes</h6>
+              <h6 class="my-4 font-weight-bold text-center">Pendientes de enviar</h6>
               <div class="table-responsive">
                 <table class="table table-bordered display compact" id="dataTable2" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Razón social</th>                                            
                       <th>Cuit</th>                                            
-                      <th>Estado</th>                                            
+                      <!-- <th>Estado</th>                                             -->
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -67,10 +47,45 @@
                     <tr>
                       <th>Razón social</th>                                            
                       <th>Cuit</th>                                            
-                      <th></th>                                            
+                      <!-- <th></th>                                             -->
                       <th></th>
                     </tr>
                   </tfoot>
+                </table>
+              </div>
+            </div>
+            <hr>
+            <div class="card-body mt-3" >
+              <h6 class="my-4 font-weight-bold text-center">Enviadas</h6>
+              <div class="table-responsive">
+                <table class="table table-bordered display compact" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Vendedor</th>                                            
+                      <th>Sucursal</th>                                            
+                      <th>Razón social</th>                                            
+                      <th>Cuit</th>                                            
+                      <th>Fecha envio</th>                                            
+                      <th>Fecha respuesta</th>                                            
+                      <th>Respondio</th>
+                      <th>Respuesta</th>
+                      <th style="width: 150px;">Acciones</th>
+                    </tr>
+                  </thead>
+
+                  <tbody></tbody>
+                  <tfoot>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                  </tfoot>
+                  
                 </table>
               </div>
             </div>
