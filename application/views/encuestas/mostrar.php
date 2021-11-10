@@ -35,9 +35,10 @@
                 <table class="table table-bordered display compact" id="dataTable2" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th>Vendedor</th>                                            
+                      <th>Sucursal</th>                                            
                       <th>Razón social</th>                                            
                       <th>Cuit</th>                                            
-                      <!-- <th>Estado</th>                                             -->
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -45,9 +46,10 @@
                   <tbody></tbody>
                   <tfoot>
                     <tr>
-                      <th>Razón social</th>                                            
-                      <th>Cuit</th>                                            
-                      <!-- <th></th>                                             -->
+                      <th></th>                                            
+                      <th></th>                                            
+                      <th></th>                                            
+                      <th></th>                                            
                       <th></th>
                     </tr>
                   </tfoot>

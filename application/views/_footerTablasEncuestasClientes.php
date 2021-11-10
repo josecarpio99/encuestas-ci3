@@ -46,11 +46,11 @@
    $(document).ready(function(){
 
     let estadoEncuesta = 0;
-    let ajaxUrl = '<?php echo base_url(); ?>index.php/encuestas/clientes/';
+    let ajaxUrl = '<?php echo base_url(); ?>index.php/encuestaClientePendiente/getClientesDeEncuesta/';
 
     var cont = 0;
     $('#dataTable tfoot th').each( function () {
-      if(cont == 6 || cont == 5 ) return;
+      if(cont == 5 || cont== 6 ) return;
        $(this).html( '<input style="width: 75%;" id="buscar'+cont+'" type="text" placeholder="Buscar' + '" value=""/>' );      
       cont++;
     });

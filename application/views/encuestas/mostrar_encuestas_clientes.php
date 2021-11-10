@@ -30,30 +30,22 @@
                 <table class="table table-bordered display compact" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Encuesta</th>
+                      <th>Encuesta</th>                                            
                       <th>Vendedor</th>                                            
                       <th>Sucursal</th>                                            
                       <th>Razón social</th>                                            
                       <th>Cuit</th>                                            
-                      <th>Fecha envio</th>                                            
-                      <th>Fecha respuesta</th>                                            
-                      <th>Respondio</th>
-                      <th>Respuesta</th>
-                      <th style="width: 150px;">Acciones</th>
+                      <th>Acciones</th>
                     </tr>
                   </thead>
 
                   <tbody></tbody>
                   <tfoot>
-                      <th>Encuesta</th>
-                      <th>Razon social</th>
-                      <th>Cuit</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
+                      <th></th>                                            
+                      <th></th>                                            
+                      <th></th>                                            
+                      <th></th>                                            
+                      <th></th>                                            
                       <th></th>
                   </tfoot>
                   

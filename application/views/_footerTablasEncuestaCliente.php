@@ -47,8 +47,9 @@
 
     var cont1 = 0;
     $('#dataTable tfoot th').each( function () {
-      if(cont1 == 6 || cont1 == 5 ) return;
-       $(this).html( '<input style="width: 75%;" id="buscar'+cont1+'" type="text" placeholder="Buscar' + '" value=""/>' );      
+      if(cont1 !== 8 && cont1 !== 6 && cont1 !== 5 && cont1 !== 4 ) {
+        $(this).html( '<input style="width: 75%;" id="buscar'+cont1+'" type="text" placeholder="Buscar' + '" value=""/>' );      
+      }
       cont1++;
     });
 
@@ -84,17 +85,16 @@
 
     var cont2 = 0;
     $('#dataTable2 tfoot th').each( function () {
-      if(cont2 == 3 || cont2 == 2) return;
+      if(cont2 == 4) return;
        $(this).html( '<input id="buscar'+cont2+'" type="text" placeholder="Buscar' + '" value=""/>' );      
       cont2++;
     });
-
     $('#dataTable2').DataTable({
       processing: true,
       serverSide: true,
       order: [ 1, 'asc' ],
       ajax: {
-          url: '<?php echo base_url(); ?>index.php/ListaClienteEncuesta/getListaClientesParaEnviarEncuesta/<?= $encuesta->idEncuesta ?>',
+          url: '<?php echo base_url(); ?>index.php/encuestaClientePendiente/getClientesDeEncuesta/2/<?= $encuesta->idEncuesta ?>',
           'type': "POST"
       },
       columnDefs: [
