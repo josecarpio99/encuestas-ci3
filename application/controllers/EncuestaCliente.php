@@ -236,6 +236,55 @@ class EncuestaCliente extends CI_Controller {
 		redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
   }
 
+  public function mostrarExportar($idEncuesta)
+  {
+    $data = ['idEncuesta' => $idEncuesta];
+    $this->load->view('_header',$data);
+    $this->load->view('encuestas/exportar_encuesta_cliente',$data);
+  }
+  
+  public function exportar($idEncuesta)
+  {
+    $encuesta = $this->encuesta->getById($idEncuesta);
+
+    if(!$encuesta){
+			$this->session->set_flashdata('warning','Encuesta no encontrada!');
+      redirect(base_url('index.php/encuestas/index'));
+		} 
+    
+    $fechaEnviada = date('Y-m-d', strtotime(" + $encuesta->cantidad_dias days"));
+   
+    $path = dirname(__FILE__).'/example.xlsx';    
+    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+    $worksheet = $spreadsheet->getActiveSheet();            
+    // Convert spread sheet to array
+    $data = $worksheet->toArray();
+    foreach($data as $row) {
+      $cliente = $this->db->select('idCliente, idLocalidad')
+      ->from('clientes')
+      ->where('cuit', $row[0])
+      ->get()
+      ->row();
+      
+      $responsable = $this->db->select('er.idUsuario')
+      ->from('sucursales_localidades sl')
+      ->join('encuestas_responsable er', "er.idSucursal = sl.Idsucursal")
+      ->where('sl.idLocalidad', $cliente->idLocalidad)
+      ->get()
+      ->row();      
+      
+      $this->db->insert($this->table, [
+        'idCliente' => $cliente->idCliente,
+        'idUsuario' => $responsable ? $responsable->idUsuario : NULL,
+        'idEncuesta' => $idEncuesta,
+        'mensaje'   => $row[1],
+        'fechaEnviada' => $fechaEnviada
+      ]);      
+      
+    }
+    redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
+  }
+
   public function eliminar($idEncuesta, $idEncuestaCliente)
   {
     if(!isAdmin()) return redirect(base_url('index.php/encuestas/index'));;
