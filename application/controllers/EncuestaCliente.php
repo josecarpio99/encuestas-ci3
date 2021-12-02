@@ -42,7 +42,7 @@ class EncuestaCliente extends CI_Controller {
     $this->load->model('pregunta_model', 'pregunta', true);
     $this->load->model('encuestaCliente_model', 'encuestaCliente', true);
     $this->load->library('encryption');         
-  }
+  }  
 
   public function mostrarEncuestasClientes()
   {
@@ -278,7 +278,7 @@ class EncuestaCliente extends CI_Controller {
         'idUsuario' => $responsable ? $responsable->idUsuario : NULL,
         'idEncuesta' => $idEncuesta,
         'mensaje'   => $row[1],
-        'fechaEnviada' => $fechaEnviada
+        'fechaEnvio' => $fechaEnviada
       ]);      
       
     }

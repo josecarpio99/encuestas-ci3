@@ -21,6 +21,7 @@
 					    <h6 class="m-0 font-weight-bold text-primary">Listado de Encuestas</h6>
                  
                 <div>
+                  <a href="<?= base_url('index.php/encuestas/encuestas_clientes') ?>" class="btn btn-primary">Encuestas clientes</a>
                   <a href="<?= base_url('index.php/encuestas/mostrar') ?>" class="btn btn-primary">Mostrar encuestas</a>
                   <a href="<?= base_url('index.php/encuestas/agregar') ?>" class="btn btn-secondary">Agregar encuesta</a>
                 </div>

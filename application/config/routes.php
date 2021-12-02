@@ -57,6 +57,7 @@ $route['encuestas/(:num)/preguntas'] = 'encuestas/preguntas/$1/';
 $route['encuestas/(:num)/reporte-detalle'] = 'encuestas/reporteDetalle/$1/';
 $route['encuestas/(:num)/reporte-promedios'] = 'encuestas/reportePromedios/$1/';
 $route['encuestas/(:num)/responsables/agregar'] = 'encuestaResponsable/agregar/$1';
+$route['encuestas/encuestas_clientes'] = 'ComprasRepuesto/mostrarVentas';
 
 $route['encuestas/(:num)/getResponsables'] = 'encuestaResponsable/getResponsables/$1';
 $route['encuestas/(:num)/responsables'] = 'encuestaResponsable/index/$1';
