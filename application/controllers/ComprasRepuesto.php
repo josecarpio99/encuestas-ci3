@@ -34,9 +34,7 @@ class ComprasRepuesto extends CI_Controller {
     }
 
     $result = $query->limit(100)->get()->result();
-      // echo '<pre>';
-      // var_dump($result);
-      // die();
+
     echo json_encode($result);
   }
   
@@ -49,6 +47,18 @@ class ComprasRepuesto extends CI_Controller {
     
     if($tipo == 'repuesto') {
       foreach($clientes as $clienteId) {
+        $compraRepuesto = $this->db
+        ->from('clientes_compras_repuestos ccr')
+        ->where('idCliente', $clienteId)
+        ->where('fecha >', $desde)
+        ->where('fecha <', $hasta)
+        ->not_like('cod_repuesto', 'MO')
+        ->group_by('idCliente')
+        ->get()
+        ->row();
+
+        if(!is_null($compraRepuesto->idEncuestaCliente)) continue;
+      
         $encuesta = $this->db->from('encuestas')
         ->where('estado', 'abierto')
         ->where('idTipoEncuesta', 1)
@@ -92,6 +102,8 @@ class ComprasRepuesto extends CI_Controller {
         ->where('idCompraRespuesto', $ventaId)
         ->get()
         ->row();
+
+        if(!is_null($venta->idEncuestaCliente)) continue;
 
         $clienteId = $venta->idCliente;
 

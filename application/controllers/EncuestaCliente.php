@@ -254,7 +254,7 @@ class EncuestaCliente extends CI_Controller {
     
     $fechaEnviada = date('Y-m-d', strtotime(" + $encuesta->cantidad_dias days"));
    
-    $path = dirname(__FILE__).'/example.xlsx';    
+    $path = $_FILES["excel-file"]["tmp_name"];;    
     $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
     $worksheet = $spreadsheet->getActiveSheet();            
     // Convert spread sheet to array

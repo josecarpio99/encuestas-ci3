@@ -30,7 +30,7 @@
             <div class="form-group row">
               <label for="archivo" class="col-sm-2 col-form-label"><span class="text-danger">*</span>archivo</label>
               <div class="col-sm-10">
-                  <input type="file"
+                  <input type="file" name="excel-file"
                   accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                   <?= form_error('archivo', '<small class="form-text text-danger">', '</small>') ?>
               </div>

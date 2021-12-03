@@ -88,6 +88,10 @@
           ids.push(venta.value);
         }
       } );
+      if (ids.length < 1) {
+        alert('Seleccione al menos una fila');
+        return;
+      }
       $.ajax({
           url: endpoint2,
           method: 'POST',
@@ -99,6 +103,7 @@
             tipo: tipo,
           },
           success: function (response) {
+            console.log(response);
             renderVentas();
           }
       });
