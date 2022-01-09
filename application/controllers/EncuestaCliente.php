@@ -166,6 +166,7 @@ class EncuestaCliente extends CI_Controller {
       if($li-> respuesta == 'insatisfecho' || is_null($li-> respuesta)) $row[] = '<span class="text-danger">'.$li->respuesta.'</span>';
       if($li-> respuesta == 'indiferente') $row[] = '<span class="text-warning">'.$li->respuesta.'</span>';
       if($li-> respuesta == 'satisfecho') $row[] = '<span class="text-success">'.$li->respuesta.'</span>';
+      $row[] = $li->respuesta_pregunta_resumen;
       $row[] = 
           '
           <a target="_blank" href="https://wa.me/'.$li->celular.'/?text='.$whatsappText.'" >

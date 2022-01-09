@@ -72,6 +72,7 @@
                       <th>Fecha respuesta</th>                                            
                       <th>Respondio</th>
                       <th>Respuesta</th>
+                      <th>Respuesta valor</th>
                       <th style="width: 150px;">Acciones</th>
                     </tr>
                   </thead>
