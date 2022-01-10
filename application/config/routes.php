@@ -74,6 +74,7 @@ $route['encuestas/(:num)/cliente/(:num)/editar'] = 'encuestaCliente/saveEncuesta
 $route['encuestas/(:num)/cliente/(:num)/guardar'] = 'encuestaCliente/saveEncuestaCliente/$1/$2';
 $route['encuestas/(:num)/cliente/(:num)/eliminar'] = 'encuestaCliente/eliminar/$1/$2';
 
+$route['encuestas/(:num)/encuestaCliente/(:num)/guardar'] = 'encuestaCliente/saveMensaje/$1/$2';
 
 
 

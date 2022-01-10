@@ -52,6 +52,38 @@ class EncuestaCliente extends CI_Controller {
     $this->load->view('_footerTablasEncuestasClientes');
   }
 
+  public function saveMensaje($idEncuesta, $idEncuestaCliente)
+  {
+    $encuesta = $this->encuesta->getById($idEncuesta);
+    
+    if(!$encuesta){
+			$this->session->set_flashdata('warning','Encuesta no encontrada!');
+      redirect(base_url('index.php/encuestas/index'));
+		}
+
+    $encuestaCliente = $this->encuestaCliente->getById($idEncuestaCliente);
+
+    if(!$_POST){
+			$input = $encuestaCliente; 
+      $data['form_action'] = base_url("index.php/encuestas/$idEncuesta/encuestaCliente/$idEncuestaCliente/guardar");			
+			$data['input'] = $input;
+			$data['encuesta'] = $encuesta;
+			$data['idEncuesta'] = $idEncuesta;
+
+			$this->load->view('_header',$data);
+      $this->load->view('encuestas/encuesta_cliente_form',$data);
+		}else{
+			$input = (object) $this->input->post(null, true);
+
+      $this->db->update($this->table, ['mensaje' => $input->mensaje], ['idEncuestaCliente' => $encuestaCliente->idEncuestaCliente]);
+
+      $this->session->set_flashdata('success', 'Registro guardado con éxito.');
+
+			redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
+		} 
+
+  }
+
   public function saveEncuestaCliente($idEncuesta, $idCliente)
   {
     
