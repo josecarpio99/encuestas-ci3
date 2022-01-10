@@ -11,11 +11,7 @@ class Encuestas extends CI_Controller {
     'encuestas_responsable' => [
       'id' => 'idEncuesta',
       'selfId' => 'idEncuesta',
-    ],
-    'encuestas_clientes' => [
-      'id' => 'idEncuesta',
-      'selfId' => 'idEncuesta',
-    ],
+    ]
   ];
 	var $id = 'idEncuesta';
 	var $select = ['encuestas.*', 'encuestas_tipos.nombreTipoEncuesta as tipo'];
@@ -85,7 +81,7 @@ class Encuestas extends CI_Controller {
   public function reporteDetalle($id)
   {
     $data = [];
-    $encuesta = $this->encuesta->getById($id);
+    $encuesta = $this->encuesta->getByIdWithEncuestasClienteCount($id);    
 
     if(!$encuesta){
 			$this->session->set_flashdata('warning','Encuesta no encontrada!');

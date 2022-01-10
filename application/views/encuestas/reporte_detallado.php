@@ -26,6 +26,20 @@
               </div>
 			    </div>
             <div class="card-body">
+              <div class="row text-center">
+                <div class="col-md-4">
+                  <h4>Enviadas / Total a encuestar</h4>                  
+                  <h4><?= $encuesta->respondieron + $encuesta->enviadas .' / '. $encuesta->total_a_encuestar  ?></h4>
+                </div>
+                <div class="col-md-4">
+                  <h4>Respondieron / Enviadas</h4>                  
+                  <h4><?= $encuesta->respondieron .' / '. $encuesta->respondieron + $encuesta->enviadas  ?></h4>
+                </div>
+                <div class="col-md-4">
+                  <h4>Respondieron / Total a encuestar</h4>                  
+                  <h4><?= $encuesta->respondieron .' / '. $encuesta->total_a_encuestar  ?></h4>
+                </div>
+              </div>
               <div class="table-responsive">
                 <table class="table table-bordered display compact" id="dataTable" width="100%" cellspacing="0">
                   <thead>
