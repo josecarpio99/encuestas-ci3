@@ -19,11 +19,12 @@ class Encuesta_model  extends CI_Model  {
 
   public function getById($id)
   {
-    return $this->db->select('e.*,u.*')
+    return $this->db->select('e.*,u.*,count(ec.idEncuestaCliente) as total_a_encuestar')
     ->from('encuestas e')
     ->where('e.idEncuesta', $id)
-    ->join('encuestas_responsable ec', 'ec.idEncuesta = e.idEncuesta', 'left')
-    ->join('adm_usuarios u', 'ec.idUsuario = u.idUsuario', 'left')
+    ->join('encuestas_clientes ec', 'ec.idEncuesta = e.idEncuesta', 'left')
+    ->join('encuestas_responsable er', 'er.idEncuesta = e.idEncuesta', 'left')
+    ->join('adm_usuarios u', 'er.idUsuario = u.idUsuario', 'left')
     ->get()
     ->row();
   }

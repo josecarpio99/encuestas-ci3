@@ -20,7 +20,9 @@
               <div class="card-body d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-primary"><?= $encuesta->nombre ?></h6>                
                 <div>
-                  <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/agregar") ?>" class="btn btn-primary">Agregar pregunta</a>                  
+                  <?php if($encuesta->total_a_encuestar == 0) : ?>
+                    <a href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/agregar") ?>" class="btn btn-primary">Agregar pregunta</a>
+                  <?php endif ?>
                   <a href="<?= base_url("index.php/encuestas/mostrar/$encuesta->idEncuesta") ?>" class="btn btn-secondary">Volver</a>   
                 </div>
               </div>
@@ -32,17 +34,20 @@
                 <div class="card-header d-flex justify-content-between">
                   <h6><?= $pregunta->detalle ?></h6>
                   <div class="actions">
-                    <a class="btn btn-sm btn-warning"
-                    href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/$pregunta->idEncuestaPregunta/editar") ?>" 
-                    >
-                      <i class="fa fa-edit mr-1"></i>
-                    </a>
-                    <a class="btn btn-sm btn-danger"
-                    href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/$pregunta->idEncuestaPregunta/eliminar") ?>" 
-                    title="Delete"
-                    onclick="return confirm('Seguro que quieres eliminar  este registro?');">
-                      <i class="fa fa-trash mr-1"></i>
-                    </a>
+                    <?php if($encuesta->total_a_encuestar == 0) : ?>
+                      <a class="btn btn-sm btn-warning"
+                      href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/$pregunta->idEncuestaPregunta/editar") ?>" 
+                      >
+                        <i class="fa fa-edit mr-1"></i>
+                      </a>
+                      <a class="btn btn-sm btn-danger"
+                      href="<?= base_url("index.php/encuestas/$encuesta->idEncuesta/preguntas/$pregunta->idEncuestaPregunta/eliminar") ?>" 
+                      title="Delete"
+                      onclick="return confirm('Seguro que quieres eliminar  este registro?');">
+                        <i class="fa fa-trash mr-1"></i>
+                      </a>
+                    <?php endif ?>
+
                   </div>
                 </div>
                 <?php if($pregunta->tipo == 2) { ?>

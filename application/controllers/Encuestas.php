@@ -54,7 +54,6 @@ class Encuestas extends CI_Controller {
   {   
     $data = [];
     $encuesta = $this->encuesta->getById($id);
-
     if(!$encuesta){
 			$this->session->set_flashdata('warning','Encuesta no encontrada!');
       redirect(base_url('index.php/encuestas/index'));
