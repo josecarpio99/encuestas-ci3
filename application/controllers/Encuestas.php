@@ -12,9 +12,16 @@ class Encuestas extends CI_Controller {
       'id' => 'idEncuesta',
       'selfId' => 'idEncuesta',
     ],
+    'encuestas_clientes' => [
+      'id' => 'idEncuesta',
+      'selfId' => 'idEncuesta',
+    ],
   ];
+  var $group_by = "encuestas.idEncuesta";
 	var $id = 'idEncuesta';
-	var $select = ['encuestas.*', 'encuestas_tipos.nombreTipoEncuesta as tipo'];
+	var $select = ['encuestas.*', 'encuestas_tipos.nombreTipoEncuesta as tipo', 'COUNT(encuestas_clientes.idEncuestaCliente) as total_a_encuestar', 
+  'COUNT(IF(encuestas_clientes.idEstado = 1, 1, NULL)) as pendientes', 'COUNT(IF(encuestas_clientes.idEstado = 2, 1, NULL)) as enviadas',
+  'COUNT(IF(encuestas_clientes.idEstado = 3, 1, NULL)) as respondieron'];
   var $where = [];
 	var $column_order = ['encuestas.nombre', 'encuestas.titulo', 'estado', 'adm_usuarios.razonSocial'];
 	var $column_search = ['encuestas.nombre', 'encuestas.titulo', 'estado', 'adm_usuarios.razonSocial']; 
@@ -189,11 +196,15 @@ class Encuestas extends CI_Controller {
     $data = [];
     $list = $this->my->get_datatables($this->tableJoin, $this->select);
     foreach($list as $li){
+      $encuestasEnviadas = $li->enviadas + $li->respondieron;
 			$row = [];
 			$row[] = $li->nombre;
 			$row[] = $li->titulo;
 			$row[] = $li->tipo;
 			$row[] = $li->estado;	
+			$row[] = $encuestasEnviadas .' / '. $li->total_a_encuestar;	
+			$row[] = $li->respondieron .' / '. $encuestasEnviadas;	
+			$row[] = $li->respondieron .' / '. $li->total_a_encuestar;	
       $row[] = 
           '<a class="btn btn-sm btn-primary"
           href="'.base_url("index.php/encuestas/mostrar/$li->idEncuesta").'">

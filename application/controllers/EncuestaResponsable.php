@@ -15,6 +15,7 @@ class EncuestaResponsable extends CI_Controller {
       ]
     ],  
   ];
+  var $group_by = NULL;
   var $id = 'idEncuestaResponsable';
 	var $select = ['encuestas_responsable.*','adm_usuarios.razonSocial AS razonSocial', 'sucursales.*'];
   var $where = [];

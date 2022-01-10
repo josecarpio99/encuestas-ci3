@@ -1,7 +1,7 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class My_Model extends CI_Model {
+class My_Model extends CI_Model {   
 
    public function get_datatables_query()
    {
@@ -66,8 +66,11 @@ class My_Model extends CI_Model {
       }
 
       if($i > 0) $this->db->group_end();
+     
 
-
+      if($this->group_by !== NULL) {
+         $this->db->group_by($this->group_by);
+      }
 
       if(isset($_POST['order'])){
          $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -75,6 +78,7 @@ class My_Model extends CI_Model {
          $order = $this->order;
          $this->db->order_by(key($order), $order[key($order)]);
       }
+      
    }
 
    public function get_datatables()
