@@ -43,10 +43,7 @@
                       <th>Nombre</th>
                       <th>Título</th>
                       <th>Tipo</th>
-                      <th>Estado</th>
-                      <th>Enviadas / Total a encuestar</th>
-                      <th >Respondieron / Enviadas</th>
-                      <th>Respondieron / Total a encuestar</th>
+                      <th>Estado</th>                      
                       <th>Acciones</th>
                     </tr>
                   </thead>

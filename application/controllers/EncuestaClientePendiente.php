@@ -23,7 +23,6 @@ class EncuestaClientePendiente extends CI_Controller {
       'selfId' => 'idCliente',
     ], 
   ];
-  var $group_by = NULL;
 	var $id = 'idEncuestaCliente';
 	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo','encuestas.mensaje as encuestaMensaje','encuestas.idEncuesta as idEncuesta', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit', 'clientes.idCliente as idCliente', 'clientes.celular as celular','adm_usuarios.razonSocial as vendedor', 'sucursales.nombreSucursal as sucursal'];
   var $where = [];

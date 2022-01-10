@@ -65,12 +65,7 @@ class My_Model extends CI_Model {
          }           
       }
 
-      if($i > 0) $this->db->group_end();
-     
-
-      if($this->group_by !== NULL) {
-         $this->db->group_by($this->group_by);
-      }
+      if($i > 0) $this->db->group_end();       
 
       if(isset($_POST['order'])){
          $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
