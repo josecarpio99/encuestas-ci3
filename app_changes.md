@@ -9,7 +9,7 @@ Controllers
   EncuestaCliente.php   
     métodos
       -saveMensaje . linea #54
-      -getClientesDeEncuesta . linea #201  
+      -getClientesDeEncuesta . linea #201, #213  
       -pausar . linea #256
 
   EncuestaClientePendiente.php   

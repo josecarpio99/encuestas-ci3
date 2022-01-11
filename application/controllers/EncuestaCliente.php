@@ -198,7 +198,8 @@ class EncuestaCliente extends CI_Controller {
       if($li-> respuesta == 'insatisfecho' || is_null($li-> respuesta)) $row[] = '<span class="text-danger">'.$li->respuesta.'</span>';
       if($li-> respuesta == 'indiferente') $row[] = '<span class="text-warning">'.$li->respuesta.'</span>';
       if($li-> respuesta == 'satisfecho') $row[] = '<span class="text-success">'.$li->respuesta.'</span>';
-      $row[] = $li->respuesta_pregunta_resumen;
+      $row[] = $li->respuesta_pregunta_resumen;     
+
       $row[] = 
           '
           <a target="_blank" href="https://wa.me/'.$li->celular.'/?text='.$whatsappText.'" >
@@ -209,9 +210,12 @@ class EncuestaCliente extends CI_Controller {
                 <button type="button" style="display: inline-block;border-color:#661cc8;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
                 </button>
           </a>
-          <a class="btn btn-sm btn-primary mr-1"
-          href="'.base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idEncuestaCliente").'">
-			      <i class="fa fa-eye"></i></a>'.
+          <a class="btn btn-sm btn-primary mr-1" target="_blank"
+          href="'.( ($li->idEstado == 1 || $li->idEstado == 2) 
+            ? base_url("index.php/survey/?q=$encrypted")
+            : base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idEncuestaCliente") ).'">
+              <i class="fa fa-eye"></i>
+          </a>'.
              (isAdmin() 
              ? '<a class="btn btn-sm btn-danger"
               href="'.base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idEncuestaCliente/eliminar").'" 
