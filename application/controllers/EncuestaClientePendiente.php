@@ -79,25 +79,37 @@ class EncuestaClientePendiente extends CI_Controller {
 			$row[] = $li->sucursal;
 			$row[] = $li->razonSocial;
 			$row[] = $li->cuit;
-      $row[] = 
-          '
-          <a target="_blank" href="https://wa.me/'.$li->celular.'/?text='.$whatsappText.'" >
-              <button type="button" style="border-radius: 50% 50% 50% 0%;display: inline-block;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
+
+      $lockIcon = ($li->pausada == 0) ? 'lock-open' : 'lock';
+      $row[] = '<a class="btn btn-sm btn-secondary"
+      href="'.base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idCliente/pausar").'">
+        <i class="fa fa-'. $lockIcon .' mr-1"></i></a>';
+
+      $acciones = '';
+      if ($li->pausada == 0) {
+        $acciones .= '<a target="_blank" href="https://wa.me/'.$li->celular.'/?text='.$whatsappText.'" >
+        <button type="button" style="border-radius: 50% 50% 50% 0%;display: inline-block;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
+        </button>
+        </a>
+        <a  target="_blank" href="whatsapp://send?text='.$whatsappText.'&phone='.$li->celular.'&abid='.$li->celular.'"> 
+              <button type="button" style="display: inline-block;border-color:#661cc8;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
               </button>
-          </a>
-          <a  target="_blank" href="whatsapp://send?text='.$whatsappText.'&phone='.$li->celular.'&abid='.$li->celular.'"> 
-                <button type="button" style="display: inline-block;border-color:#661cc8;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
-                </button>
-          </a>
-          <a class="btn btn-sm btn-primary" target="_blank"
-          href="'.base_url("index.php/survey/?q=$encrypted").'">
-			      <i class="fa fa-eye mr-1"></i></a>
-          <a class="btn btn-sm btn-secondary" title="Encuesta fue enviada"
+        </a>
+        <a class="btn btn-sm btn-secondary" title="Encuesta fue enviada"
           href="'.base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idCliente/enviado").'">
 			      <i class="fa fa-paper-plane mr-1"></i></a>
-            <a class="btn btn-sm btn-warning text-white" href="'.base_url("index.php/encuestas/$idEncuesta/encuestaCliente/$li->idEncuestaCliente/guardar").'" title="'.$li->mensaje.'" >
-          <i class="fa fa-comment-alt mr-1"></i></a>';
-           ;
+        ';
+      }
+
+      $acciones .=  '          
+        <a class="btn btn-sm btn-primary" target="_blank"
+        href="'.base_url("index.php/survey/?q=$encrypted").'">
+          <i class="fa fa-eye mr-1"></i></a>          
+          <a class="btn btn-sm btn-warning text-white" href="'.base_url("index.php/encuestas/$idEncuesta/encuestaCliente/$li->idEncuestaCliente/guardar").'" title="'.$li->mensaje.'" >
+        <i class="fa fa-comment-alt mr-1"></i></a>';
+
+      $row[] = $acciones;
+
       $data[] = $row;
     }
 

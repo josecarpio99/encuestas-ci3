@@ -40,6 +40,7 @@
                       <th>Sucursal</th>                                            
                       <th>Razón social</th>                                            
                       <th>Cuit</th>                                            
+                      <th>Pausar</th>                                            
                       <th>Acciones</th>
                     </tr>
                   </thead>

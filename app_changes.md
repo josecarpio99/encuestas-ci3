@@ -1,4 +1,5 @@
--Agregar campo respuesta_pregunta_resumen a la tabla encuestas_clientes
+-Agregar campo respuesta_pregunta_resumen(TINYINT DAFAULT NULL) a la tabla encuestas_clientes
+-Agregar campo pausar(TINYINT DAFAULT 0) a la tabla encuestas_clientes
 
 Controllers
   Encuestas.php
@@ -8,7 +9,12 @@ Controllers
   EncuestaCliente.php   
     métodos
       -saveMensaje . linea #54
-      -getClientesDeEncuesta . linea #202  
+      -getClientesDeEncuesta . linea #201  
+      -pausar . linea #256
+
+  EncuestaClientePendiente.php   
+    métodos
+      -getClientesDeEncuesta . lnea #83
 
   Survey.php
     métodos
@@ -24,7 +30,8 @@ Models
 Views
  Encuestas
     mostrar.php 
-      -Columna añadida en tabla encuestas enviadas  
+      -Columna pausar añadida en tabla encuestas pendientes  
+      -Columna respuesta valor añadida en tabla encuestas enviadas  
     
     encuesta_cliente_form.php  
     
@@ -34,4 +41,6 @@ Views
       
 
 routes.php
- linea #77        
+  RUTAS AÑADIDAS
+    -$route['encuestas/(:num)/encuestaCliente/(:num)/guardar'] = 'encuestaCliente/saveMensaje/$1/$2';
+    -$route['encuestas/(:num)/cliente/(:num)/pausar'] = 'encuestaCliente/pausar/$1/$2';      

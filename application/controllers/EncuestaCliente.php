@@ -253,6 +253,20 @@ class EncuestaCliente extends CI_Controller {
     $this->load->view('_footerTablasEncuestaCliente',$data);
   }
 
+  public function pausar($idEncuesta, $idCliente)
+  {
+    $encuestaCliente = $this->encuestaCliente->getByClientAndEncuestaId($idEncuesta, $idCliente);
+
+    $this->db->update(
+      $this->table, 
+      ['pausada' => $encuestaCliente->pausada == 0 ? 1 : 0], 
+      ['idEncuestaCliente' => $encuestaCliente->idEncuestaCliente]
+    );
+
+		redirect(base_url("index.php/encuestas/mostrar/$idEncuesta"));
+
+  }
+
   public function cambiarEstadoAEnviado($idEncuesta, $idCliente)
   {
     $encuestaCliente = $this->encuestaCliente->getByClientAndEncuestaId($idEncuesta, $idCliente);
