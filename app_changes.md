@@ -7,15 +7,17 @@ Controllers
       -reporteDetalle . linea #84
       -agregar . linea #260
 
-  EncuestaCliente.php   
+  EncuestaCliente.php 
+    linea #33 (column_order, column_search)  
     métodos
       -saveMensaje . linea #54
-      -getClientesDeEncuesta . linea #201, #213  
+      -getClientesDeEncuesta . linea #201, #214
       -pausar . linea #256
 
-  EncuestaClientePendiente.php   
+  EncuestaClientePendiente.php 
+    linea #29 (column_order, column_search)  
     métodos
-      -getClientesDeEncuesta . lnea #83
+      -getClientesDeEncuesta . linea #68, #81, #87, #94
 
   Survey.php
     métodos
@@ -32,6 +34,7 @@ Models
 Views
  Encuestas
     mostrar.php 
+      -Columna fechaEnvio añadida en tabla encuestas pendientes  
       -Columna pausar añadida en tabla encuestas pendientes  
       -Columna respuesta valor añadida en tabla encuestas enviadas  
     
@@ -40,6 +43,13 @@ Views
     encuestas_preguntas.php . linea #23, #37
 
     reporte_detallado.php . linea #30
+
+  _footerTablasEncuestasClientes.php . linea #53
+
+  _footerTablasEncuestasCliente.php . linea #50, #89
+
+
+  mostrar_encuestas_clientes.php . columnas añadidas
       
 
 routes.php

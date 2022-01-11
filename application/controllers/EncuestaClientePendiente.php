@@ -26,8 +26,8 @@ class EncuestaClientePendiente extends CI_Controller {
 	var $id = 'idEncuestaCliente';
 	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo','encuestas.mensaje as encuestaMensaje','encuestas.idEncuesta as idEncuesta', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit', 'clientes.idCliente as idCliente', 'clientes.celular as celular','adm_usuarios.razonSocial as vendedor', 'sucursales.nombreSucursal as sucursal'];
   var $where = [];
-	var $column_order = ['encuestas.titulo', 'adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit'];
-	var $column_search = ['encuestas.titulo', 'adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit'];
+	var $column_order = ['encuestas.titulo', 'encuestas_clientes.fechaEnvio','adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit'];
+	var $column_search = ['encuestas.titulo', 'encuestas_clientes.fechaEnvio', 'adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit'];
 
   function __construct()
   {
@@ -65,16 +65,20 @@ class EncuestaClientePendiente extends CI_Controller {
     $data = [];
     $list = $this->my->get_datatables($this->tableJoin, $this->select);
     foreach($list as $li){
-      $encrypted = $this->encryption->encrypt($idEncuesta.'/'.$li->idCliente);
+      $encuesta = $this->encuesta->getById($li->idEncuesta);
+      $fechaEnvio = date('m-d-Y', strtotime($li->fechaEnvio. ' ' . $encuesta->cantidad_dias . 'days'));
+      $menorAFechaEnvio = date('Y-m-d') < date('Y-m-d', strtotime($li->fechaEnvio. ' ' . $encuesta->cantidad_dias . 'days'));
+    
+      $encrypted = $this->encryption->encrypt($encuesta->idEncuesta.'/'.$li->idCliente);
       $encrypted = urlencode($encrypted);
 
       $whatsappText = $li->encuestaMensaje.'%0a%0a'.$li->mensaje.'%0a%0a'.base_url("index.php/survey/?q=$encrypted");
-
-
+      
 			$row = [];
       if(!$idEncuesta) {
         $row[] = $li->titulo;          
       }
+      $row[] = $fechaEnvio;
 			$row[] = $li->vendedor;
 			$row[] = $li->sucursal;
 			$row[] = $li->razonSocial;
@@ -87,16 +91,22 @@ class EncuestaClientePendiente extends CI_Controller {
 
       $acciones = '';
       if ($li->pausada == 0) {
-        $acciones .= '<a target="_blank" href="https://wa.me/'.$li->celular.'/?text='.$whatsappText.'" >
+        $acciones .= '<a target="_blank" href="https://wa.me/'.$li->celular.'/?text='.$whatsappText.'"
+        '.($menorAFechaEnvio ? 'onclick="return confirm('."'Estas enviando la encuesta antes de la fecha pautada, confirmar?');".'"' : '').'
+        >
         <button type="button" style="border-radius: 50% 50% 50% 0%;display: inline-block;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
         </button>
         </a>
-        <a  target="_blank" href="whatsapp://send?text='.$whatsappText.'&phone='.$li->celular.'&abid='.$li->celular.'"> 
+        <a  target="_blank" href="whatsapp://send?text='.$whatsappText.'&phone='.$li->celular.'&abid='.$li->celular.'"
+        '.($menorAFechaEnvio ? 'onclick="return confirm('."'Estas enviando la encuesta antes de la fecha pautada, confirmar?');".'"' : '').'
+        > 
               <button type="button" style="display: inline-block;border-color:#661cc8;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
               </button>
         </a>
-        <a class="btn btn-sm btn-secondary" title="Encuesta fue enviada"
-          href="'.base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idCliente/enviado").'">
+        <a class="btn btn-sm btn-secondary" title="Encuesta enviada"
+          href="'.base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idCliente/enviado").'"
+          '.($menorAFechaEnvio ? 'onclick="return confirm('."'Estas enviando la encuesta antes de la fecha pautada, confirmar?');".'"' : '').'
+          >
 			      <i class="fa fa-paper-plane mr-1"></i></a>
         ';
       }

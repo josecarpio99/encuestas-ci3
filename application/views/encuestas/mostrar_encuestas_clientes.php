@@ -31,10 +31,12 @@
                   <thead>
                     <tr>
                       <th>Encuesta</th>                                            
+                      <th>Fecha Envio</th>                                            
                       <th>Vendedor</th>                                            
                       <th>Sucursal</th>                                            
                       <th>Razón social</th>                                            
                       <th>Cuit</th>                                            
+                      <th>Pausar</th>                                            
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -46,6 +48,8 @@
                       <th></th>                                            
                       <th></th>                                            
                       <th></th>                                            
+                      <th></th>                                            
+                      <th></th>
                       <th></th>
                   </tfoot>
                   

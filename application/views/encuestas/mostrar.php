@@ -36,6 +36,7 @@
                 <table class="table table-bordered display compact" id="dataTable2" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th>Fecha de envio</th>                                            
                       <th>Vendedor</th>                                            
                       <th>Sucursal</th>                                            
                       <th>Razón social</th>                                            
@@ -48,6 +49,8 @@
                   <tbody></tbody>
                   <tfoot>
                     <tr>
+                      <th></th>                                            
+                      <th></th>                                            
                       <th></th>                                            
                       <th></th>                                            
                       <th></th>                                            
@@ -80,6 +83,7 @@
 
                   <tbody></tbody>
                   <tfoot>
+                      <th></th>
                       <th></th>
                       <th></th>
                       <th></th>

@@ -30,7 +30,7 @@ class EncuestaCliente extends CI_Controller {
 	var $id = 'idEncuestaCliente';
 	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo','encuestas.mensaje as encuestaMensaje', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit', 'clientes.idCliente as idCliente', 'clientes.celular as celular','encuesta_cliente_estado.nombre as estado','adm_usuarios.razonSocial as vendedor', 'sucursales.nombreSucursal as sucursal'];
   var $where = [];
-	var $column_order = ['encuestas.titulo', 'adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaEnvio','encuestas_clientes.fechaRespuesta', 'estado','encuestas_clientes.respuesta'];
+	var $column_order = ['encuestas.titulo', 'adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaEnvio','encuestas_clientes.fechaRespuesta', 'estado','encuestas_clientes.respuesta', 'encuestas_clientes.respuesta_pregunta_resumen'];
 	var $column_search = ['encuestas.titulo', 'adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaEnvio','encuestas_clientes.fechaRespuesta', 'estado','encuestas_clientes.respuesta'];
 
   function __construct()

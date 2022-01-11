@@ -51,7 +51,9 @@
     var cont = 0;
     $('#dataTable tfoot th').each( function () {
       if(cont == 5 || cont== 6 ) return;
-       $(this).html( '<input style="width: 75%;" id="buscar'+cont+'" type="text" placeholder="Buscar' + '" value=""/>' );      
+      if(cont !== 1) {
+        $(this).html( '<input style="width: 75%;" id="buscar'+cont+'" type="text" placeholder="Buscar' + '" value=""/>' );      
+      }
       cont++;
     });
 
