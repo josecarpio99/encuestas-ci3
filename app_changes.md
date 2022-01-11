@@ -5,6 +5,7 @@ Controllers
   Encuestas.php
     métodos
       -reporteDetalle . linea #84
+      -agregar . linea #260
 
   EncuestaCliente.php   
     métodos
@@ -25,6 +26,7 @@ Models
     métodos
       -getById . linea #20
       -getByIdWithEncuestasClienteCount . linea #32
+      -getByTipo . linea #45
           
         
 Views

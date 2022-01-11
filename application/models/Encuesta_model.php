@@ -42,6 +42,19 @@ class Encuesta_model  extends CI_Model  {
     ->row();
   }
 
+  public function getByTipo($tipo)
+  {
+    return $this->db->select('e.*,u.*,count(ec.idEncuestaCliente) as total_a_encuestar')
+    ->from('encuestas e')
+    ->where('e.idTipoEncuesta', $tipo)
+    ->where('e.estado', 'abierto')
+    ->join('encuestas_clientes ec', 'ec.idEncuesta = e.idEncuesta', 'left')
+    ->join('encuestas_responsable er', 'er.idEncuesta = e.idEncuesta', 'left')
+    ->join('adm_usuarios u', 'er.idUsuario = u.idUsuario', 'left')
+    ->get()
+    ->result();
+  }
+
   public function userIsAuthorized($idUsuario)
   {
     return $this->session->userdata('logged_user_admin')->idUsuario === $idUsuario;

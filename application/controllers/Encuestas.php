@@ -256,6 +256,14 @@ class Encuestas extends CI_Controller {
 				'idTipoEncuesta' => $this->input->post('idTipoEncuesta', true),	
 				'estado' => $this->input->post('estado', true),	
 			];	
+
+      if($data['idTipoEncuesta'] == 1 || $data['idTipoEncuesta'] == 1) {
+        $encuesta = $this->encuesta->getByTipo($data['idTipoEncuesta']);
+        if(count($encuesta) > 0) {
+			    $this->session->set_flashdata('error', 'Ya hay una encuesta abierta de ese tipo.');
+			    redirect(base_url('index.php/encuestas/index'));
+        }
+      }
 			
 			$this->encuesta->save($data);
 			$this->session->set_flashdata('success', 'Encuesta creada con éxito.');
