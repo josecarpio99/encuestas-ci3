@@ -109,8 +109,10 @@ class Encuestas extends CI_Controller {
   public function reportePromedios($id)
   {
     $data = [];
-    $encuesta = $this->encuesta->getById($id);
-
+    $desde = empty($this->input->get('desde')) ? '1970-01-01' : $this->input->get('desde');
+    $hasta = empty($this->input->get('hasta')) ? date('Y-m-d H:i') : $this->input->get('hasta');
+    $encuesta = $this->encuesta->getByIdWithEncuestasClienteCount($id, $desde, $hasta);
+    
     if(!$encuesta){
 			$this->session->set_flashdata('warning','Encuesta no encontrada!');
       redirect(base_url('index.php/encuestas/index'));
@@ -123,10 +125,12 @@ class Encuestas extends CI_Controller {
       if($pregunta->tipo == 1) {
         $query = $this->db->query("
           SELECT  
-          FORMAT(AVG(valor = 'si') * 100, 2) as porcentaje_si,
-          FORMAT(AVG(valor = 'no') * 100, 2) as porcentaje_no
-          FROM `encuestas_clientes_respuestas` 
-          WHERE idEncuestaPregunta = $pregunta->idEncuestaPregunta;"
+          FORMAT(AVG(ecr.valor = 'si') * 100, 2) as porcentaje_si,
+          FORMAT(AVG(ecr.valor = 'no') * 100, 2) as porcentaje_no
+          FROM `encuestas_clientes_respuestas` ecr
+          LEFT JOIN encuestas_clientes ec ON ec.idEncuestaCliente = ecr.idEncuestaCliente
+          WHERE (ec.fechaRespuesta BETWEEN '$desde' AND '$hasta') AND  
+          ecr.idEncuestaPregunta = $pregunta->idEncuestaPregunta;"
         )->row();
         $pregunta->porcentaje_si = $query->porcentaje_si;
         $pregunta->porcentaje_no = $query->porcentaje_no;
@@ -137,9 +141,11 @@ class Encuestas extends CI_Controller {
         foreach($pregunta->opciones as $key => $opcion) {
           $query = $this->db->query("
             SELECT  
-            FORMAT(AVG(valor = '$opcion->valor') * 100, 2) as porcentaje
-            FROM `encuestas_clientes_respuestas` 
-            WHERE idEncuestaPregunta = $pregunta->idEncuestaPregunta;"
+            FORMAT(AVG(ecr.valor = '$opcion->valor') * 100, 2) as porcentaje
+            FROM `encuestas_clientes_respuestas`  ecr
+            LEFT JOIN encuestas_clientes ec ON ec.idEncuestaCliente = ecr.idEncuestaCliente
+            WHERE (ec.fechaRespuesta BETWEEN '$desde' AND '$hasta') AND              
+            idEncuestaPregunta = $pregunta->idEncuestaPregunta;"
           )->row(); 
 
           $pregunta->opciones[$key]->porcentaje = $query->porcentaje;
@@ -150,9 +156,11 @@ class Encuestas extends CI_Controller {
       if($pregunta->tipo == 3) { 
         $query = $this->db->query("
           SELECT 
-          FORMAT(AVG(valor), 2) as promedio
-          FROM `encuestas_clientes_respuestas` 
-          WHERE idEncuestaPregunta = $pregunta->idEncuestaPregunta;"
+          FORMAT(AVG(ecr.valor), 2) as promedio
+          FROM `encuestas_clientes_respuestas` ecr 
+          LEFT JOIN encuestas_clientes ec ON ec.idEncuestaCliente = ecr.idEncuestaCliente
+          WHERE (ec.fechaRespuesta BETWEEN '$desde' AND '$hasta') AND
+          idEncuestaPregunta = $pregunta->idEncuestaPregunta;"
         )->row();
 
         $pregunta->promedio = $query->promedio;
@@ -163,6 +171,8 @@ class Encuestas extends CI_Controller {
 
     $data['encuesta'] = $encuesta;
     $data['preguntas'] = $preguntas;
+    $data['desde'] = $desde == '1970-01-01' ? NULL : $desde;
+    $data['hasta'] = $hasta;
 
     $this->load->view('_header',$data);
     $this->load->view('encuestas/reporte_promedios',$data);

@@ -3,8 +3,9 @@
 Controllers
   Encuestas.php
     métodos
-      -agregar . linea #239
-      -encuesta_type_is_allowed . linea #323
+      -reporte_promedios  
+      -agregar . linea #245
+      -encuesta_type_is_allowed . linea #329
 
 
 

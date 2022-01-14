@@ -29,8 +29,9 @@ class Encuesta_model  extends CI_Model  {
     ->row();
   }
 
-  public function getByIdWithEncuestasClienteCount($id)
+  public function getByIdWithEncuestasClienteCount($id, $desde = '1970-01-01', $hasta = NULL)
   {
+    $hasta = is_null($hasta) ? date('Y-m-d H:i') : $hasta;
     return $this->db->select('e.*,u.*,count(ec.idEncuestaCliente) as total_a_encuestar,
     COUNT(IF(ec.idEstado = 1, 1, NULL)) as pendientes, COUNT(IF(ec.idEstado = 2, 1, NULL)) as enviadas, COUNT(IF(ec.idEstado = 3, 1, NULL)) as respondieron')
     ->from('encuestas e')
@@ -38,6 +39,8 @@ class Encuesta_model  extends CI_Model  {
     ->join('encuestas_clientes ec', 'ec.idEncuesta = e.idEncuesta', 'left')
     ->join('encuestas_responsable er', 'er.idEncuesta = e.idEncuesta', 'left')
     ->join('adm_usuarios u', 'er.idUsuario = u.idUsuario', 'left')
+    ->where('ec.fechaRespuesta >=', $desde)
+    ->where('ec.fechaRespuesta <=', $hasta)
     ->get()
     ->row();
   }
