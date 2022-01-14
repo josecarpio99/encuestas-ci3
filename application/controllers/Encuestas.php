@@ -7,10 +7,6 @@ class Encuestas extends CI_Controller {
     'encuestas_tipos' => [
       'id' => 'idTipoEncuesta',
       'selfId' => 'idTipoEncuesta',
-    ],    
-    'encuestas_responsable' => [
-      'id' => 'idEncuesta',
-      'selfId' => 'idEncuesta',
     ]
   ];
 	var $id = 'idEncuesta';
