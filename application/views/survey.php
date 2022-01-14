@@ -60,6 +60,7 @@
                     <?php $id = 'start'.$i.'-'.$j ?>
                     <input type="radio" name="respuestas[<?= $i ?>][valor]" id="<?= $id ?>" value="<?= $j ?>" required/>
                     <label for="<?= $id ?>"><?= $j ?> stars</label>                   
+                    <span class="align-self-center" style="margin-right: -8px; font-weight: 500"><?= $j ?></span>
                   <?php endfor ?>
                 </div>            
               </div>

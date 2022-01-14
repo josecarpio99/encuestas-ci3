@@ -12,6 +12,10 @@ Controllers
       -exportar . linea #328, #334
 
 
+Views
+  reporte_promedios.php linea #28
+  survey.php linea #63
+
 
 
 
