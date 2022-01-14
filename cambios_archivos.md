@@ -6,7 +6,10 @@ Controllers
       -reporte_promedios  
       -agregar . linea #245
       -encuesta_type_is_allowed . linea #329
-
+  
+  EncuestCliente.php
+    métodos
+      -exportar . linea #328, #334
 
 
 

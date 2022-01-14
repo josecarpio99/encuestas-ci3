@@ -303,7 +303,7 @@ class EncuestaCliente extends CI_Controller {
       redirect(base_url('index.php/encuestas/index'));
 		} 
     
-    $fechaEnviada = date('Y-m-d', strtotime(" + $encuesta->cantidad_dias days"));
+    $fechaEnvio = date('Y-m-d', strtotime(" + $encuesta->cantidad_dias days"));
    
     $path = $_FILES["excel-file"]["tmp_name"];;    
     $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
@@ -311,25 +311,32 @@ class EncuestaCliente extends CI_Controller {
     // Convert spread sheet to array
     $data = $worksheet->toArray();
     foreach($data as $row) {
+      if (is_null($row[0])) continue;
       $cliente = $this->db->select('idCliente, idLocalidad')
       ->from('clientes')
       ->where('cuit', $row[0])
       ->get()
       ->row();
-      
+
       $responsable = $this->db->select('er.idUsuario')
       ->from('sucursales_localidades sl')
       ->join('encuestas_responsable er', "er.idSucursal = sl.Idsucursal")
       ->where('sl.idLocalidad', $cliente->idLocalidad)
       ->get()
-      ->row();      
+      ->row(); 
       
+      $fechaDeEnvio = $fechaEnvio;
+      $fechaArr = explode('/', $row[2]);
+      if (count($fechaArr) == 3) {
+        $fechaDeEnvio = $fechaArr[2].'-'.$fechaArr['0'].'-'.$fechaArr[1];
+      }
+
       $this->db->insert($this->table, [
-        'idCliente' => $cliente->idCliente,
-        'idUsuario' => $responsable ? $responsable->idUsuario : NULL,
+        'idCliente'  => $cliente->idCliente,
+        'idUsuario'  => $responsable ? $responsable->idUsuario : NULL,
         'idEncuesta' => $idEncuesta,
-        'mensaje'   => $row[1],
-        'fechaEnvio' => $fechaEnviada
+        'mensaje'    => $row[1],
+        'fechaEnvio' =>  $fechaDeEnvio
       ]);      
       
     }
