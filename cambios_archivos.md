@@ -1,3 +1,45 @@
+13/01/2022
+
+Controllers
+  Encuestas.php
+    métodos
+      -agregar . linea #239
+      -encuesta_type_is_allowed . linea #323
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ##### BASE DE DATOS #####
 
 -Agregar campo respuesta_pregunta_resumen(TINYINT DAFAULT NULL) a la tabla encuestas_clientes
@@ -61,6 +103,7 @@ Views
   _footerTablasEncuestasClientes.php . linea #53
 
   _footerTablasEncuestasCliente.php . linea #50, #89
+
 
 
   

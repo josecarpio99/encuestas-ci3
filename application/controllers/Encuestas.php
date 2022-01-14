@@ -236,6 +236,7 @@ class Encuestas extends CI_Controller {
 		$this->form_validation->set_rules('titulo','Título','required', [
       'required' => 'El campo título es requerido'
     ]);
+		$this->form_validation->set_rules('idTipoEncuesta','Tipo','callback_encuesta_type_is_allowed');
 		
 
 		if($this->form_validation->run() == false){
@@ -256,14 +257,6 @@ class Encuestas extends CI_Controller {
 				'idTipoEncuesta' => $this->input->post('idTipoEncuesta', true),	
 				'estado' => $this->input->post('estado', true),	
 			];	
-
-      if($data['idTipoEncuesta'] == 1 || $data['idTipoEncuesta'] == 1) {
-        $encuesta = $this->encuesta->getByTipo($data['idTipoEncuesta']);
-        if(count($encuesta) > 0) {
-			    $this->session->set_flashdata('error', 'Ya hay una encuesta abierta de ese tipo.');
-			    redirect(base_url('index.php/encuestas/index'));
-        }
-      }
 			
 			$this->encuesta->save($data);
 			$this->session->set_flashdata('success', 'Encuesta creada con éxito.');
@@ -325,5 +318,16 @@ class Encuestas extends CI_Controller {
     $this->encuesta->delete($id);
     $this->session->set_flashdata('success', 'Registro eliminado con éxito.');
 		redirect(base_url('index.php/encuestas/index'));
+  }
+
+  public function encuesta_type_is_allowed($idTipoEncuesta)
+  {
+    if($idTipoEncuesta != 1 && $idTipoEncuesta != 2) return true;
+    $encuesta = $this->encuesta->getByTipo($idTipoEncuesta);
+    if(count($encuesta) > 0) {
+      $this->form_validation->set_message('encuesta_type_is_allowed', 'Ya hay una encuesta de ese tipo abierta');
+      return false;
+    }
+    return true;
   }
 }
