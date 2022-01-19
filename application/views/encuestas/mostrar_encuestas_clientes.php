@@ -37,6 +37,7 @@
                       <th>Razón social</th>                                            
                       <th>Cuit</th>                                            
                       <th>Pausar</th>                                            
+                      <th>Contactos</th>                                            
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -49,6 +50,7 @@
                       <th></th>                                            
                       <th></th>                                            
                       <th></th>                                            
+                      <th></th>
                       <th></th>
                       <th></th>
                   </tfoot>

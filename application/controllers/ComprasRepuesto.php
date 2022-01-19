@@ -33,7 +33,7 @@ class ComprasRepuesto extends CI_Controller {
       $query->group_by('idCliente');
     }
 
-    $result = $query->limit(100)->get()->result();
+    $result = $query->get()->result();
 
     echo json_encode($result);
   }
