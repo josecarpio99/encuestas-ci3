@@ -42,6 +42,7 @@
                       <th>Razón social</th>                                            
                       <th>Cuit</th>                                            
                       <th>Pausar</th>                                            
+                      <th>Contactos</th>                                            
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -55,6 +56,7 @@
                       <th></th>                                            
                       <th></th>                                            
                       <th></th>                                            
+                      <th></th>
                       <th></th>
                     </tr>
                   </tfoot>
@@ -106,3 +108,26 @@
 		
       </div>
       <!-- End of Main Content -->
+
+<!-- Modal Clientes de Contacto-->
+<div class="modal fade bd-example-modal-lg" id="modalClienteContacto" tabindex="-1" role="dialog" aria-labelledby="modalClienteContactoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalClienteContactoLabel">Contactos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" id="contacto-body">
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Salir</button>
+            </div>
+
+        </div>
+    </div>
+</div>

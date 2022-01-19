@@ -119,11 +119,29 @@
           });
         });
       }
-    });      
-    
-
+    });         
+     
 });
-   
+
+function contactos(id) {		
+  $.ajax({
+    url: '<?php echo base_url(); ?>index.php/Viajes/clientes_contactos/' + id,
+    type: 'post',
+    data: {id: id},
+    success: function(response){
+      // Add response in Modal body
+      $('#contacto-body').html(response);
+
+      // Display Modal
+      setTimeout(function(){ $('#modalClienteContacto').modal('show'); }, 300);
+    }
+  });
+}
+
+$(document).on('click','.closeModal',function () {
+  $('.modal').modal('hide');
+})
+  
 
 
       
