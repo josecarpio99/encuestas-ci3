@@ -198,7 +198,11 @@ class EncuestaCliente extends CI_Controller {
       if($li-> respuesta == 'insatisfecho' || is_null($li-> respuesta)) $row[] = '<span class="text-danger">'.$li->respuesta.'</span>';
       if($li-> respuesta == 'indiferente') $row[] = '<span class="text-warning">'.$li->respuesta.'</span>';
       if($li-> respuesta == 'satisfecho') $row[] = '<span class="text-success">'.$li->respuesta.'</span>';
-      $row[] = $li->respuesta_pregunta_resumen;     
+      $row[] = $li->respuesta_pregunta_resumen;   
+      
+      $row[] = 
+					  ' <a class="btn btn-sm btn-info text-white" type="button"  onclick="contactos(\''. $li->idEncuestaCliente. '\', \'enviadas\')"
+						  title="Contactos">  <i class="fa fa-link mr-1"></i></a>';
 
       $row[] = 
           '

@@ -170,7 +170,7 @@ class Viajes extends CI_Controller {
         echo  $response;
     }
 
-    public function clientes_contactos($idEncuestaCliente){
+    public function clientes_contactos($idEncuestaCliente, $accion = 'pendientes'){
         // if(!@$this->session->userdata('logged_user_admin')->email) redirect ('Form/login');
 				$this->load->model('encuesta_model', 'encuesta', true);
 				$this->load->model('encuestaCliente_model', 'encuestaCliente', true);
@@ -220,33 +220,61 @@ class Viajes extends CI_Controller {
             $response .= "<td>" . $cc->alias . "</td>";
 
 						$acciones = '<td>';
-      			if ($encuestaCliente->pausada == 0) { 
-							$acciones .= '<a target="_blank" href="https://wa.me/'.$cc->celular.'/?text='.$whatsappText.'"
-							'.($menorAFechaEnvio ? 'onclick="return confirm('."'Estas enviando la encuesta antes de la fecha pautada, confirmar?');".'"' : '').'
-							>
-							<button type="button" style="border-radius: 50% 50% 50% 0%;display: inline-block;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
-							</button>
-							</a>
-							<a  target="_blank" href="whatsapp://send?text='.$whatsappText.'&phone='.$cc->celular.'&abid='.$cc->celular.'"
-							'.($menorAFechaEnvio ? 'onclick="return confirm('."'Estas enviando la encuesta antes de la fecha pautada, confirmar?');".'"' : '').'
-							> 
-										<button type="button" style="display: inline-block;border-color:#661cc8;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
-										</button>
-							</a>
-							<a class="btn btn-sm btn-secondary" title="Encuesta enviada"
-								href="'.base_url("index.php/encuestas/$encuesta->idEncuesta/cliente/$encuestaCliente->idCliente/enviado").'"
+						if ($accion == 'pendientes') {
+							if ($encuestaCliente->pausada == 0) { 
+								$acciones .= '<a target="_blank" href="https://wa.me/'.$cc->celular.'/?text='.$whatsappText.'"
 								'.($menorAFechaEnvio ? 'onclick="return confirm('."'Estas enviando la encuesta antes de la fecha pautada, confirmar?');".'"' : '').'
 								>
-									<i class="fa fa-paper-plane mr-1"></i></a>
-							';
+								<button type="button" style="border-radius: 50% 50% 50% 0%;display: inline-block;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
+								</button>
+								</a>
+								<a  target="_blank" href="whatsapp://send?text='.$whatsappText.'&phone='.$cc->celular.'&abid='.$cc->celular.'"
+								'.($menorAFechaEnvio ? 'onclick="return confirm('."'Estas enviando la encuesta antes de la fecha pautada, confirmar?');".'"' : '').'
+								> 
+											<button type="button" style="display: inline-block;border-color:#661cc8;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
+											</button>
+								</a>
+								<a class="btn btn-sm btn-secondary" title="Encuesta enviada"
+									href="'.base_url("index.php/encuestas/$encuesta->idEncuesta/cliente/$encuestaCliente->idCliente/enviado").'"
+									'.($menorAFechaEnvio ? 'onclick="return confirm('."'Estas enviando la encuesta antes de la fecha pautada, confirmar?');".'"' : '').'
+									>
+										<i class="fa fa-paper-plane mr-1"></i></a>
+								';
+							}
+	
+							$acciones .=  '          
+								<a class="btn btn-sm btn-primary" target="_blank"
+								href="'.base_url("index.php/survey/?q=$encrypted").'">
+									<i class="fa fa-eye mr-1"></i></a>          
+									<a class="btn btn-sm btn-warning text-white" href="'.base_url("index.php/encuestas/$encuesta->idEncuesta/encuestaCliente/$encuestaCliente->idEncuestaCliente/guardar").'" title="'.$encuestaCliente->mensaje.'" >
+								<i class="fa fa-comment-alt mr-1"></i></a>';
+							} else {
+								$acciones .= '
+								<a target="_blank" href="https://wa.me/'.$cc->celular.'/?text='.$whatsappText.'" >
+										<button type="button" style="border-radius: 50% 50% 50% 0%;display: inline-block;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
+										</button>
+								</a>
+								<a  target="_blank" href="whatsapp://send?text='.$whatsappText.'&phone='.$cc->celular.'&abid='.$cc->celular.'"> 
+											<button type="button" style="display: inline-block;border-color:#661cc8;" class="btn btn-sm btn-success"><i class="fa fa-phone" aria-hidden="true"></i>
+											</button>
+								</a>
+								<a class="btn btn-sm btn-primary mr-1" target="_blank"
+								href="'.( ($encuestaCliente->idEstado == 1 || $encuestaCliente->idEstado == 2) 
+									? base_url("index.php/survey/?q=$encrypted")
+									: base_url("index.php/encuestas/$encuesta->idEncuesta/cliente/$encuestaCliente->idEncuestaCliente") ).'">
+										<i class="fa fa-eye"></i>
+								</a>'.
+									(isAdmin() 
+									? '<a class="btn btn-sm btn-danger"
+										href="'.base_url("index.php/encuestas/$encuesta->idEncuesta/cliente/$encuestaCliente->idEncuestaCliente/eliminar").'" 
+										title="Delete"
+										onclick="return confirm('."'Seguro que quieres eliminar  este registro?');".'">
+									<i class="fa fa-trash"></i></a>'
+								: '')
+								;
 						}
 
-						$acciones .=  '          
-						<a class="btn btn-sm btn-primary" target="_blank"
-						href="'.base_url("index.php/survey/?q=$encrypted").'">
-							<i class="fa fa-eye mr-1"></i></a>          
-							<a class="btn btn-sm btn-warning text-white" href="'.base_url("index.php/encuestas/$encuesta->idEncuesta/encuestaCliente/$encuestaCliente->idEncuestaCliente/guardar").'" title="'.$encuestaCliente->mensaje.'" >
-						<i class="fa fa-comment-alt mr-1"></i></a></td>';
+						$acciones .= '</td>';
 
 						$response .= $acciones;
 

@@ -89,7 +89,7 @@ class EncuestaClientePendiente extends CI_Controller {
       href="'.base_url("index.php/encuestas/$li->idEncuesta/cliente/$li->idCliente/pausar").'">
         <i class="fa fa-'. $lockIcon .' mr-1"></i></a>';
 
-      $row[] = ' <a class="btn btn-sm btn-info text-white" type="button"  onclick="contactos(\''. $li->idEncuestaCliente. '\')"
+      $row[] = ' <a class="btn btn-sm btn-info text-white" type="button"  onclick="contactos(\''. $li->idEncuestaCliente. '\', \'pendientes\')"
 						  title="Contactos">  <i class="fa fa-link mr-1"></i></a>';
 
       $acciones = '';

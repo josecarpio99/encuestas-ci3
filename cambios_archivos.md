@@ -2,19 +2,31 @@
 
 Controllers
   Encuestas.php
-    métodos
+    métodos      
       -reporte_promedios  
       -agregar . linea #245
-      -encuesta_type_is_allowed . linea #329
+      -encuesta_type_is_allowed . linea #329      
   
-  EncuestCliente.php
+  EncuestaCliente.php
     métodos
-      -exportar . linea #328, #334
+      -getClientesDeEncuesta linea #203
+      -exportar . linea #332, #343
+  
+  EncuestaClientePendiente.php
+    métodos
+      -getClientesDeEncuesta linea #92
+
+  Viajes
+    métodos
+      -cliente_contactos #173    
+
 
 
 Views
+  mostrar.php linea #115
   reporte_promedios.php linea #28
   survey.php linea #63
+  _footerTablaEncuestaCliente.php linea #50, #127
 
 
 

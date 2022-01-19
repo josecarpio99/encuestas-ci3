@@ -79,12 +79,14 @@
                       <th>Respondio</th>
                       <th>Respuesta</th>
                       <th>Respuesta valor</th>
+                      <th>Contactos</th>
                       <th style="width: 150px;">Acciones</th>
                     </tr>
                   </thead>
 
                   <tbody></tbody>
                   <tfoot>
+                      <th></th>
                       <th></th>
                       <th></th>
                       <th></th>

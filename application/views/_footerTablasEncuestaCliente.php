@@ -47,6 +47,7 @@
 
     var cont1 = 0;
     $('#dataTable tfoot th').each( function () {
+      if(cont1 == 9 ) return;
       if( cont1 !== 9 && cont1 !== 8 && cont1 !== 6 && cont1 !== 5 && cont1 !== 4 ) {
         $(this).html( '<input style="width: 75%;" id="buscar'+cont1+'" type="text" placeholder="Buscar' + '" value=""/>' );      
       }
@@ -123,9 +124,9 @@
      
 });
 
-function contactos(id) {		
+function contactos(id, acciones) {		
   $.ajax({
-    url: '<?php echo base_url(); ?>index.php/Viajes/clientes_contactos/' + id,
+    url: '<?php echo base_url(); ?>index.php/Viajes/clientes_contactos/' + id + '/' + acciones,
     type: 'post',
     data: {id: id},
     success: function(response){
