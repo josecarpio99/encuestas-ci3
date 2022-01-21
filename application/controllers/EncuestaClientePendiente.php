@@ -22,13 +22,18 @@ class EncuestaClientePendiente extends CI_Controller {
       'id' => 'idCliente',
       'selfId' => 'idCliente',
     ], 
+    'clientes_contactos' => [
+      'id' => 'idCliente',
+      'selfId' => 'idCliente',
+    ], 
     'encuestas_responsable' => [
       'id' => 'idEncuesta',
       'selfId' => 'idEncuesta',
     ]
   ];
+  var $groupBy = 'encuestas_clientes.idCliente';
 	var $id = 'idEncuestaCliente';
-	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo','encuestas.mensaje as encuestaMensaje','encuestas.idEncuesta as idEncuesta', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit', 'clientes.idCliente as idCliente', 'clientes.celular as celular','adm_usuarios.razonSocial as vendedor', 'sucursales.nombreSucursal as sucursal'];
+	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo','encuestas.mensaje as encuestaMensaje','encuestas.idEncuesta as idEncuesta', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit', 'clientes.idCliente as idCliente', 'clientes.celular as celular','adm_usuarios.razonSocial as vendedor', 'sucursales.nombreSucursal as sucursal', 'COUNT(clientes_contactos.idCliente) as contactos'];
   var $where = [];
 	var $column_order = ['encuestas.titulo', 'encuestas_clientes.fechaEnvio','adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit'];
 	var $column_search = ['encuestas.titulo', 'encuestas_clientes.fechaEnvio', 'adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit'];
@@ -94,7 +99,7 @@ class EncuestaClientePendiente extends CI_Controller {
         <i class="fa fa-'. $lockIcon .' mr-1"></i></a>';
 
       $row[] = ' <a class="btn btn-sm btn-info text-white" type="button"  onclick="contactos(\''. $li->idEncuestaCliente. '\', \'pendientes\')"
-						  title="Contactos">  <i class="fa fa-link mr-1"></i></a>';
+						  title="Contactos">  <i class="fa fa-link mr-1"></i> '.$li->contactos.' </a>';
 
       $acciones = '';
       if ($li->pausada == 0) {

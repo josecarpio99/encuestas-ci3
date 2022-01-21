@@ -14,6 +14,7 @@ class Encuestas extends CI_Controller {
     ]
   ];
 	var $id = 'idEncuesta';
+  var $groupBy = 'encuestas.idEncuesta';
 	var $select = ['encuestas.*', 'encuestas_tipos.nombreTipoEncuesta as tipo'];
   var $where = [];
 	var $column_order = ['encuestas.nombre', 'encuestas.titulo', 'estado', 'adm_usuarios.razonSocial'];

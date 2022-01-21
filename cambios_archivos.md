@@ -2,25 +2,36 @@
 
 Controllers
   Encuestas.php
+    tableJoin => encuestas_responsable
+    groupBy
+    select
     métodos      
       -reporte_promedios  
-      -agregar . linea #245
-      -encuesta_type_is_allowed . linea #329      
+      -agregar . linea #250
+      -encuesta_type_is_allowed . linea #334     
   
   EncuestaCliente.php
+    tableJoin => encuestas_responsable
+    groupBy
+    select
     métodos
-      -getClientesDeEncuesta linea #203
-      -exportar . linea #332, #343
+      -getClientesDeEncuesta linea #212
+      -exportar . linea #341, #352
   
   EncuestaClientePendiente.php
+    tableJoin => encuestas_responsable    
+    groupBy
     métodos
-      -getClientesDeEncuesta linea #92
+      -getClientesDeEncuesta linea #101
 
+  EncuestaResponsable.php
+    groupBy
   Viajes
     métodos
       -cliente_contactos #173    
 
-
+Models
+  My_model linea #70
 
 Views
   mostrar.php linea #115

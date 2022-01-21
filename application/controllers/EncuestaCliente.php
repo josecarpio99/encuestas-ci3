@@ -22,6 +22,10 @@ class EncuestaCliente extends CI_Controller {
       'id' => 'idCliente',
       'selfId' => 'idCliente',
     ],
+    'clientes_contactos' => [
+      'id' => 'idCliente',
+      'selfId' => 'idCliente',
+    ], 
     'encuesta_cliente_estado' => [
       'id' => 'idEncuestaClienteEstado',
       'selfId' => 'idEstado',
@@ -32,7 +36,8 @@ class EncuestaCliente extends CI_Controller {
     ]
   ];
 	var $id = 'idEncuestaCliente';
-	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo','encuestas.mensaje as encuestaMensaje', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit', 'clientes.idCliente as idCliente', 'clientes.celular as celular','encuesta_cliente_estado.nombre as estado','adm_usuarios.razonSocial as vendedor', 'sucursales.nombreSucursal as sucursal'];
+  var $groupBy = 'encuestas_clientes.idCliente';
+	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo','encuestas.mensaje as encuestaMensaje', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit', 'clientes.idCliente as idCliente', 'clientes.celular as celular','encuesta_cliente_estado.nombre as estado','adm_usuarios.razonSocial as vendedor', 'sucursales.nombreSucursal as sucursal', 'COUNT(clientes_contactos.idCliente) as contactos'];
   var $where = [];
 	var $column_order = ['encuestas.titulo', 'adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaEnvio','encuestas_clientes.fechaRespuesta', 'estado','encuestas_clientes.respuesta', 'encuestas_clientes.respuesta_pregunta_resumen'];
 	var $column_search = ['encuestas.titulo', 'adm_usuarios.razonSocial', 'sucursales.nombreSucursal', 'clientes.razonSocial', 'clientes.cuit', 'encuestas_clientes.fechaEnvio','encuestas_clientes.fechaRespuesta', 'estado','encuestas_clientes.respuesta'];
@@ -206,7 +211,7 @@ class EncuestaCliente extends CI_Controller {
       
       $row[] = 
 					  ' <a class="btn btn-sm btn-info text-white" type="button"  onclick="contactos(\''. $li->idEncuestaCliente. '\', \'enviadas\')"
-						  title="Contactos">  <i class="fa fa-link mr-1"></i></a>';
+						  title="Contactos">  <i class="fa fa-link mr-1"></i> '.$li->contactos.' </a>';
 
       $row[] = 
           '
