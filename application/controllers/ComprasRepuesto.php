@@ -17,7 +17,7 @@ class ComprasRepuesto extends CI_Controller {
   }
 
   public function getComprasRepuesto($desde = null, $hasta = null, $tipoServicio = 'repuesto')
-  {   
+  {    
     $query = $this->db
     ->from('clientes_compras_repuestos ccr');
     
@@ -25,6 +25,12 @@ class ComprasRepuesto extends CI_Controller {
       $query->where('fecha >', $desde);
       $query->where('fecha <', $hasta);
     }   
+
+    foreach($columns = $this->input->post('columns') as $field => $value) {
+      if(!empty($value)) {
+        $query->like($field, $value);
+      }
+    }
     
     if($tipoServicio == 'servicio') {
       $query->like('cod_repuesto', 'MO');

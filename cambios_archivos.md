@@ -26,9 +26,14 @@ Controllers
 
   EncuestaResponsable.php
     groupBy
+
   Viajes
     métodos
       -cliente_contactos #173    
+
+  ComprasRepuesto.php
+    métodso
+      -getComprasRepuesto    
 
 Models
   My_model linea #70
@@ -38,6 +43,8 @@ Views
   reporte_promedios.php linea #28
   survey.php linea #63
   _footerTablaEncuestaCliente.php linea #50, #127
+  clientes_ventas.php
+  _footerTablasClientesVentas.php linea #48 #61, #72
 
 
 

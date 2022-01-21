@@ -45,23 +45,34 @@
     const buscar = document.querySelector('#buscar');    
     const enviar = document.querySelector('#enviar');    
     const tbdody = document.querySelector('#table tbody');    
+    const columnsSearch = document.querySelectorAll('#table tfoot input');
+
     const endpoint = '<?= base_url('index.php/ComprasRepuesto/getComprasRepuesto/') ?>'
     const endpoint2 = '<?= base_url('index.php/ComprasRepuesto/crearEncuestaCliente/') ?>'
     buscar.addEventListener('click', renderVentas);
     enviar.addEventListener('click', sendVentasId);
 
+    columnsSearch.forEach((input) => {
+      input.addEventListener('input', renderVentas);
+    })
+
     function renderVentas() {
       const tipo = document.querySelector('input[name="tipoServicio"]:checked').value;   
-
+      let columns = {};
+      columnsSearch.forEach((input) => {
+        columns[input.dataset.column] = input.value;        
+      })      
       if(!desde.value || !hasta.value) {
-        alert('Rellena todos los campos');
+        alert('Completa los campos de fecha');
+        return;
       }
       $.ajax({
           url: endpoint+desde.value+'/'+hasta.value+'/'+tipo,
           method: 'POST',
-          dataType: 'text',
+          data: {columns, 'aver': 'mira nomas'},
+          dataType: 'json',
           success: function (response) {
-            response = JSON.parse(response)
+            // response = JSON.parse(response)
             let html = ''         
               response.forEach(data => {
                 let id = tipo == 'repuesto' ? data.idCliente : data.idCompraRespuesto

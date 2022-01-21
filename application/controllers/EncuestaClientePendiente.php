@@ -72,7 +72,7 @@ class EncuestaClientePendiente extends CI_Controller {
     }    
 
     $data = [];
-    $list = $this->my->get_datatables($this->tableJoin, $this->select);
+    $list = $this->my->get_datatables($this->tableJoin, $this->select);    
     foreach($list as $li){
       $encuesta = $this->encuesta->getById($li->idEncuesta);
       $fechaEnvio = date('m-d-Y', strtotime($li->fechaEnvio. ' ' . $encuesta->cantidad_dias . 'days'));

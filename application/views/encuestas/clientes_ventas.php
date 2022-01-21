@@ -61,7 +61,14 @@
                   </thead>
 
                   <tbody></tbody>
-                  
+                  <tfoot>
+                    <tr>
+                      <td></td>
+                      <td><input type="text" class="form-control" data-column="idCliente"></td>
+                      <td><input type="text" class="form-control" data-column="cod_Repuesto"></td>
+                      <td><input type="text" class="form-control" data-column="idEncuestaCliente"></td>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
               <div class="text-center mt-3">
