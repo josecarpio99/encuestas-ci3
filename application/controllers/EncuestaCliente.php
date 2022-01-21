@@ -26,6 +26,10 @@ class EncuestaCliente extends CI_Controller {
       'id' => 'idEncuestaClienteEstado',
       'selfId' => 'idEstado',
     ],
+    'encuestas_responsable' => [
+      'id' => 'idEncuesta',
+      'selfId' => 'idEncuesta',
+    ]
   ];
 	var $id = 'idEncuestaCliente';
 	var $select = ['encuestas_clientes.*','encuestas.titulo as titulo','encuestas.mensaje as encuestaMensaje', 'clientes.razonSocial as razonSocial', 'clientes.cuit as cuit', 'clientes.idCliente as idCliente', 'clientes.celular as celular','encuesta_cliente_estado.nombre as estado','adm_usuarios.razonSocial as vendedor', 'sucursales.nombreSucursal as sucursal'];
